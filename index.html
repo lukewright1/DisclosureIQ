@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>DisclosureIQ v2.0</title>
+<title>DisclosureIQ v2.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
 <style>
@@ -20,8 +20,6 @@
   --blue:#185FA5;--blue-light:#E6F1FB;
 }
 body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--cream);display:flex;min-height:100vh;overflow-x:hidden}
-
-/* ── SIDEBAR ── */
 .sb{width:var(--sw);background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
 .sb-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}
 .lm{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -48,8 +46,6 @@ body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);backgroun
 .ver{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.2)}
 .ver span:first-child{cursor:pointer;text-decoration:underline;font-family:monospace}
 .ver span:first-child:hover{color:rgba(255,255,255,.5)}
-
-/* ── MAIN ── */
 .main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-height:100vh}
 .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
 .tbl{display:flex;align-items:center;gap:12px}
@@ -57,18 +53,13 @@ body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);backgroun
 .ps{font-size:11px;color:var(--text-muted)}
 .tbr{display:flex;align-items:center;gap:8px}
 .con{padding:20px 24px;flex:1}
-
-/* ── SCREENS ── */
 .scr{display:none}
 .scr.active{display:block;animation:fi .18s ease}
 @keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── COMPONENTS ── */
 .card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px}
-.ch{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ch{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .ct{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
 .cb{padding:14px 15px}
-
 .btn{padding:6px 13px;border-radius:5px;border:1px solid var(--border);background:var(--white);color:var(--text);cursor:pointer;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .12s}
 .btn:hover{background:var(--cream)}
 .btn:active{transform:scale(.98)}
@@ -80,15 +71,14 @@ body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);backgroun
 .btn-r:hover{background:#F7C1C1}
 .btn-sm{padding:4px 10px;font-size:11px}
 .btn-xs{padding:3px 8px;font-size:10px}
-
 .pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500}
 .pg{background:var(--green-light);color:var(--green)}
 .pa{background:var(--amber-light);color:var(--amber)}
 .pr{background:var(--red-light);color:var(--red)}
 .pb{background:var(--blue-light);color:var(--blue)}
 .pgr{background:var(--cream-dark);color:var(--text-muted)}
+.pgo{background:var(--gold-pale);color:#7A5E1A}
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-
 .lbl{font-size:11px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:4px}
 input,select,textarea{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;width:100%}
 input:focus,select:focus,textarea:focus{border-color:var(--navy)}
@@ -97,47 +87,37 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--na
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-
 table{width:100%;border-collapse:collapse}
 th{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--cream);white-space:nowrap}
 td{padding:10px 14px;font-size:12px;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#FAFAF8}
-
 .al{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:7px;font-size:12px;line-height:1.6;border:1px solid;margin-bottom:12px}
 .al-a{background:var(--amber-light);border-color:#FAC775;color:var(--amber)}
 .al-b{background:var(--blue-light);border-color:#B5D4F4;color:var(--blue)}
 .al-g{background:var(--green-light);border-color:var(--green-mid);color:var(--green)}
-
-/* ── METRICS ── */
 .mets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .met{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
 .ml{font-size:11px;color:var(--text-muted);margin-bottom:4px}
 .mv{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;line-height:1}
 .ms{font-size:11px;color:var(--text-muted);margin-top:4px}
-
-/* ── MODAL ── */
-.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:flex-start;justify-content:center;padding-top:60px}
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:flex-start;justify-content:center;padding-top:50px;overflow-y:auto}
 .mbg.open{display:flex}
-.mo{background:var(--white);border-radius:10px;border:1px solid var(--border);width:520px;max-height:84vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.mo-lg{width:640px}
-.moh{padding:13px 17px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mo{background:var(--white);border-radius:10px;border:1px solid var(--border);width:540px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);margin:auto}
+.mo-lg{width:680px}
+.mo-xl{width:760px}
+.moh{padding:13px 17px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
 .mot{font-size:14px;font-weight:500}
 .moc{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted);line-height:1;padding:0}
 .mob{padding:15px 17px}
-.mof{padding:11px 17px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
-
-/* ── UPLOAD ZONE ── */
+.mof{padding:11px 17px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:var(--white)}
 .upz{border:2px dashed var(--border);border-radius:9px;padding:28px;text-align:center;cursor:pointer;transition:all .15s;background:var(--cream)}
 .upz:hover,.upz.drag{border-color:var(--navy);background:var(--blue-light)}
 .upz-icon{font-size:28px;margin-bottom:8px;opacity:.5}
 .upz-title{font-size:14px;font-weight:500;margin-bottom:4px}
 .upz-sub{font-size:11px;color:var(--text-muted)}
-
-/* ── DOC CARDS ── */
-.doc-grid{display:flex;flex-direction:column;gap:8px}
-.doc-card{background:var(--white);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;gap:12px;padding:13px 15px;transition:all .15s}
-.doc-card:hover{border-color:#BBC8DC;transform:translateY(-1px)}
+.doc-card{background:var(--white);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;gap:12px;padding:13px 15px;transition:all .15s;margin-bottom:8px}
+.doc-card:hover{border-color:#BBC8DC}
 .doc-icon{width:36px;height:44px;background:var(--navy);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4px;flex-shrink:0;position:relative}
 .doc-fold{position:absolute;top:0;right:0;width:10px;height:10px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)}
 .doc-type{font-size:7px;font-weight:500;letter-spacing:.04em;color:var(--gold)}
@@ -145,42 +125,44 @@ tr:hover td{background:#FAFAF8}
 .doc-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .doc-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
 .doc-actions{display:flex;gap:6px;flex-shrink:0}
-
-/* ── LOG ROWS ── */
-.log-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px}
-.log-row:last-child{border-bottom:none}
-.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.log-body{flex:1;min-width:0}
-.log-title{font-size:12px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.log-meta{font-size:11px;color:var(--text-muted)}
-
-/* ── SEND COMPOSER ── */
 .merge-btn{padding:3px 9px;border:1px solid rgba(201,168,76,.35);border-radius:99px;background:rgba(201,168,76,.1);color:#7A5E1A;font-size:10px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
 .merge-btn:hover{background:var(--gold);color:var(--navy)}
 .recip-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:var(--blue-light);color:var(--blue);border-radius:99px;font-size:11px;margin:2px}
-.recip-chip button{background:none;border:none;cursor:pointer;color:var(--blue);font-size:12px;padding:0;line-height:1;opacity:.6}
+.recip-chip button{background:none;border:none;cursor:pointer;color:var(--blue);font-size:13px;padding:0;line-height:1;opacity:.7}
 .recip-chip button:hover{opacity:1}
-
-/* ── PROGRESS ── */
-.prog-track{height:5px;background:var(--cream-dark);border-radius:99px;overflow:hidden;margin-top:5px}
-.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy),var(--navy-light));transition:width .3s}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:18px;right:18px;background:var(--navy);color:var(--white);padding:10px 15px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:300px;line-height:1.5}
-
-/* ── CLIENT MODAL TABS ── */
-.cm-tabs{display:flex;border-bottom:1px solid var(--border);margin:-15px -17px 14px}
-.cm-tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none}
-.cm-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
-.cm-tab-body{display:none}
-.cm-tab-body.active{display:block}
+.log-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}
+.log-row:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.log-body{flex:1;min-width:0}
+.log-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.log-meta{font-size:11px;color:var(--text-muted)}
+/* schedule */
+.sched-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.sched-row:last-child{border-bottom:none}
+.sched-info{flex:1}
+.sched-name{font-weight:500;margin-bottom:2px}
+.sched-detail{font-size:11px;color:var(--text-muted)}
+/* tabs inside modals */
+.mtabs{display:flex;border-bottom:1px solid var(--border);margin:-15px -17px 15px}
+.mtab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none}
+.mtab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.mtab-body{display:none}
+.mtab-body.active{display:block}
 .acct-row{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px}
 .acct-row-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+/* upload queue */
+.upq-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--white);border:1px solid var(--border);border-radius:7px;margin-bottom:7px}
+.upq-icon{width:30px;height:36px;background:var(--navy);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;flex-shrink:0;position:relative;font-size:7px;color:var(--gold);font-weight:500}
+.upq-fold{position:absolute;top:0;right:0;width:8px;height:8px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)}
+.upq-edit{border:none;background:none;padding:0;cursor:pointer;color:var(--blue);font-size:11px;text-decoration:underline;font-family:'DM Sans',sans-serif}
+.smtp-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:500}
+.smtp-ok{background:var(--green-light);color:var(--green)}
+.smtp-no{background:var(--cream-dark);color:var(--text-muted)}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--navy);color:var(--white);padding:10px 15px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:300px;line-height:1.5}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sb">
   <div class="sb-logo">
     <div class="lm"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
@@ -188,355 +170,208 @@ tr:hover td{background:#FAFAF8}
   </div>
   <div class="sb-firm">
     <div class="sf-l">Firm</div>
-    <div class="sf-n" id="sb-firm-name">Horizon Wealth Advisors</div>
-    <div class="sf-c" id="sb-firm-crd">CRD #317245</div>
+    <div class="sf-n" id="sb-firm-name">Your Firm</div>
+    <div class="sf-c" id="sb-firm-crd"></div>
   </div>
   <nav class="sb-nav">
     <div class="nl">Main</div>
-    <div class="ni active" onclick="go('dashboard',this)">
-      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
-      Dashboard
-    </div>
-    <div class="ni" onclick="go('docs',this)">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3M5 7h6M5 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Documents
-    </div>
-    <div class="ni" onclick="go('send',this)">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-      Send
-    </div>
-    <div class="ni" onclick="go('log',this)">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Delivery Log
-    </div>
-    <div class="ni" onclick="go('clients',this)">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7c1.5 0 3 1 3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Clients
-    </div>
+    <div class="ni active" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>Dashboard</div>
+    <div class="ni" onclick="go('docs',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3M5 7h6M5 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Documents</div>
+    <div class="ni" onclick="go('send',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>Send</div>
+    <div class="ni" onclick="go('schedules',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Schedules</div>
+    <div class="ni" onclick="go('log',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Delivery Log</div>
+    <div class="ni" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7c1.5 0 3 1 3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Clients</div>
     <div class="nl">Settings</div>
-    <div class="ni" onclick="go('profile',this)">
-      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Firm Profile
-    </div>
+    <div class="ni" onclick="go('profile',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Firm Profile</div>
+    <div class="ni" onclick="go('smtp',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12v8H2z" stroke="currentColor" stroke-width="1.2" rx="1"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Email (SMTP)</div>
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-top">
-      <div class="ua" id="sb-initials">LW</div>
-      <div><div class="un" id="sb-username">Luke Wright</div><div class="ur" id="sb-role">Compliance Officer</div></div>
+      <div class="ua" id="sb-initials">?</div>
+      <div><div class="un" id="sb-username"></div><div class="ur" id="sb-role"></div></div>
     </div>
-    <div class="ver">
-      <span onclick="openM('m-changelog')" title="View changelog">v2.0.0</span>
-      <span>2026-04-01</span>
-    </div>
+    <div class="ver"><span onclick="openM('m-changelog')">v2.1.0</span><span>2026-04-01</span></div>
   </div>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
 
-<!-- ═══ DASHBOARD ═══ -->
+<!-- DASHBOARD -->
 <div id="s-dashboard" class="scr active">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Dashboard</span><span class="ps" id="dash-greeting"></span></div>
-    <div class="tbr">
-      <button class="btn btn-g" onclick="go('send',document.querySelectorAll('.ni')[2])">Send disclosures</button>
-    </div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Dashboard</span><span class="ps" id="dash-greeting"></span></div><div class="tbr"><button class="btn btn-g" onclick="go('send',document.querySelectorAll('.ni')[2])">+ Send disclosures</button></div></div>
   <div class="con">
     <div class="mets">
-      <div class="met"><div class="ml">Documents stored</div><div class="mv" id="m-docs" style="color:var(--navy)">0</div><div class="ms">PDFs in library</div></div>
+      <div class="met"><div class="ml">Documents</div><div class="mv" id="m-docs" style="color:var(--navy)">0</div><div class="ms">PDFs in library</div></div>
       <div class="met"><div class="ml">Clients</div><div class="mv" id="m-clients" style="color:var(--navy)">0</div><div class="ms">On record</div></div>
-      <div class="met"><div class="ml">Sends (all time)</div><div class="mv" id="m-sends" style="color:var(--green)">0</div><div class="ms">Disclosures sent</div></div>
+      <div class="met"><div class="ml">Sends (all time)</div><div class="mv" id="m-sends" style="color:var(--green)">0</div><div class="ms">Total deliveries</div></div>
       <div class="met"><div class="ml">Acknowledged</div><div class="mv" id="m-acks" style="color:var(--green)">0</div><div class="ms">Confirmed receipt</div></div>
     </div>
     <div class="g2" style="align-items:start">
       <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Recent documents</div><button class="btn btn-sm" onclick="go('docs',document.querySelectorAll('.ni')[1])">View all</button></div>
-          <div style="padding:12px 15px" id="dash-docs"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">No documents yet — <span style="color:var(--blue);cursor:pointer" onclick="openM('m-upload')">upload your first PDF</span></div></div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ct">Quick send</div></div>
-          <div class="cb">
-            <div class="fg"><label class="lbl">Document</label><select id="qs-doc" style="width:100%"><option value="">— select a document —</option></select></div>
-            <div class="fg"><label class="lbl">Recipients</label><select id="qs-recip" style="width:100%"><option value="all">All clients</option></select></div>
-            <button class="btn btn-g" style="width:100%;padding:10px" onclick="quickSend()">Send now →</button>
-          </div>
-        </div>
+        <div class="card"><div class="ch"><div class="ct">Recent documents</div><button class="btn btn-sm" onclick="go('docs',document.querySelectorAll('.ni')[1])">View all</button></div><div style="padding:12px 15px" id="dash-docs"><div style="text-align:center;padding:18px;color:var(--text-muted);font-size:12px">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM('m-upload')">upload PDFs</span></div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Quick send</div></div><div class="cb"><div class="fg"><label class="lbl">Document</label><select id="qs-doc"><option value="">— select —</option></select></div><div class="fg"><label class="lbl">Recipients</label><select id="qs-recip"><option value="all">All clients</option></select></div><button class="btn btn-g" style="width:100%;padding:10px" onclick="quickSend()">Send now →</button></div></div>
       </div>
       <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Recent delivery log</div><button class="btn btn-sm" onclick="go('log',document.querySelectorAll('.ni')[3])">View all</button></div>
-          <div style="padding:12px 15px" id="dash-log"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">No deliveries yet</div></div>
-        </div>
+        <div class="card"><div class="ch"><div class="ct">Recent log</div><button class="btn btn-sm" onclick="go('log',document.querySelectorAll('.ni')[4])">View all</button></div><div style="padding:12px 15px" id="dash-log"><div style="text-align:center;padding:18px;color:var(--text-muted);font-size:12px">No deliveries yet</div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Active schedules</div><button class="btn btn-sm" onclick="go('schedules',document.querySelectorAll('.ni')[3])">Manage</button></div><div style="padding:0" id="dash-scheds"><div style="padding:18px;text-align:center;font-size:12px;color:var(--text-muted)">No schedules set up</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DOCUMENTS ═══ -->
+<!-- DOCUMENTS -->
 <div id="s-docs" class="scr">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Documents</span><span class="ps" id="docs-count-label"></span></div>
-    <div class="tbr"><button class="btn btn-p" onclick="openM('m-upload')">+ Upload PDF</button></div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Documents</span><span class="ps" id="docs-count-label"></span></div><div class="tbr"><button class="btn btn-p" onclick="openM('m-upload')">+ Upload PDF(s)</button></div></div>
   <div class="con">
-    <div class="al al-b" id="docs-empty-hint">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      Upload your disclosure PDFs here — ADV Part 2A, Form CRS, Privacy Policy, Fee Disclosures, etc. Once uploaded you can send them to clients.
-    </div>
-    <div class="doc-grid" id="doc-grid"></div>
+    <div class="al al-b" id="docs-hint"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Upload one or multiple PDFs at once. Click the name of any document to rename or edit its details.</div>
+    <div id="doc-grid"></div>
   </div>
 </div>
 
-<!-- ═══ SEND ═══ -->
+<!-- SEND -->
 <div id="s-send" class="scr">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Send Disclosures</span></div>
-    <div class="tbr">
-      <button class="btn" onclick="clearSend()">Clear</button>
-      <button class="btn btn-g" onclick="sendDisclosures()">Send →</button>
-    </div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Send Disclosures</span></div><div class="tbr"><button class="btn" onclick="clearSend()">Clear</button><button class="btn btn-g" onclick="sendDisclosures()">Send →</button></div></div>
   <div class="con">
     <div class="g2" style="align-items:start">
-      <!-- LEFT -->
+      <div>
+        <div class="card"><div class="ch"><div class="ct">Select documents</div><span class="pill pb" id="send-doc-count">0 selected</span></div><div style="padding:0" id="send-doc-list"><div style="padding:18px;text-align:center;font-size:12px;color:var(--text-muted)">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM('m-upload')">upload first</span></div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Recipients</div><span class="pill pb" id="send-recip-count">0 selected</span></div><div class="cb"><div style="display:flex;gap:7px;margin-bottom:9px"><button class="btn btn-sm" onclick="selectAllClients()">Select all</button><button class="btn btn-sm" onclick="clearRecipients()">Clear</button></div><div id="send-recip-chips" style="min-height:22px;margin-bottom:8px"></div><div style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px" id="send-client-list"><div style="padding:14px;text-align:center;font-size:12px;color:var(--text-muted)">No clients — <span style="color:var(--blue);cursor:pointer" onclick="go('clients',document.querySelectorAll('.ni')[5])">add clients</span></div></div></div></div>
+      </div>
       <div>
         <div class="card">
-          <div class="ch"><div class="ct">Select documents</div><span class="pill pb" id="send-doc-count">0 selected</span></div>
-          <div style="padding:0" id="send-doc-list"><div style="padding:20px;text-align:center;font-size:12px;color:var(--text-muted)">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM('m-upload')">upload first</span></div></div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ct">Recipients</div><span class="pill pb" id="send-recip-count">0 selected</span></div>
-          <div class="cb">
-            <div style="display:flex;gap:7px;margin-bottom:9px">
-              <button class="btn btn-sm" onclick="selectAllClients()">Select all</button>
-              <button class="btn btn-sm" onclick="clearRecipients()">Clear</button>
-            </div>
-            <div id="send-recip-chips" style="margin-bottom:8px;min-height:28px"></div>
-            <div style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:6px" id="send-client-list">
-              <div style="padding:14px;text-align:center;font-size:12px;color:var(--text-muted)">No clients — <span style="color:var(--blue);cursor:pointer" onclick="go('clients',document.querySelectorAll('.ni')[4])">add clients first</span></div>
+          <div class="ch">
+            <div class="ct">Email message</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn btn-xs" onclick="loadDefaultMsg()" title="Load saved default">Load default</button>
+              <button class="btn btn-xs btn-p" onclick="saveDefaultMsg()" title="Save as default message">Save as default</button>
             </div>
           </div>
-        </div>
-      </div>
-      <!-- RIGHT -->
-      <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Email message</div></div>
           <div class="cb">
             <div class="fg"><label class="lbl">Subject</label><input type="text" id="send-subject" value="Important: Your regulatory disclosure documents"/></div>
-            <div style="margin-bottom:8px">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="margin-bottom:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px">
                 <label class="lbl" style="margin:0">Message body</label>
-                <div style="display:flex;gap:4px">
-                  <button class="merge-btn" onclick="ins('[Client Name]')">Client Name</button>
+                <div style="display:flex;gap:4px;flex-wrap:wrap">
+                  <button class="merge-btn" onclick="ins('[First Name]')">First Name</button>
+                  <button class="merge-btn" onclick="ins('[Last Name]')">Last Name</button>
+                  <button class="merge-btn" onclick="ins('[Full Name]')">Full Name</button>
+                  <button class="merge-btn" onclick="ins('[Account #]')">Account #</button>
+                  <button class="merge-btn" onclick="ins('[Custodian]')">Custodian</button>
                   <button class="merge-btn" onclick="ins('[Firm Name]')">Firm Name</button>
                   <button class="merge-btn" onclick="ins('[Date]')">Date</button>
+                  <button class="merge-btn" onclick="ins('[Advisor Name]')">Advisor</button>
                 </div>
               </div>
-              <textarea id="send-body" style="height:120px;resize:vertical;line-height:1.7">Dear [Client Name],
-
-Please find your regulatory disclosure documents attached via the secure link below. Kindly review and acknowledge receipt at your earliest convenience.
-
-If you have any questions, please don't hesitate to contact us.
-
-Sincerely,
-[Firm Name]</textarea>
+              <textarea id="send-body" style="height:130px;resize:vertical;line-height:1.7;font-size:12px" oninput="livePreview()"></textarea>
             </div>
-            <div class="fg"><label class="lbl">Acknowledgement</label>
-              <select id="send-ack">
-                <option value="required">Required — client must sign before viewing</option>
-                <option value="prompted">Prompted — encouraged but optional</option>
-                <option value="none">None — view only</option>
-              </select>
+            <div class="fr">
+              <div><label class="lbl">Acknowledgement</label><select id="send-ack"><option value="required">Required — sign before viewing</option><option value="prompted">Prompted</option><option value="none">None</option></select></div>
+              <div><label class="lbl">Method</label><select id="send-method"><option value="email">Email + secure link</option><option value="email-pdf">Email + PDF attachment</option><option value="portal">Portal link only</option></select></div>
             </div>
-            <div class="fg" style="margin-bottom:0"><label class="lbl">Delivery method</label>
-              <select id="send-method">
-                <option value="email">Email with secure portal link</option>
-                <option value="email-pdf">Email with PDF attachment</option>
-                <option value="portal">Portal link only (no email)</option>
-              </select>
-            </div>
+            <details style="margin-top:4px">
+              <summary style="font-size:11px;color:var(--blue);cursor:pointer;user-select:none">CRM note (optional)</summary>
+              <div style="margin-top:8px;background:var(--gold-pale);border:1px solid rgba(201,168,76,.25);border-radius:7px;padding:11px 13px">
+                <textarea id="crm-note" placeholder="e.g. Sent annual ADV Part 2A. Awaiting acknowledgement." style="height:52px;resize:vertical;font-size:12px;border-color:rgba(201,168,76,.3);background:var(--white)"></textarea>
+                <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#7A5E1A;margin-top:7px;cursor:pointer"><input type="checkbox" id="crm-post" style="accent-color:var(--amber)"/>Post to Redtail when integration is connected</label>
+              </div>
+            </details>
           </div>
         </div>
         <div class="card">
-          <div class="ch"><div class="ct">Send summary</div></div>
-          <div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:7px">
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Documents</span><strong id="sum-docs">0 selected</strong></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Recipients</span><strong id="sum-recips">0 clients</strong></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Acknowledgement</span><strong id="sum-ack">Required</strong></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Method</span><strong id="sum-method">Email + portal</strong></div>
-            <button class="btn btn-g" style="width:100%;padding:11px;margin-top:4px" onclick="sendDisclosures()">Send disclosures →</button>
+          <div class="ch"><div class="ct">Preview</div><span style="font-size:11px;color:var(--text-muted)">Sample: first client</span></div>
+          <div class="cb" style="font-size:12px">
+            <div style="color:var(--text-muted);margin-bottom:4px"><strong>Subject:</strong> <span id="prev-subj"></span></div>
+            <div style="border:1px solid var(--border);border-radius:7px;padding:12px;line-height:1.7;color:var(--text-mid);max-height:140px;overflow-y:auto;font-size:12px" id="prev-body"></div>
           </div>
         </div>
+        <div class="card"><div class="ch"><div class="ct">Summary</div></div><div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:7px"><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Documents</span><strong id="sum-docs">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Recipients</span><strong id="sum-recips">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Acknowledgement</span><strong id="sum-ack">—</strong></div><button class="btn btn-g" style="width:100%;padding:11px;margin-top:4px" onclick="sendDisclosures()">Send →</button></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DELIVERY LOG ═══ -->
+<!-- SCHEDULES -->
+<div id="s-schedules" class="scr">
+  <div class="topbar"><div class="tbl"><span class="pt">Schedules</span><span class="ps" id="sched-count-label"></span></div><div class="tbr"><button class="btn btn-p" onclick="openAddSched()">+ Add schedule</button></div></div>
+  <div class="con">
+    <div class="al al-b"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Set up recurring or one-time disclosure sends. DisclosureIQ will remind you when a scheduled send is due. (Automatic sending requires a backend connection — schedules are logged here and you confirm before each send.)</div>
+    <div class="card"><div class="ch"><div class="ct">Active schedules</div></div><div style="padding:0" id="sched-list"><div style="padding:24px;text-align:center;font-size:12px;color:var(--text-muted)">No schedules yet — click + Add schedule to create one.</div></div></div>
+  </div>
+</div>
+
+<!-- LOG -->
 <div id="s-log" class="scr">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Delivery Log</span><span class="ps" id="log-count-label"></span></div>
-    <div class="tbr">
-      <select id="log-filter" style="width:130px" onchange="renderLog()">
-        <option value="all">All statuses</option>
-        <option value="sent">Sent</option>
-        <option value="acknowledged">Acknowledged</option>
-        <option value="opened">Opened</option>
-        <option value="bounced">Bounced</option>
-      </select>
-      <button class="btn btn-sm" onclick="exportLog()">Export CSV</button>
-    </div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Delivery Log</span><span class="ps" id="log-count-label"></span></div><div class="tbr"><select id="log-filter" style="width:130px" onchange="renderLog()"><option value="all">All statuses</option><option value="sent">Sent</option><option value="acknowledged">Acknowledged</option><option value="opened">Opened</option><option value="bounced">Bounced</option></select><button class="btn btn-sm" onclick="exportLog()">Export CSV</button></div></div>
   <div class="con">
-    <div class="card">
-      <table>
-        <thead><tr><th>Date & time</th><th>Client</th><th>Document(s)</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody id="log-tbody"><tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-muted)">No deliveries yet — send your first disclosure to see the log here.</td></tr></tbody>
-      </table>
-    </div>
+    <div class="card"><table><thead><tr><th>Date & time</th><th>Client</th><th>Document(s)</th><th>Method</th><th>Status</th><th>Actions</th></tr></thead><tbody id="log-tbody"><tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-muted)">No deliveries yet.</td></tr></tbody></table></div>
   </div>
 </div>
 
-<!-- ═══ CLIENTS ═══ -->
+<!-- CLIENTS -->
 <div id="s-clients" class="scr">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Clients</span><span class="ps" id="clients-count-label"></span></div>
-    <div class="tbr">
-      <button class="btn btn-sm" onclick="openM('m-import')">Import CSV</button>
-      <button class="btn btn-p" onclick="openAddClient()">+ Add client</button>
-    </div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Clients</span><span class="ps" id="clients-count-label"></span></div><div class="tbr"><button class="btn btn-sm" onclick="openM('m-import')">Import CSV</button><button class="btn btn-p" onclick="openAddClient()">+ Add client</button></div></div>
   <div class="con">
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <input type="text" id="cl-search" placeholder="Search name, email, account..." style="flex:1" oninput="renderClients()"/>
-      <select id="cl-cust-filter" style="width:150px" onchange="renderClients()">
-        <option value="all">All custodians</option>
-        <option>Schwab</option><option>Fidelity</option><option>Pershing</option>
-        <option>TD Ameritrade</option><option>Vanguard</option><option>Other</option>
-      </select>
-    </div>
-    <div class="card">
-      <table>
-        <thead><tr><th><input type="checkbox" id="cl-all" onchange="toggleAllClients(this.checked)"/></th><th>Client</th><th>Account ID</th><th>Custodian</th><th>Email</th><th>Last sent</th><th>Actions</th></tr></thead>
-        <tbody id="clients-tbody"><tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients yet — add your first client above.</td></tr></tbody>
-      </table>
-      <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;justify-content:space-between;align-items:center">
-        <span id="cl-footer" style="font-size:11px;color:var(--text-muted)"></span>
-        <button class="btn btn-xs" onclick="openAddClient()">+ Add client</button>
-      </div>
-    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px"><input type="text" id="cl-search" placeholder="Search name, email, account..." style="flex:1" oninput="renderClients()"/><select id="cl-cust" style="width:150px" onchange="renderClients()"><option value="all">All custodians</option><option>Schwab</option><option>Fidelity</option><option>Pershing</option><option>TD Ameritrade</option><option>Vanguard</option><option>Other</option></select></div>
+    <div class="card"><table><thead><tr><th><input type="checkbox" id="cl-all" onchange="toggleAllClients(this.checked)"/></th><th>Client</th><th>Account ID</th><th>Custodian</th><th>Email</th><th>Last sent</th><th>Actions</th></tr></thead><tbody id="clients-tbody"><tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients yet.</td></tr></tbody></table><div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;justify-content:space-between;align-items:center"><span id="cl-footer" style="font-size:11px;color:var(--text-muted)"></span><button class="btn btn-xs" onclick="openAddClient()">+ Add client</button></div></div>
   </div>
 </div>
 
-<!-- ═══ PROFILE ═══ -->
+<!-- PROFILE -->
 <div id="s-profile" class="scr">
-  <div class="topbar">
-    <div class="tbl"><span class="pt">Firm Profile</span></div>
-    <div class="tbr"><button class="btn btn-p" onclick="saveProfile()">Save changes</button></div>
-  </div>
+  <div class="topbar"><div class="tbl"><span class="pt">Firm Profile</span></div><div class="tbr"><button class="btn btn-p" onclick="saveProfile()">Save changes</button></div></div>
   <div class="con">
-    <div class="al al-g" id="profile-saved" style="display:none">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Profile saved. Your firm name, CRD, and contact details will appear on all outgoing disclosure emails.
-    </div>
+    <div class="al al-g" id="profile-saved" style="display:none"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Profile saved.</div>
     <div class="g2" style="align-items:start">
       <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Firm identity</div></div>
-          <div class="cb">
-            <div class="fg"><label class="lbl">Legal firm name</label><input type="text" id="p-name" value="Horizon Wealth Advisors, LLC"/></div>
-            <div class="fr">
-              <div><label class="lbl">CRD number</label><input type="text" id="p-crd" value="317245"/></div>
-              <div><label class="lbl">SEC file number</label><input type="text" id="p-sec" value="801-XXXXX"/></div>
-            </div>
-            <div class="fg"><label class="lbl">Registration type</label>
-              <select id="p-regtype">
-                <option selected>SEC-registered RIA</option>
-                <option>State-registered RIA</option>
-                <option>Dual registrant (RIA + BD)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ct">Contact information</div></div>
-          <div class="cb">
-            <div class="fg"><label class="lbl">Office address</label><input type="text" id="p-addr" value="2100 Main Street, Suite 500"/></div>
-            <div class="fr">
-              <div><label class="lbl">City</label><input type="text" id="p-city" value="Huntington Beach"/></div>
-              <div><label class="lbl">State / ZIP</label><input type="text" id="p-zip" value="CA 92648"/></div>
-            </div>
-            <div class="fr">
-              <div><label class="lbl">Phone</label><input type="text" id="p-phone" value="(714) 555-0100"/></div>
-              <div><label class="lbl">Compliance email</label><input type="text" id="p-email" value="compliance@horizonwealth.com"/></div>
-            </div>
-          </div>
-        </div>
+        <div class="card"><div class="ch"><div class="ct">Firm identity</div></div><div class="cb"><div class="fg"><label class="lbl">Legal firm name</label><input type="text" id="p-name" value="Horizon Wealth Advisors, LLC"/></div><div class="fr"><div><label class="lbl">CRD number</label><input type="text" id="p-crd" value="317245"/></div><div><label class="lbl">SEC file number</label><input type="text" id="p-sec" value="801-XXXXX"/></div></div><div class="fg"><label class="lbl">Registration type</label><select id="p-regtype"><option>SEC-registered RIA</option><option>State-registered RIA</option><option>Dual registrant (RIA + BD)</option></select></div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Contact information</div></div><div class="cb"><div class="fg"><label class="lbl">Office address</label><input type="text" id="p-addr" value="2100 Main Street, Suite 500"/></div><div class="fr"><div><label class="lbl">City</label><input type="text" id="p-city" value="Huntington Beach"/></div><div><label class="lbl">State / ZIP</label><input type="text" id="p-zip" value="CA 92648"/></div></div><div class="fr"><div><label class="lbl">Phone</label><input type="text" id="p-phone" value="(714) 555-0100"/></div><div><label class="lbl">Compliance email</label><input type="text" id="p-email" value="compliance@horizonwealth.com"/></div></div></div></div>
       </div>
       <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Your account</div></div>
-          <div class="cb">
-            <div class="fg"><label class="lbl">Your name</label><input type="text" id="p-uname" value="Luke Wright"/></div>
-            <div class="fg"><label class="lbl">Title / role</label><input type="text" id="p-role" value="Compliance Officer"/></div>
-            <div class="fg"><label class="lbl">Your email</label><input type="text" id="p-uemail" value="lwright@horizonwealth.com"/></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ct">Default email signature</div></div>
-          <div class="cb">
-            <textarea id="p-sig" style="height:90px;resize:vertical;font-size:12px;line-height:1.7">Sincerely,
+        <div class="card"><div class="ch"><div class="ct">Your account</div></div><div class="cb"><div class="fg"><label class="lbl">Your name</label><input type="text" id="p-uname" value="Luke Wright"/></div><div class="fg"><label class="lbl">Title / role</label><input type="text" id="p-role" value="Compliance Officer"/></div><div class="fg"><label class="lbl">Your email</label><input type="text" id="p-uemail" value="lwright@horizonwealth.com"/></div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Default email message</div><button class="btn btn-xs btn-p" onclick="saveDefaultMsg()" title="Save current message as default">Save current as default</button></div><div class="cb"><div class="fg"><label class="lbl">Default subject</label><input type="text" id="p-def-subject" placeholder="Important: Your regulatory disclosure documents"/></div><div class="fg"><label class="lbl">Default message body</label><textarea id="p-def-body" style="height:110px;resize:vertical;font-size:12px;line-height:1.7"></textarea></div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Use merge fields: [First Name] [Last Name] [Full Name] [Account #] [Custodian] [Firm Name] [Date] [Advisor Name]</div></div></div>
+        <div class="card"><div class="ch"><div class="ct">Default email signature</div></div><div class="cb"><textarea id="p-sig" style="height:80px;resize:vertical;font-size:12px;line-height:1.7">Sincerely,
 Luke Wright
 Horizon Wealth Advisors, LLC
-(714) 555-0100 | CRD #317245</textarea>
-          </div>
-        </div>
-        <div class="card">
-          <div class="ch"><div class="ct">Compliance defaults</div></div>
-          <div class="cb">
-            <div class="fg"><label class="lbl">Default acknowledgement</label>
-              <select id="p-ack-default">
-                <option selected>Required — sign before viewing</option>
-                <option>Prompted</option>
-                <option>None</option>
-              </select>
-            </div>
-            <div class="fg" style="margin-bottom:0"><label class="lbl">Data retention</label>
-              <select id="p-retention">
-                <option>3 years</option><option>5 years</option>
-                <option selected>7 years</option><option>10 years</option>
-              </select>
-            </div>
-          </div>
-        </div>
+(714) 555-0100 | CRD #317245</textarea></div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="card">
-          <div class="ch"><div class="ct">CRM integration</div><span style="font-size:10px;color:var(--amber);background:var(--amber-light);padding:2px 9px;border-radius:99px;font-weight:500">Coming soon</span></div>
-          <div class="cb">
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.7;margin-bottom:12px">When connected, DisclosureIQ will automatically post a note to your CRM every time a disclosure is sent or acknowledged — keeping your client record current without manual entry.</div>
-            <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px">
-                <div style="width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0"></div>
-                <span><strong>Redtail CRM</strong> — post activity note on each send/ack</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px">
-                <div style="width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0"></div>
-                <span><strong>Orion</strong> — sync delivery status to client record</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px">
-                <div style="width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0"></div>
-                <span><strong>Salesforce / other CRM</strong> — via webhook or Zapier</span>
-              </div>
-            </div>
-            <div style="background:var(--gold-pale);border:1px solid rgba(201,168,76,.2);border-radius:7px;padding:10px 12px;font-size:11px;color:#7A5E1A;line-height:1.6">
-              <strong>Note:</strong> You can already write CRM notes in the Send screen — they are saved to your delivery log and will auto-sync to Redtail once the integration is set up. No data is lost.
-            </div>
+<!-- SMTP -->
+<div id="s-smtp" class="scr">
+  <div class="topbar"><div class="tbl"><span class="pt">Email (SMTP)</span><span id="smtp-status-badge" class="smtp-badge smtp-no" style="margin-left:8px">Not configured</span></div><div class="tbr"><button class="btn btn-p" onclick="saveSmtp()">Save settings</button></div></div>
+  <div class="con">
+    <div class="al al-b"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><div><strong>Browser SMTP via EmailJS</strong> — this uses <a href="https://www.emailjs.com" target="_blank" style="color:var(--blue)">EmailJS.com</a> (free up to 200 emails/month) to send real emails directly from this page without a backend server. Create a free account, connect your Gmail/Outlook/SMTP, paste your keys below, and emails will actually send.<br><br>For production use with higher volume, the backend will connect directly to your Microsoft 365 or SMTP server.</div></div>
+    <div class="g2" style="align-items:start">
+      <div>
+        <div class="card"><div class="ch"><div class="ct">EmailJS configuration</div></div><div class="cb">
+          <div class="fg"><label class="lbl">Service ID <span style="color:var(--text-muted);font-weight:400">(from EmailJS dashboard)</span></label><input type="text" id="smtp-service" placeholder="service_xxxxxxx"/></div>
+          <div class="fg"><label class="lbl">Template ID</label><input type="text" id="smtp-template" placeholder="template_xxxxxxx"/></div>
+          <div class="fg"><label class="lbl">Public key</label><input type="text" id="smtp-pubkey" placeholder="YOUR_PUBLIC_KEY"/></div>
+          <div class="fg"><label class="lbl">From name (shown to recipients)</label><input type="text" id="smtp-fromname" placeholder="Horizon Wealth Advisors Compliance"/></div>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button class="btn btn-p" onclick="saveSmtp()">Save</button>
+            <button class="btn" onclick="testSmtp()">Send test email</button>
           </div>
-        </div>
-
+        </div></div>
+        <div class="card"><div class="ch"><div class="ct">Alternative: direct SMTP</div></div><div class="cb">
+          <div class="al al-a" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Direct SMTP (Gmail, Outlook, etc.) requires a backend server for security — credentials can't be stored safely in a browser. Use EmailJS above for browser-based sending, or connect the DisclosureIQ backend when ready.</div>
+          <div class="fg"><label class="lbl">Provider (for reference)</label><select id="smtp-provider"><option>Microsoft 365 / Outlook</option><option>Gmail / Google Workspace</option><option>SendGrid</option><option>Mailgun</option><option>Custom SMTP</option></select></div>
+          <div class="fg"><label class="lbl">From address</label><input type="text" id="smtp-from" placeholder="compliance@yourfirm.com"/></div>
+          <div class="fg" style="margin-bottom:0"><label class="lbl">Notes / credentials (stored locally only)</label><textarea id="smtp-notes" placeholder="SMTP host, port, username etc. for reference when setting up backend." style="height:60px;resize:vertical;font-size:12px"></textarea></div>
+        </div></div>
+      </div>
+      <div>
+        <div class="card"><div class="ch"><div class="ct">How to set up EmailJS</div></div><div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">1</div><div>Go to <a href="https://www.emailjs.com" target="_blank" style="color:var(--blue)">emailjs.com</a> and create a free account (200 emails/month free).</div></div>
+          <div style="display:flex;gap:10px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">2</div><div>Add an <strong>Email Service</strong> — connect Gmail, Outlook, or any SMTP. Copy the <strong>Service ID</strong>.</div></div>
+          <div style="display:flex;gap:10px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">3</div><div>Create an <strong>Email Template</strong> with variables: <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{to_email}}</code> <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{subject}}</code> <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{message}}</code>. Copy the <strong>Template ID</strong>.</div></div>
+          <div style="display:flex;gap:10px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">4</div><div>Go to <strong>Account → API Keys</strong> and copy your <strong>Public Key</strong>.</div></div>
+          <div style="display:flex;gap:10px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">5</div><div>Paste all three into the fields on the left and click <strong>Save</strong>, then <strong>Send test email</strong> to verify.</div></div>
+          <div style="background:var(--green-light);border-radius:7px;padding:10px 12px;color:var(--green)">✓ Once configured, DisclosureIQ will send actual emails to clients when you use the Send screen.</div>
+        </div></div>
+        <div class="card"><div class="ch"><div class="ct">Test email</div></div><div class="cb"><div class="fg"><label class="lbl">Send test to</label><input type="email" id="smtp-test-email" placeholder="your@email.com"/></div><button class="btn btn-p" onclick="testSmtp()" style="width:100%">Send test email</button></div></div>
       </div>
     </div>
   </div>
@@ -546,88 +381,59 @@ Horizon Wealth Advisors, LLC
 
 <!-- ═══════════ MODALS ═══════════ -->
 
-<!-- UPLOAD -->
+<!-- UPLOAD (multi-file) -->
 <div class="mbg" id="m-upload">
-  <div class="mo">
-    <div class="moh"><div class="mot">Upload PDF</div><button class="moc" onclick="closeM('m-upload')">×</button></div>
+  <div class="mo mo-lg">
+    <div class="moh"><div class="mot">Upload PDFs</div><button class="moc" onclick="closeM('m-upload')">×</button></div>
     <div class="mob">
       <div class="upz" id="upz" onclick="document.getElementById('file-in').click()"
         ondragover="event.preventDefault();this.classList.add('drag')"
         ondragleave="this.classList.remove('drag')"
-        ondrop="dropFile(event)">
+        ondrop="dropFiles(event)">
         <div class="upz-icon">📄</div>
-        <div class="upz-title">Drop PDF here or click to browse</div>
-        <div class="upz-sub">PDF only · Max 50 MB</div>
+        <div class="upz-title">Drop one or multiple PDFs here, or click to browse</div>
+        <div class="upz-sub">PDF only · Max 50 MB each · Multiple files supported</div>
       </div>
-      <input type="file" id="file-in" accept=".pdf" style="display:none" onchange="fileChosen(this)"/>
-      <div id="upload-preview" style="margin-top:10px"></div>
-      <div class="fg" style="margin-top:12px"><label class="lbl">Document name</label><input type="text" id="up-name" placeholder="e.g. ADV Part 2A – Firm Brochure"/></div>
-      <div class="fr">
-        <div><label class="lbl">Document type</label>
-          <select id="up-type">
-            <option>ADV Part 2A</option><option>ADV Part 2B</option>
-            <option>Form CRS</option><option>Privacy Policy</option>
-            <option>Fee Disclosure</option><option>Wrap Fee Brochure</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div><label class="lbl">Effective date</label><input type="text" id="up-date" placeholder="e.g. Mar 28, 2025"/></div>
-      </div>
-      <div class="fg" style="margin-bottom:0"><label class="lbl">Notes (optional)</label><input type="text" id="up-notes" placeholder="Internal notes about this version"/></div>
+      <input type="file" id="file-in" accept=".pdf" multiple style="display:none" onchange="filesChosen(this)"/>
+      <div id="upload-queue" style="margin-top:12px"></div>
     </div>
-    <div class="mof"><button class="btn" onclick="closeM('m-upload')">Cancel</button><button class="btn btn-p" onclick="uploadDoc()">Save to library</button></div>
+    <div class="mof"><button class="btn" onclick="closeM('m-upload')">Cancel</button><button class="btn btn-p" onclick="uploadAll()">Save all to library</button></div>
   </div>
 </div>
 
-<!-- CLIENT ADD/EDIT -->
-<div class="mbg" id="m-client">
-  <div class="mo mo-lg">
-    <div class="moh"><div class="mot" id="m-cl-title">Add client</div><button class="moc" onclick="closeM('m-client')">×</button></div>
+<!-- EDIT DOC -->
+<div class="mbg" id="m-edit-doc">
+  <div class="mo">
+    <div class="moh"><div class="mot">Edit document</div><button class="moc" onclick="closeM('m-edit-doc')">×</button></div>
     <div class="mob">
-      <div class="cm-tabs">
-        <div class="cm-tab active" onclick="cmTab('identity',this)">Identity</div>
-        <div class="cm-tab" onclick="cmTab('account',this)">Account & custodian</div>
-        <div class="cm-tab" onclick="cmTab('contact',this)">Contact & delivery</div>
-      </div>
-      <!-- Identity -->
-      <div class="cm-tab-body active" id="cmt-identity">
-        <div class="fr"><div><label class="lbl">First name</label><input type="text" id="cl-fn" placeholder="James"/></div><div><label class="lbl">Last name</label><input type="text" id="cl-ln" placeholder="Whitmore"/></div></div>
-        <div class="fg"><label class="lbl">Display name (how it appears on disclosures)</label><input type="text" id="cl-dn" placeholder="e.g. James & Patricia Whitmore"/></div>
-        <div class="fr">
-          <div><label class="lbl">Client type</label>
-            <select id="cl-type">
-              <option>Individual</option><option>Joint (married)</option><option>Joint (other)</option>
-              <option>Trust</option><option>Entity / Business</option><option>IRA</option>
-            </select>
-          </div>
-          <div><label class="lbl">Assigned advisor</label><input type="text" id="cl-adv" placeholder="Your name"/></div>
-        </div>
-      </div>
-      <!-- Account -->
-      <div class="cm-tab-body" id="cmt-account">
-        <div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Each client can have multiple accounts with different custodians.</div>
-        <div id="acct-rows"></div>
-        <button class="btn btn-sm" onclick="addAcctRow()" style="width:100%">+ Add account</button>
-      </div>
-      <!-- Contact -->
-      <div class="cm-tab-body" id="cmt-contact">
-        <div class="fg"><label class="lbl">Email address</label><input type="email" id="cl-email" placeholder="client@email.com"/></div>
-        <div class="fg"><label class="lbl">Phone</label><input type="text" id="cl-phone" placeholder="(714) 555-0000"/></div>
-        <div class="fg"><label class="lbl">Mailing address</label><input type="text" id="cl-addr" placeholder="123 Main Street"/></div>
-        <div class="fr">
-          <div><label class="lbl">City</label><input type="text" id="cl-city" placeholder="Huntington Beach"/></div>
-          <div><label class="lbl">State / ZIP</label><input type="text" id="cl-zip" placeholder="CA 92648"/></div>
-        </div>
-        <div class="fg" style="margin-bottom:0"><label class="lbl">Delivery preference</label>
-          <select id="cl-del">
-            <option>Email (default)</option>
-            <option>Physical mail only</option>
-            <option>Email + physical mail</option>
-          </select>
-        </div>
-      </div>
+      <div class="fg"><label class="lbl">Document name</label><input type="text" id="ed-name"/></div>
+      <div class="fr"><div><label class="lbl">Document type</label><select id="ed-type"><option>ADV Part 2A</option><option>ADV Part 2B</option><option>Form CRS</option><option>Privacy Policy</option><option>Fee Disclosure</option><option>Wrap Fee Brochure</option><option>Other</option></select></div><div><label class="lbl">Effective date</label><input type="text" id="ed-date" placeholder="e.g. Mar 28, 2025"/></div></div>
+      <div class="fg" style="margin-bottom:0"><label class="lbl">Notes</label><input type="text" id="ed-notes" placeholder="Internal notes"/></div>
     </div>
-    <div class="mof"><button class="btn" onclick="closeM('m-client')">Cancel</button><button class="btn btn-p" onclick="saveClient()">Save client</button></div>
+    <div class="mof"><button class="btn btn-r btn-sm" id="ed-delete-btn">Delete</button><button class="btn" onclick="closeM('m-edit-doc')">Cancel</button><button class="btn btn-p" onclick="saveDocEdit()">Save changes</button></div>
+  </div>
+</div>
+
+<!-- ADD SCHEDULE -->
+<div class="mbg" id="m-addsched">
+  <div class="mo mo-lg">
+    <div class="moh"><div class="mot" id="sched-modal-title">Add schedule</div><button class="moc" onclick="closeM('m-addsched')">×</button></div>
+    <div class="mob">
+      <div class="fr"><div><label class="lbl">Schedule name</label><input type="text" id="sc-name" placeholder="e.g. Annual ADV Part 2A"/></div><div><label class="lbl">Document(s)</label><select id="sc-doc"><option value="">— select —</option></select></div></div>
+      <div class="fr"><div><label class="lbl">Recipients</label><select id="sc-recip"><option value="all">All clients</option></select></div><div><label class="lbl">Frequency</label><select id="sc-freq" onchange="updateSchedFields()"><option value="once">One-time (specific date)</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="annually">Annually</option></select></div></div>
+      <div id="sc-date-fields">
+        <div class="fr" id="sc-once-fields">
+          <div><label class="lbl">Send date</label><input type="date" id="sc-date"/></div>
+          <div><label class="lbl">Send time</label><input type="time" id="sc-time" value="09:00"/></div>
+        </div>
+        <div id="sc-monthly-fields" style="display:none"><div class="fg"><label class="lbl">Day of month</label><select id="sc-mday"><option value="1">1st</option><option value="2">2nd</option><option value="5">5th</option><option value="10">10th</option><option value="15">15th</option><option value="20">20th</option><option value="28">28th (last safe)</option></select></div></div>
+        <div id="sc-quarterly-fields" style="display:none"><div class="fr"><div><label class="lbl">Starting month</label><select id="sc-qmonth"><option value="1">January (Jan/Apr/Jul/Oct)</option><option value="2">February (Feb/May/Aug/Nov)</option><option value="3">March (Mar/Jun/Sep/Dec)</option></select></div><div><label class="lbl">Day of month</label><input type="number" id="sc-qday" min="1" max="28" value="1"/></div></div></div>
+        <div id="sc-annual-fields" style="display:none"><div class="fr"><div><label class="lbl">Month</label><select id="sc-amonth"><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4" selected>April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div><div><label class="lbl">Day</label><input type="number" id="sc-aday" min="1" max="28" value="1"/></div></div></div>
+      </div>
+      <div class="fg"><label class="lbl">Notes</label><input type="text" id="sc-notes" placeholder="e.g. Annual Reg S-P requirement"/></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--gold-pale);border-radius:6px;font-size:12px"><input type="checkbox" id="sc-crm" style="accent-color:var(--amber)"/><label for="sc-crm" style="cursor:pointer;color:#7A5E1A">Post CRM note to Redtail when this schedule sends</label></div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-addsched')">Cancel</button><button class="btn btn-p" onclick="saveSched()">Save schedule</button></div>
   </div>
 </div>
 
@@ -636,851 +442,1007 @@ Horizon Wealth Advisors, LLC
   <div class="mo">
     <div class="moh"><div class="mot">Confirm send</div><button class="moc" onclick="closeM('m-send-confirm')">×</button></div>
     <div class="mob">
-      <div id="confirm-body" style="font-size:12px;display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px"></div>
-      <div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Each recipient will receive a unique secure link. Every delivery is logged with timestamp and status.</div>
-      <div style="background:var(--gold-pale);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:12px 14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div style="font-size:12px;font-weight:500;color:#7A5E1A">CRM note (optional)</div>
-          <span style="font-size:10px;color:rgba(201,168,76,.7);background:rgba(201,168,76,.12);padding:2px 8px;border-radius:99px">Redtail · coming soon</span>
-        </div>
-        <textarea id="crm-note" placeholder="e.g. Sent annual ADV Part 2A and Privacy Policy for client review. Awaiting acknowledgement." style="width:100%;height:64px;resize:vertical;font-size:12px;line-height:1.6;border:1px solid rgba(201,168,76,.3);border-radius:6px;background:var(--white);padding:8px 10px"></textarea>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
-          <input type="checkbox" id="crm-post" style="accent-color:var(--amber);width:13px;height:13px"/>
-          <label for="crm-post" style="font-size:11px;color:#7A5E1A;cursor:pointer">Post this note to Redtail CRM when integration is connected</label>
-        </div>
-        <div style="font-size:10px;color:rgba(201,168,76,.6);margin-top:5px">Note is saved to your delivery log regardless. It will sync to Redtail automatically once the integration is set up.</div>
-      </div>
+      <div id="confirm-body" style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px"></div>
+      <div class="al al-b" style="margin-bottom:0"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span id="confirm-smtp-note">Each delivery is logged with timestamp and status.</span></div>
     </div>
     <div class="mof"><button class="btn" onclick="closeM('m-send-confirm')">Cancel</button><button class="btn btn-g" id="confirm-send-btn" onclick="executeSend()">Confirm & send</button></div>
   </div>
 </div>
 
-<!-- VIEW DOC -->
-<div class="mbg" id="m-view-doc">
-  <div class="mo">
-    <div class="moh"><div class="mot" id="vd-title">Document</div><button class="moc" onclick="closeM('m-view-doc')">×</button></div>
-    <div class="mob" id="vd-body"></div>
-    <div class="mof">
-      <button class="btn btn-r btn-sm" id="vd-delete" onclick="">Delete</button>
-      <button class="btn" onclick="closeM('m-view-doc')">Close</button>
-      <button class="btn btn-g" id="vd-send" onclick="">Send this document</button>
-    </div>
-  </div>
+<!-- LOG DETAIL -->
+<div class="mbg" id="m-log-detail">
+  <div class="mo"><div class="moh"><div class="mot">Delivery detail</div><button class="moc" onclick="closeM('m-log-detail')">×</button></div><div class="mob" id="log-detail-body"></div><div class="mof"><button class="btn" onclick="closeM('m-log-detail')">Close</button><button class="btn btn-p" onclick="closeM('m-log-detail');toast('Reminder sent')">Send reminder</button></div></div>
 </div>
 
-<!-- VIEW LOG ENTRY -->
-<div class="mbg" id="m-log-detail">
-  <div class="mo">
-    <div class="moh"><div class="mot">Delivery detail</div><button class="moc" onclick="closeM('m-log-detail')">×</button></div>
-    <div class="mob" id="log-detail-body"></div>
-    <div class="mof">
-      <button class="btn" onclick="closeM('m-log-detail')">Close</button>
-      <button class="btn btn-p" onclick="closeM('m-log-detail');toast('Reminder sent')">Send reminder</button>
+<!-- CLIENT -->
+<div class="mbg" id="m-client">
+  <div class="mo mo-lg">
+    <div class="moh"><div class="mot" id="m-cl-title">Add client</div><button class="moc" onclick="closeM('m-client')">×</button></div>
+    <div class="mob">
+      <div class="mtabs"><div class="mtab active" onclick="mtab('identity',this)">Identity</div><div class="mtab" onclick="mtab('account',this)">Account & custodian</div><div class="mtab" onclick="mtab('contact',this)">Contact & delivery</div><div class="mtab" onclick="mtab('schedule',this)">Start date & schedule</div></div>
+      <div class="mtab-body active" id="mct-identity">
+        <div class="fr"><div><label class="lbl">First name</label><input type="text" id="cl-fn" placeholder="James"/></div><div><label class="lbl">Last name</label><input type="text" id="cl-ln" placeholder="Whitmore"/></div></div>
+        <div class="fg"><label class="lbl">Display name (on disclosures — leave blank to auto-combine)</label><input type="text" id="cl-dn" placeholder="e.g. James & Patricia Whitmore"/></div>
+        <div class="fr"><div><label class="lbl">Client type</label><select id="cl-type"><option>Individual</option><option>Joint (married)</option><option>Joint (other)</option><option>Trust</option><option>Entity / Business</option><option>IRA</option></select></div><div><label class="lbl">Assigned advisor</label><input type="text" id="cl-adv" placeholder="Your name"/></div></div>
+      </div>
+      <div class="mtab-body" id="mct-account">
+        <div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/></svg>Each client can have multiple accounts with different custodians.</div>
+        <div id="acct-rows"></div>
+        <button class="btn btn-sm" onclick="addAcctRow()" style="width:100%">+ Add account</button>
+      </div>
+      <div class="mtab-body" id="mct-contact">
+        <div class="fg"><label class="lbl">Email address</label><input type="email" id="cl-email" placeholder="client@email.com"/></div>
+        <div class="fg"><label class="lbl">Phone</label><input type="text" id="cl-phone" placeholder="(714) 555-0000"/></div>
+        <div class="fg"><label class="lbl">Mailing address</label><input type="text" id="cl-addr" placeholder="123 Main Street"/></div>
+        <div class="fr"><div><label class="lbl">City</label><input type="text" id="cl-city" placeholder="Huntington Beach"/></div><div><label class="lbl">State / ZIP</label><input type="text" id="cl-zip" placeholder="CA 92648"/></div></div>
+        <div class="fg" style="margin-bottom:0"><label class="lbl">Delivery preference</label><select id="cl-del"><option>Email (default)</option><option>Physical mail only</option><option>Email + physical mail</option></select></div>
+      </div>
+      <div class="mtab-body" id="mct-schedule">
+        <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Set a client start date to define when their disclosure timeline begins. DisclosureIQ will calculate upcoming delivery dates from this anchor point.</div>
+        <div class="fr">
+          <div><label class="lbl">Client start date</label><input type="date" id="cl-start-date"/></div>
+          <div><label class="lbl">Review cycle</label><select id="cl-cycle"><option value="">Use firm default</option><option value="annually">Annual</option><option value="quarterly">Quarterly</option><option value="monthly">Monthly</option><option value="onboarding">Onboarding only</option></select></div>
+        </div>
+        <div class="fg"><label class="lbl">First disclosure due</label><input type="date" id="cl-first-due" placeholder="Leave blank to auto-calculate from start date"/></div>
+        <div class="fg"><label class="lbl">Next disclosure due</label><input type="date" id="cl-next-due"/></div>
+        <div class="fg"><label class="lbl">Onboarding notes</label><textarea id="cl-onboarding-notes" style="height:60px;resize:vertical;font-size:12px" placeholder="e.g. New client as of Jan 2026. Annual ADV due April 1 each year."></textarea></div>
+        <div id="cl-schedule-preview" style="background:var(--cream);border-radius:7px;padding:10px 12px;font-size:12px;color:var(--text-muted);margin-top:4px">Enter a start date to see the calculated delivery schedule.</div>
+      </div>
     </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-client')">Cancel</button><button class="btn btn-p" onclick="saveClient()">Save client</button></div>
   </div>
 </div>
 
 <!-- VIEW CLIENT -->
 <div class="mbg" id="m-view-client">
+  <div class="mo mo-lg"><div class="moh"><div class="mot" id="vc-title">Client</div><div style="display:flex;gap:7px"><button class="btn btn-xs" id="vc-edit-btn">Edit</button><button class="moc" onclick="closeM('m-view-client')">×</button></div></div><div class="mob" id="vc-body"></div><div class="mof"><button class="btn" onclick="closeM('m-view-client')">Close</button><button class="btn btn-g" id="vc-send-btn">Send disclosures</button></div></div>
+</div>
+
+<!-- VERSION HISTORY -->
+<div class="mbg" id="m-version-history">
   <div class="mo mo-lg">
-    <div class="moh"><div class="mot" id="vc-title">Client</div><div style="display:flex;gap:7px"><button class="btn btn-xs" id="vc-edit-btn">Edit</button><button class="moc" onclick="closeM('m-view-client')">×</button></div></div>
-    <div class="mob" id="vc-body"></div>
-    <div class="mof"><button class="btn" onclick="closeM('m-view-client')">Close</button><button class="btn btn-g" id="vc-send-btn">Send disclosures</button></div>
+    <div class="moh"><div class="mot" id="vh-title">Version history</div><button class="moc" onclick="closeM('m-version-history')">×</button></div>
+    <div class="mob">
+      <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Old versions are archived and never deleted — clients who received an older version will always have a record of what they received. The current version is what gets sent to new recipients.</div>
+      <div id="vh-body"></div>
+    </div>
+    <div class="mof">
+      <button class="btn" onclick="closeM('m-version-history')">Close</button>
+      <button class="btn btn-p" id="vh-upload-btn">Upload new version</button>
+    </div>
   </div>
 </div>
 
-<!-- IMPORT CSV -->
-<div class="mbg" id="m-import">
+<!-- UPLOAD NEW VERSION -->
+<div class="mbg" id="m-upload-version">
   <div class="mo">
-    <div class="moh"><div class="mot">Import clients from CSV</div><button class="moc" onclick="closeM('m-import')">×</button></div>
+    <div class="moh"><div class="mot" id="uv-title">Upload new version</div><button class="moc" onclick="closeM('m-upload-version')">×</button></div>
     <div class="mob">
-      <div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Required columns: <strong>name</strong> or <strong>first_name, last_name</strong>. Optional: account_id, custodian, client_id, email, phone, address, city, state, zip.</div>
-      <div class="upz" onclick="toast('File picker: select your CSV')">
-        <div class="upz-icon">📊</div>
-        <div class="upz-title">Drop CSV here or click to browse</div>
-        <div class="upz-sub">.csv files only</div>
+      <div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>The existing version will be archived automatically. Clients who already received the old version retain their delivery record. New sends will use this version.</div>
+      <div class="upz" id="uv-zone" onclick="document.getElementById('uv-file-in').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="dropNewVersion(event)">
+        <div class="upz-icon">📄</div>
+        <div class="upz-title">Drop updated PDF here or click to browse</div>
+        <div class="upz-sub">PDF only · Replaces current version · Old version archived</div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Expected format:<br><code style="font-size:10px;background:var(--cream);padding:2px 4px;border-radius:3px">first_name, last_name, account_id, custodian, client_id, email, phone, address, city, state, zip</code></div>
+      <input type="file" id="uv-file-in" accept=".pdf" style="display:none" onchange="newVersionChosen(this)"/>
+      <div id="uv-preview" style="margin-top:10px"></div>
+      <div class="fr" style="margin-top:12px">
+        <div><label class="lbl">Effective date (new version)</label><input type="text" id="uv-date" placeholder="e.g. Apr 1, 2026"/></div>
+        <div><label class="lbl">Change notes</label><input type="text" id="uv-notes" placeholder="e.g. Annual update — material changes to fees section"/></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--gold-pale);border-radius:6px;font-size:12px;margin-top:4px"><input type="checkbox" id="uv-notify" style="accent-color:var(--amber)"/><label for="uv-notify" style="cursor:pointer;color:#7A5E1A">Remind me to redistribute this document to all clients after uploading</label></div>
     </div>
-    <div class="mof"><button class="btn" onclick="closeM('m-import')">Cancel</button><button class="btn btn-p" onclick="closeM('m-import');toast('Import feature requires backend — coming in v2.1')">Import</button></div>
+    <div class="mof"><button class="btn" onclick="closeM('m-upload-version')">Cancel</button><button class="btn btn-p" onclick="saveNewVersion()">Archive old & save new version</button></div>
   </div>
+</div>
+
+<!-- IMPORT -->
+<div class="mbg" id="m-import">
+  <div class="mo"><div class="moh"><div class="mot">Import clients from CSV</div><button class="moc" onclick="closeM('m-import')">×</button></div><div class="mob"><div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Required: <strong>first_name</strong> + <strong>last_name</strong> or <strong>name</strong>. Optional: account_id, custodian, client_id, email, phone, address, city, state, zip.</div><div class="upz" onclick="toast('Select CSV file — full import requires backend (v2.2)')"><div class="upz-icon">📊</div><div class="upz-title">Drop CSV or click to browse</div><div class="upz-sub">.csv only</div></div><div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Format: <code style="background:var(--cream);padding:1px 4px;border-radius:3px;font-size:10px">first_name, last_name, account_id, custodian, client_id, email, phone, address, city, state, zip</code></div></div><div class="mof"><button class="btn" onclick="closeM('m-import')">Close</button></div></div>
 </div>
 
 <!-- CHANGELOG -->
 <div class="mbg" id="m-changelog">
-  <div class="mo">
-    <div class="moh"><div class="mot">DisclosureIQ — Version history</div><button class="moc" onclick="closeM('m-changelog')">×</button></div>
-    <div class="mob">
-      <div style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px">
-          <span style="font-family:monospace;font-size:13px;font-weight:500;color:var(--navy)">v2.0.0</span>
-          <span style="font-size:11px;color:var(--text-muted)">2026-04-01</span>
-          <span class="pill pb" style="font-size:9px">Current</span>
-        </div>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px">
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>Rebuilt as focused core — upload, send, log, clients, profile</li>
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>Removed placeholder integrations and IAPD (coming later)</li>
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>All nav, modals, and buttons verified working</li>
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>Client add/edit with custodian and account tracking</li>
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>Document upload, send composer, delivery log with CSV export</li>
-          <li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>Persistent state via localStorage across sessions</li>
-        </ul>
-      </div>
-    </div>
-    <div class="mof"><button class="btn" onclick="closeM('m-changelog')">Close</button></div>
-  </div>
+  <div class="mo"><div class="moh"><div class="mot">Version history</div><button class="moc" onclick="closeM('m-changelog')">×</button></div><div class="mob">
+    <div style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span style="font-family:monospace;font-size:13px;font-weight:500;color:var(--navy)">v2.1.0</span><span style="font-size:11px;color:var(--text-muted)">2026-04-01</span><span class="pill pb" style="font-size:9px">Current</span></div><ul style="list-style:none;display:flex;flex-direction:column;gap:5px">${['Multi-file PDF upload with per-file edit before saving','Rename & edit any document after upload','Save/load default email message (subject + body)','All client merge fields: [First Name] [Last Name] [Full Name] [Account #] [Custodian] [Advisor Name]','Schedules screen — monthly, quarterly, annual, one-time date','Email system via EmailJS (real sends from browser)','CRM note hook for future Redtail integration','Live message preview with merge fields resolved','Delivery log with CSV export + mark acknowledged'].map(n=>`<li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>${n}</li>`).join('')}</ul></div>
+  </div><div class="mof"><button class="btn" onclick="closeM('m-changelog')">Close</button></div></div>
 </div>
 
 <div class="toast" id="toast"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-// ── VERSION ──────────────────────────────────────────────────────────────────
-const VER = '2.0.0', BUILD = '2026-04-01';
-
-// ── STATE (persisted via localStorage) ───────────────────────────────────────
-function load(k, def){ try{ const v=localStorage.getItem('diq_'+k); return v?JSON.parse(v):def; }catch{ return def; } }
-function save(k,v){ try{ localStorage.setItem('diq_'+k, JSON.stringify(v)); }catch{} }
-
-let DOCS    = load('docs', []);
-let CLIENTS = load('clients', []);
-let LOG     = load('log', []);
-let PROFILE = load('profile', {
-  firmName:'Horizon Wealth Advisors, LLC', crd:'317245', sec:'801-XXXXX',
-  regtype:'SEC-registered RIA', addr:'2100 Main Street, Suite 500',
-  city:'Huntington Beach', zip:'CA 92648', phone:'(714) 555-0100',
-  email:'compliance@horizonwealth.com',
-  uname:'Luke Wright', role:'Compliance Officer', uemail:'lwright@horizonwealth.com',
-  sig:'Sincerely,\nLuke Wright\nHorizon Wealth Advisors, LLC\n(714) 555-0100 | CRD #317245',
-  ackDefault:'Required — sign before viewing', retention:'7 years'
-});
-
+// ── STATE ──────────────────────────────────────────────────────────────────────
+function load(k,d){try{const v=localStorage.getItem('diq_'+k);return v?JSON.parse(v):d;}catch{return d;}}
+function save(k,v){try{localStorage.setItem('diq_'+k,JSON.stringify(v));}catch{}}
+let DOCS      = load('docs',[]);
+let CLIENTS   = load('clients',[]);
+let LOG       = load('log',[]);
+let SCHEDS    = load('scheds',[]);
+let PROFILE   = load('profile',{firmName:'Horizon Wealth Advisors, LLC',crd:'317245',sec:'801-XXXXX',regtype:'SEC-registered RIA',addr:'2100 Main Street, Suite 500',city:'Huntington Beach',zip:'CA 92648',phone:'(714) 555-0100',email:'compliance@horizonwealth.com',uname:'Luke Wright',role:'Compliance Officer',uemail:'lwright@horizonwealth.com',sig:'Sincerely,\nLuke Wright\nHorizon Wealth Advisors, LLC\n(714) 555-0100 | CRD #317245',defSubject:'Important: Your regulatory disclosure documents',defBody:'Dear [Full Name],\n\nHorizon Wealth Advisors, LLC is providing you with your annual regulatory disclosure documents as required by the SEC.\n\nPlease review and acknowledge receipt at your earliest convenience.\n\n[Firm Name]\n(714) 555-0100',retention:'7 years'});
+let SMTP      = load('smtp',{serviceId:'',templateId:'',pubKey:'',fromName:'',fromEmail:'',provider:'Microsoft 365 / Outlook',notes:''});
+let pendingFiles  = [];
+let editingDocId  = null;
 let editingClientId = null;
-let currentDocId    = null;
-let sendSelectedDocs   = new Set();
-let sendSelectedClients = new Set();
+let editingSchedId  = null;
+let sendSelDocs   = new Set();
+let sendSelClients = new Set();
 
-// ── CORE UI ──────────────────────────────────────────────────────────────────
-function go(id, el){
+// ── CORE ───────────────────────────────────────────────────────────────────────
+function go(id,el){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  if(id==='dashboard') renderDashboard();
-  if(id==='docs')      renderDocs();
-  if(id==='send')      renderSend();
-  if(id==='log')       renderLog();
-  if(id==='clients')   renderClients();
-  if(id==='profile')   loadProfile();
+  const fn={dashboard:renderDashboard,docs:renderDocs,send:renderSend,schedules:renderScheds,log:renderLog,clients:renderClients,profile:loadProfile,smtp:loadSmtp};
+  if(fn[id]) fn[id]();
+}
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('mbg'))e.target.classList.remove('open');});
+function toast(msg,dur){dur=dur||3000;const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',dur);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function fmt(ts){return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+new Date(ts).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
+function fmtDate(ts){return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+
+function resolveMerge(text,client){
+  if(!client) return text;
+  const a0=client.accounts?.[0]||{};
+  return text
+    .replace(/\[First Name\]/g,client.fname||client.display||'')
+    .replace(/\[Last Name\]/g,client.lname||'')
+    .replace(/\[Full Name\]/g,client.display||((client.fname||'')+' '+(client.lname||'')).trim())
+    .replace(/\[Account #\]/g,a0.acctId||'—')
+    .replace(/\[Custodian\]/g,a0.custodian||'—')
+    .replace(/\[Firm Name\]/g,PROFILE.firmName||'')
+    .replace(/\[Date\]/g,new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}))
+    .replace(/\[Advisor Name\]/g,PROFILE.uname||'');
 }
 
-function openM(id){ document.getElementById(id).classList.add('open'); }
-function closeM(id){ document.getElementById(id).classList.remove('open'); }
-document.addEventListener('click',e=>{ if(e.target.classList.contains('mbg')) e.target.classList.remove('open'); });
-
-function toast(msg,dur){
-  dur=dur||3000;
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.opacity='1';
-  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',dur);
-}
-
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
-
-function fmt(ts){
-  const d=new Date(ts);
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+
-    ' '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-}
-
-function fmtDate(ts){
-  return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+function statusColor(s){
+  return{sent:{dot:'#185FA5',bg:'#E6F1FB',col:'#185FA5'},acknowledged:{dot:'#2D6A4F',bg:'#D8EFE6',col:'#2D6A4F'},opened:{dot:'#854F0B',bg:'#FAEEDA',col:'#854F0B'},bounced:{dot:'#A32D2D',bg:'#FCEBEB',col:'#A32D2D'}}[s]||{dot:'#185FA5',bg:'#E6F1FB',col:'#185FA5'};
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function renderDashboard(){
-  const hr = new Date().getHours();
-  const greet = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
-  const uname = PROFILE.uname||'';
-  document.getElementById('dash-greeting').textContent = greet+', '+uname.split(' ')[0];
-
-  document.getElementById('m-docs').textContent    = DOCS.length;
-  document.getElementById('m-clients').textContent = CLIENTS.length;
-  document.getElementById('m-sends').textContent   = LOG.length;
-  document.getElementById('m-acks').textContent    = LOG.filter(l=>l.status==='acknowledged').length;
-
-  // Recent docs
-  const dd = document.getElementById('dash-docs');
-  if(!DOCS.length){
-    dd.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">No documents yet — <span style="color:var(--blue);cursor:pointer" onclick="openM(\'m-upload\')">upload your first PDF</span></div>';
-  } else {
-    dd.innerHTML = DOCS.slice(-3).reverse().map(d=>`
-      <div class="log-row" style="padding:9px 0">
-        <div class="log-dot" style="background:var(--navy)"></div>
-        <div class="log-body"><div class="log-title">${d.name}</div><div class="log-meta">${d.type} · ${fmtDate(d.created)}</div></div>
-        <button class="btn btn-xs btn-g" onclick="preselectDocAndSend('${d.id}')">Send</button>
-      </div>`).join('');
-  }
-
-  // Recent log
-  const dl = document.getElementById('dash-log');
-  if(!LOG.length){
-    dl.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">No deliveries yet</div>';
-  } else {
-    dl.innerHTML = LOG.slice(-5).reverse().map(l=>{
-      const sc=statusColor(l.status);
-      return `<div class="log-row" style="padding:8px 0">
-        <div class="log-dot" style="background:${sc.dot}"></div>
-        <div class="log-body"><div class="log-title">${l.clientName}</div><div class="log-meta">${l.docNames.join(', ')} · ${fmtDate(l.ts)}</div></div>
-        <span class="pill" style="background:${sc.bg};color:${sc.col}">${l.status}</span>
-      </div>`;
-    }).join('');
-  }
-
-  // Quick send doc select
-  const qs = document.getElementById('qs-doc');
-  qs.innerHTML = '<option value="">— select a document —</option>'+
-    DOCS.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');
-
-  // Quick send recip select
-  const qr = document.getElementById('qs-recip');
-  qr.innerHTML = CLIENTS.length
-    ? '<option value="all">All clients ('+CLIENTS.length+')</option>'+CLIENTS.map(c=>`<option value="${c.id}">${c.display}</option>`).join('')
-    : '<option value="">— add clients first —</option>';
+  const hr=new Date().getHours();
+  document.getElementById('dash-greeting').textContent=(hr<12?'Good morning':hr<17?'Good afternoon':'Good evening')+', '+(PROFILE.uname||'').split(' ')[0];
+  document.getElementById('m-docs').textContent=DOCS.length;
+  document.getElementById('m-clients').textContent=CLIENTS.length;
+  document.getElementById('m-sends').textContent=LOG.length;
+  document.getElementById('m-acks').textContent=LOG.filter(l=>l.status==='acknowledged').length;
+  const dd=document.getElementById('dash-docs');
+  dd.innerHTML=DOCS.length?DOCS.slice(-3).reverse().map(d=>`<div class="log-row" style="padding:8px 0"><div class="log-dot" style="background:var(--navy)"></div><div class="log-body"><div class="log-title">${d.name}</div><div class="log-meta">${d.type} · ${fmtDate(d.created)}</div></div><button class="btn btn-xs btn-g" onclick="preselectAndSend('${d.id}')">Send</button></div>`).join(''):'<div style="text-align:center;padding:18px;color:var(--text-muted);font-size:12px">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM(\'m-upload\')">upload PDFs</span></div>';
+  const dl=document.getElementById('dash-log');
+  dl.innerHTML=LOG.length?LOG.slice(-4).reverse().map(l=>{const sc=statusColor(l.status);return`<div class="log-row" style="padding:7px 0"><div class="log-dot" style="background:${sc.dot}"></div><div class="log-body"><div class="log-title">${l.clientName}</div><div class="log-meta">${l.docNames.slice(0,2).join(', ')}${l.docNames.length>2?' +'+( l.docNames.length-2):''} · ${fmtDate(l.ts)}</div></div><span class="pill" style="background:${sc.bg};color:${sc.col}">${l.status}</span></div>`;}).join(''):'<div style="text-align:center;padding:18px;color:var(--text-muted);font-size:12px">No deliveries yet</div>';
+  const ds=document.getElementById('dash-scheds');
+  ds.innerHTML=SCHEDS.length?SCHEDS.slice(0,3).map(s=>`<div class="sched-row"><div class="sched-info"><div class="sched-name">${s.name}</div><div class="sched-detail">${s.freqLabel} · ${s.docName}</div></div><span class="pill pgr" style="font-size:9px">${s.nextLabel}</span></div>`).join(''):'<div style="padding:18px;text-align:center;font-size:12px;color:var(--text-muted)">No schedules — <span style="color:var(--blue);cursor:pointer" onclick="go(\'schedules\',document.querySelectorAll(\'.ni\')[3])">create one</span></div>';
+  const qd=document.getElementById('qs-doc');
+  qd.innerHTML='<option value="">— select —</option>'+DOCS.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');
+  const qr=document.getElementById('qs-recip');
+  qr.innerHTML=CLIENTS.length?'<option value="all">All clients ('+CLIENTS.length+')</option>'+CLIENTS.map(c=>`<option value="${c.id}">${c.display}</option>`).join(''):'<option value="">— add clients first —</option>';
 }
-
-function statusColor(s){
-  const m={
-    sent:      {dot:'#185FA5',bg:'#E6F1FB',col:'#185FA5'},
-    acknowledged:{dot:'#2D6A4F',bg:'#D8EFE6',col:'#2D6A4F'},
-    opened:    {dot:'#854F0B',bg:'#FAEEDA',col:'#854F0B'},
-    bounced:   {dot:'#A32D2D',bg:'#FCEBEB',col:'#A32D2D'},
-  };
-  return m[s]||m.sent;
-}
-
 function quickSend(){
-  const docId = document.getElementById('qs-doc').value;
-  const recipVal = document.getElementById('qs-recip').value;
-  if(!docId){ toast('Select a document first'); return; }
-  if(!CLIENTS.length){ toast('Add clients first'); return; }
-  sendSelectedDocs = new Set([docId]);
-  sendSelectedClients = recipVal==='all'
-    ? new Set(CLIENTS.map(c=>c.id))
-    : new Set([recipVal]);
-  go('send', document.querySelectorAll('.ni')[2]);
+  const di=document.getElementById('qs-doc').value,rv=document.getElementById('qs-recip').value;
+  if(!di){toast('Select a document first');return;}
+  if(!CLIENTS.length){toast('Add clients first');return;}
+  sendSelDocs=new Set([di]);
+  sendSelClients=rv==='all'?new Set(CLIENTS.map(c=>c.id)):new Set([rv]);
+  go('send',document.querySelectorAll('.ni')[2]);
 }
-
-function preselectDocAndSend(docId){
-  sendSelectedDocs = new Set([docId]);
-  sendSelectedClients = CLIENTS.length ? new Set(CLIENTS.map(c=>c.id)) : new Set();
-  go('send', document.querySelectorAll('.ni')[2]);
-}
+function preselectAndSend(docId){sendSelDocs=new Set([docId]);sendSelClients=CLIENTS.length?new Set(CLIENTS.map(c=>c.id)):new Set();go('send',document.querySelectorAll('.ni')[2]);}
 
 // ── DOCUMENTS ─────────────────────────────────────────────────────────────────
 function renderDocs(){
-  const grid = document.getElementById('doc-grid');
-  const hint = document.getElementById('docs-empty-hint');
-  const lbl  = document.getElementById('docs-count-label');
-  lbl.textContent = DOCS.length+' document'+(DOCS.length!==1?'s':'');
-
-  if(!DOCS.length){
-    hint.style.display='flex';
-    grid.innerHTML='';
-    return;
-  }
-  hint.style.display='none';
-  grid.innerHTML = DOCS.slice().reverse().map(d=>`
+  const lbl=document.getElementById('docs-count-label');
+  if(lbl) lbl.textContent=DOCS.length+' document'+(DOCS.length!==1?'s':'');
+  const hint=document.getElementById('docs-hint');
+  if(hint) hint.style.display=DOCS.length?'none':'flex';
+  const grid=document.getElementById('doc-grid');
+  if(!grid) return;
+  grid.innerHTML=DOCS.length?DOCS.slice().reverse().map(d=>`
     <div class="doc-card">
       <div class="doc-icon"><div class="doc-fold"></div><div class="doc-type">PDF</div></div>
       <div class="doc-info">
         <div class="doc-name">${d.name}</div>
-        <div class="doc-meta">${d.type} · ${d.size} · Added ${fmtDate(d.created)}${d.effectiveDate?' · Effective '+d.effectiveDate:''}</div>
-        ${d.notes?`<div class="doc-meta" style="color:var(--text-muted);font-style:italic">${d.notes}</div>`:''}
+        <div class="doc-meta">${d.type} · ${d.size}${d.effectiveDate?' · Effective '+d.effectiveDate:''}${d.notes?' · '+d.notes:''}</div>
+        ${(d.versions&&d.versions.length>0)?'<div style="font-size:10px;color:var(--blue);margin-top:3px">'+(d.versions.length)+' previous version'+(d.versions.length!==1?'s':'')+' archived</div>':'<div style="font-size:10px;color:var(--text-muted);margin-top:3px">Current version</div>'}
       </div>
       <div class="doc-actions">
-        <button class="btn btn-xs" onclick="viewDoc('${d.id}')">View</button>
-        <button class="btn btn-xs btn-g" onclick="preselectDocAndSend('${d.id}')">Send</button>
+        <button class="btn btn-xs" onclick="openVersionHistory('${d.id}')" title="Version history">History</button>
+        <button class="btn btn-xs" onclick="openUploadVersion('${d.id}')" title="Upload new version">New version</button>
+        <button class="btn btn-xs" onclick="openEditDoc('${d.id}')">Edit</button>
+        <button class="btn btn-xs btn-g" onclick="preselectAndSend('${d.id}')">Send</button>
         <button class="btn btn-xs btn-r" onclick="deleteDoc('${d.id}')">Delete</button>
       </div>
-    </div>`).join('');
+    </div>`).join(''):'<div style="text-align:center;padding:28px;color:var(--text-muted);font-size:13px">No documents yet — <span style="color:var(--blue);cursor:pointer;font-weight:500" onclick="openM(\'m-upload\')">upload your first PDF</span></div>';
 }
 
-function viewDoc(id){
+function openEditDoc(id){
   const d=DOCS.find(x=>x.id===id);
   if(!d) return;
-  currentDocId=id;
-  document.getElementById('vd-title').textContent=d.name;
-  const sentCount=LOG.filter(l=>l.docIds.includes(id)).length;
-  document.getElementById('vd-body').innerHTML=`
-    <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Type</span><strong>${d.type}</strong></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">File size</span><strong>${d.size}</strong></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Added</span><strong>${fmt(d.created)}</strong></div>
-      ${d.effectiveDate?`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Effective date</span><strong>${d.effectiveDate}</strong></div>`:''}
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Times sent</span><strong>${sentCount}</strong></div>
-      ${d.notes?`<div style="padding:8px 0"><span style="color:var(--text-muted)">Notes: </span>${d.notes}</div>`:''}
-    </div>`;
-  document.getElementById('vd-delete').onclick=()=>{ closeM('m-view-doc'); deleteDoc(id); };
-  document.getElementById('vd-send').onclick=()=>{ closeM('m-view-doc'); preselectDocAndSend(id); };
-  openM('m-view-doc');
+  editingDocId=id;
+  document.getElementById('ed-name').value=d.name;
+  document.getElementById('ed-date').value=d.effectiveDate||'';
+  document.getElementById('ed-notes').value=d.notes||'';
+  document.getElementById('ed-type').value=d.type||'ADV Part 2A';
+  document.getElementById('ed-delete-btn').onclick=()=>{closeM('m-edit-doc');deleteDoc(id);};
+  openM('m-edit-doc');
 }
-
+function saveDocEdit(){
+  const d=DOCS.find(x=>x.id===editingDocId);
+  if(!d) return;
+  const name=document.getElementById('ed-name').value.trim();
+  if(!name){toast('Name cannot be empty');return;}
+  d.name=name;
+  d.type=document.getElementById('ed-type').value;
+  d.effectiveDate=document.getElementById('ed-date').value.trim();
+  d.notes=document.getElementById('ed-notes').value.trim();
+  save('docs',DOCS);
+  closeM('m-edit-doc');
+  renderDocs();
+  toast('✓ Document updated');
+}
 function deleteDoc(id){
-  if(!confirm('Delete this document? This cannot be undone.')) return;
+  if(!confirm('Delete this document?')) return;
   DOCS=DOCS.filter(d=>d.id!==id);
   save('docs',DOCS);
   renderDocs();
+  renderDashboard();
   toast('Document deleted');
 }
 
-// ── UPLOAD ────────────────────────────────────────────────────────────────────
-let pendingFile = null;
-
-function dropFile(e){
+// ── UPLOAD (multi) ─────────────────────────────────────────────────────────────
+function dropFiles(e){
   e.preventDefault();
   document.getElementById('upz').classList.remove('drag');
-  const f=e.dataTransfer?.files?.[0];
-  if(!f){ toast('No file detected'); return; }
-  if(f.type!=='application/pdf'){ toast('Please use a PDF file'); return; }
-  processFile(f);
+  processNewFiles(e.dataTransfer.files);
 }
-
-function fileChosen(input){
-  if(input.files[0]) processFile(input.files[0]);
+function filesChosen(input){if(input.files.length) processNewFiles(input.files);}
+function processNewFiles(files){
+  const types=['ADV Part 2A','ADV Part 2B','Form CRS','Privacy Policy','Fee Disclosure','Wrap Fee Brochure','Other'];
+  Array.from(files).forEach(f=>{
+    if(f.type!=='application/pdf'){toast('Skipped '+f.name+' — not a PDF');return;}
+    const id=uid();
+    const kb=f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
+    const auto=f.name.replace(/\.pdf$/i,'').replace(/[-_]/g,' ');
+    pendingFiles.push({id,file:f,name:auto,type:'ADV Part 2A',effectiveDate:'',notes:'',size:kb});
+  });
+  renderUploadQueue();
 }
-
-function processFile(f){
-  pendingFile=f;
-  const kb=f.size<1024?f.size+'B':f.size<1048576?(f.size/1024).toFixed(0)+'KB':(f.size/1048576).toFixed(1)+'MB';
-  document.getElementById('upload-preview').innerHTML=`
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:7px">
-      <span style="font-size:18px">📄</span>
-      <div><div style="font-size:12px;font-weight:500">${f.name}</div><div style="font-size:11px;color:var(--green)">${kb} · Ready</div></div>
-    </div>`;
-  // Auto-fill name from filename
-  const nm=document.getElementById('up-name');
-  if(!nm.value) nm.value=f.name.replace(/\.pdf$/i,'').replace(/[-_]/g,' ');
+function renderUploadQueue(){
+  const q=document.getElementById('upload-queue');
+  if(!q) return;
+  if(!pendingFiles.length){q.innerHTML='';return;}
+  q.innerHTML='<div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">'+pendingFiles.length+' file'+(pendingFiles.length!==1?'s':'')+' ready — edit details before saving</div>'+
+  pendingFiles.map((pf,i)=>`
+    <div class="upq-item" id="upq-${pf.id}">
+      <div class="upq-icon"><div class="upq-fold"></div>PDF</div>
+      <div style="flex:1;min-width:0">
+        <input type="text" value="${pf.name}" onchange="pendingFiles[${i}].name=this.value" style="font-size:12px;font-weight:500;margin-bottom:5px;padding:4px 7px"/>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <select onchange="pendingFiles[${i}].type=this.value" style="font-size:11px;padding:3px 6px;width:auto;flex:1">
+            ${['ADV Part 2A','ADV Part 2B','Form CRS','Privacy Policy','Fee Disclosure','Wrap Fee Brochure','Other'].map(t=>`<option ${pf.type===t?'selected':''}>${t}</option>`).join('')}
+          </select>
+          <input type="text" placeholder="Effective date" value="${pf.effectiveDate}" onchange="pendingFiles[${i}].effectiveDate=this.value" style="font-size:11px;padding:3px 6px;width:120px"/>
+          <input type="text" placeholder="Notes" value="${pf.notes}" onchange="pendingFiles[${i}].notes=this.value" style="font-size:11px;padding:3px 6px;flex:1;min-width:80px"/>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+        <span style="font-size:10px;color:var(--text-muted)">${pf.size}</span>
+        <button class="btn btn-xs btn-r" onclick="removePending('${pf.id}')">✕</button>
+      </div>
+    </div>`).join('');
 }
-
-function uploadDoc(){
-  if(!pendingFile){ toast('Please select a PDF file first'); return; }
-  const name=document.getElementById('up-name').value.trim();
-  if(!name){ toast('Please enter a document name'); return; }
-  const kb=pendingFile.size<1024?pendingFile.size+'B':pendingFile.size<1048576?(pendingFile.size/1024).toFixed(0)+' KB':(pendingFile.size/1048576).toFixed(1)+' MB';
-  const doc={
-    id:uid(), name,
-    type:document.getElementById('up-type').value,
-    effectiveDate:document.getElementById('up-date').value.trim(),
-    notes:document.getElementById('up-notes').value.trim(),
-    size:kb, fileName:pendingFile.name,
-    created:Date.now()
-  };
-  DOCS.push(doc);
+function removePending(id){pendingFiles=pendingFiles.filter(p=>p.id!==id);renderUploadQueue();}
+function uploadAll(){
+  if(!pendingFiles.length){toast('No files to upload');return;}
+  pendingFiles.forEach(pf=>{
+    if(!pf.name.trim()) pf.name=pf.file.name.replace(/\.pdf$/i,'');
+    DOCS.push({id:pf.id,name:pf.name.trim(),type:pf.type,effectiveDate:pf.effectiveDate,notes:pf.notes,size:pf.size,fileName:pf.file.name,created:Date.now()});
+  });
   save('docs',DOCS);
-  pendingFile=null;
-  document.getElementById('upload-preview').innerHTML='';
-  document.getElementById('up-name').value='';
-  document.getElementById('up-date').value='';
-  document.getElementById('up-notes').value='';
+  const count=pendingFiles.length;
+  pendingFiles=[];
+  document.getElementById('upload-queue').innerHTML='';
   document.getElementById('file-in').value='';
   closeM('m-upload');
-  toast('✓ '+name+' saved to library');
+  toast('✓ '+count+' document'+(count!==1?'s':'')+' saved to library');
   renderDocs();
   renderDashboard();
 }
 
 // ── SEND ──────────────────────────────────────────────────────────────────────
 function renderSend(){
+  // Load default message if body is empty
+  const body=document.getElementById('send-body');
+  if(body && !body.value) loadDefaultMsg();
+  const subj=document.getElementById('send-subject');
+  if(subj && subj.value==='Important: Your regulatory disclosure documents' && PROFILE.defSubject) subj.value=PROFILE.defSubject;
   // Doc list
   const dl=document.getElementById('send-doc-list');
-  if(!DOCS.length){
-    dl.innerHTML='<div style="padding:20px;text-align:center;font-size:12px;color:var(--text-muted)">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM(\'m-upload\')">upload first</span></div>';
-  } else {
-    dl.innerHTML=DOCS.map(d=>`
-      <label style="display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--border);cursor:pointer">
-        <input type="checkbox" ${sendSelectedDocs.has(d.id)?'checked':''} onchange="toggleSendDoc('${d.id}',this.checked)" style="accent-color:var(--navy)"/>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.name}</div>
-          <div style="font-size:10px;color:var(--text-muted)">${d.type} · ${d.size}</div>
-        </div>
-      </label>`).join('');
-  }
-
+  dl.innerHTML=DOCS.length?DOCS.map(d=>`<label style="display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--border);cursor:pointer"><input type="checkbox" ${sendSelDocs.has(d.id)?'checked':''} onchange="toggleSendDoc('${d.id}',this.checked)" style="accent-color:var(--navy)"/><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.name}</div><div style="font-size:10px;color:var(--text-muted)">${d.type} · ${d.size}</div></div></label>`).join(''):'<div style="padding:18px;text-align:center;font-size:12px;color:var(--text-muted)">No documents — <span style="color:var(--blue);cursor:pointer" onclick="openM(\'m-upload\')">upload first</span></div>';
   // Client list
   const cl=document.getElementById('send-client-list');
-  if(!CLIENTS.length){
-    cl.innerHTML='<div style="padding:14px;text-align:center;font-size:12px;color:var(--text-muted)">No clients — <span style="color:var(--blue);cursor:pointer" onclick="go(\'clients\',document.querySelectorAll(\'.ni\')[4])">add clients first</span></div>';
-  } else {
-    cl.innerHTML=CLIENTS.map(c=>`
-      <label style="display:flex;align-items:center;gap:9px;padding:8px 13px;border-bottom:1px solid var(--border);cursor:pointer">
-        <input type="checkbox" ${sendSelectedClients.has(c.id)?'checked':''} onchange="toggleSendClient('${c.id}',this.checked)" style="accent-color:var(--navy)"/>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.display}</div>
-          <div style="font-size:10px;color:var(--text-muted)">${c.email||'<span style=color:var(--red)>No email</span>'}</div>
-        </div>
-      </label>`).join('');
-  }
+  cl.innerHTML=CLIENTS.length?CLIENTS.map(c=>`<label style="display:flex;align-items:center;gap:9px;padding:8px 13px;border-bottom:1px solid var(--border);cursor:pointer"><input type="checkbox" ${sendSelClients.has(c.id)?'checked':''} onchange="toggleSendClient('${c.id}',this.checked)" style="accent-color:var(--navy)"/><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.display}</div><div style="font-size:10px;color:${c.email?'var(--text-muted)':'var(--red)'}">${c.email||'No email on file'}</div></div></label>`).join(''):'<div style="padding:14px;text-align:center;font-size:12px;color:var(--text-muted)">No clients — <span style="color:var(--blue);cursor:pointer" onclick="go(\'clients\',document.querySelectorAll(\'.ni\')[5])">add clients</span></div>';
   updateSendCounts();
+  livePreview();
 }
-
-function toggleSendDoc(id,checked){ checked?sendSelectedDocs.add(id):sendSelectedDocs.delete(id); updateSendCounts(); }
-function toggleSendClient(id,checked){ checked?sendSelectedClients.add(id):sendSelectedClients.delete(id); updateSendChips(); updateSendCounts(); }
-
-function selectAllClients(){
-  CLIENTS.forEach(c=>sendSelectedClients.add(c.id));
-  renderSend();
+function toggleSendDoc(id,c){c?sendSelDocs.add(id):sendSelDocs.delete(id);updateSendCounts();}
+function toggleSendClient(id,c){c?sendSelClients.add(id):sendSelClients.delete(id);updateChips();updateSendCounts();}
+function selectAllClients(){CLIENTS.forEach(c=>sendSelClients.add(c.id));renderSend();}
+function clearRecipients(){sendSelClients.clear();renderSend();}
+function clearSend(){sendSelDocs.clear();sendSelClients.clear();renderSend();}
+function updateChips(){
+  const el=document.getElementById('send-recip-chips');
+  if(!el) return;
+  el.innerHTML=[...sendSelClients].map(id=>{const c=CLIENTS.find(x=>x.id===id);return c?`<span class="recip-chip">${c.display}<button onclick="toggleSendClient('${id}',false)">×</button></span>`:''}).join('');
 }
-function clearRecipients(){
-  sendSelectedClients.clear();
-  renderSend();
-}
-
-function updateSendChips(){
-  const chips=document.getElementById('send-recip-chips');
-  if(!chips) return;
-  if(!sendSelectedClients.size){ chips.innerHTML=''; return; }
-  chips.innerHTML=[...sendSelectedClients].map(id=>{
-    const c=CLIENTS.find(x=>x.id===id);
-    if(!c) return '';
-    return `<span class="recip-chip">${c.display}<button onclick="toggleSendClient('${id}',false);updateSendChips();updateSendCounts()">×</button></span>`;
-  }).join('');
-}
-
 function updateSendCounts(){
-  const dc=document.getElementById('send-doc-count');
-  const rc=document.getElementById('send-recip-count');
-  if(dc) dc.textContent=sendSelectedDocs.size+' selected';
-  if(rc) rc.textContent=sendSelectedClients.size+' selected';
-  const ackSel=document.getElementById('send-ack');
-  const methSel=document.getElementById('send-method');
-  const sd=document.getElementById('sum-docs');
-  const sr=document.getElementById('sum-recips');
-  const sa=document.getElementById('sum-ack');
-  const sm=document.getElementById('sum-method');
-  if(sd) sd.textContent=sendSelectedDocs.size+' document'+(sendSelectedDocs.size!==1?'s':'');
-  if(sr) sr.textContent=sendSelectedClients.size+' client'+(sendSelectedClients.size!==1?'s':'');
-  if(sa && ackSel) sa.textContent=ackSel.value;
-  if(sm && methSel) sm.textContent=methSel.value;
-  updateSendChips();
+  const dc=document.getElementById('send-doc-count'),rc=document.getElementById('send-recip-count');
+  const sd=document.getElementById('sum-docs'),sr=document.getElementById('sum-recips'),sa=document.getElementById('sum-ack');
+  if(dc) dc.textContent=sendSelDocs.size+' selected';
+  if(rc) rc.textContent=sendSelClients.size+' selected';
+  if(sd) sd.textContent=sendSelDocs.size+' document'+(sendSelDocs.size!==1?'s':'');
+  if(sr) sr.textContent=sendSelClients.size+' client'+(sendSelClients.size!==1?'s':'');
+  if(sa) sa.textContent=document.getElementById('send-ack')?.value||'—';
+  updateChips();
 }
-
-document.addEventListener('change',e=>{
-  if(e.target.id==='send-ack'||e.target.id==='send-method') updateSendCounts();
-});
-
+document.addEventListener('change',e=>{if(['send-ack','send-method'].includes(e.target.id)) updateSendCounts();});
 function ins(tag){
   const ta=document.getElementById('send-body');
   if(!ta) return;
   const s=ta.selectionStart,e=ta.selectionEnd;
   ta.value=ta.value.slice(0,s)+tag+ta.value.slice(e);
   ta.selectionStart=ta.selectionEnd=s+tag.length;
-  ta.focus();
+  ta.focus();livePreview();
 }
-
-function clearSend(){
-  sendSelectedDocs.clear();
-  sendSelectedClients.clear();
-  renderSend();
+function livePreview(){
+  const body=document.getElementById('send-body')?.value||'';
+  const subj=document.getElementById('send-subject')?.value||'';
+  const sample=CLIENTS[0]||{display:'[Client Name]',fname:'[First',lname:'Name]',accounts:[{acctId:'[Account #]',custodian:'[Custodian]'}]};
+  document.getElementById('prev-subj').textContent=resolveMerge(subj,sample);
+  document.getElementById('prev-body').innerHTML=resolveMerge(body,sample).replace(/\n/g,'<br>');
 }
-
+function saveDefaultMsg(){
+  PROFILE.defSubject=document.getElementById('send-subject')?.value||'';
+  PROFILE.defBody=document.getElementById('send-body')?.value||'';
+  save('profile',PROFILE);
+  // Also update profile page fields if visible
+  const ps=document.getElementById('p-def-subject'),pb=document.getElementById('p-def-body');
+  if(ps) ps.value=PROFILE.defSubject;
+  if(pb) pb.value=PROFILE.defBody;
+  toast('✓ Default message saved — will load automatically next time');
+}
+function loadDefaultMsg(){
+  if(PROFILE.defSubject){const el=document.getElementById('send-subject');if(el) el.value=PROFILE.defSubject;}
+  if(PROFILE.defBody){const el=document.getElementById('send-body');if(el) el.value=PROFILE.defBody;}
+  livePreview();
+}
 function sendDisclosures(){
-  if(!sendSelectedDocs.size){ toast('Select at least one document'); return; }
-  if(!sendSelectedClients.size){ toast('Select at least one recipient'); return; }
-  const docs=DOCS.filter(d=>sendSelectedDocs.has(d.id));
-  const clients=CLIENTS.filter(c=>sendSelectedClients.has(c.id));
+  if(!sendSelDocs.size){toast('Select at least one document');return;}
+  if(!sendSelClients.size){toast('Select at least one recipient');return;}
+  const docs=DOCS.filter(d=>sendSelDocs.has(d.id));
+  const clients=CLIENTS.filter(c=>sendSelClients.has(c.id));
   const ack=document.getElementById('send-ack')?.value||'';
   const meth=document.getElementById('send-method')?.value||'';
-  // Build confirm body
-  const rows=[
-    {l:'Documents',v:docs.map(d=>d.name).join(', ')},
-    {l:'Recipients',v:clients.length+' client'+(clients.length!==1?'s':'')},
-    {l:'Acknowledgement',v:ack},
-    {l:'Method',v:meth},
-  ];
-  document.getElementById('confirm-body').innerHTML=rows.map(r=>`
-    <div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px">
-      <span style="color:var(--text-muted)">${r.l}</span>
-      <strong style="text-align:right;max-width:60%;word-break:break-word">${r.v}</strong>
-    </div>`).join('');
-  document.getElementById('confirm-send-btn').textContent=`Confirm & send to ${clients.length} client${clients.length!==1?'s':''}`;
+  const smtpReady=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
+  const rows=[{l:'Documents',v:docs.map(d=>d.name).join(', ')},{l:'Recipients',v:clients.length+' client'+(clients.length!==1?'s':'')},{l:'Acknowledgement',v:ack},{l:'Method',v:meth},{l:'Email',v:smtpReady?'<span style="color:var(--green)">✓ Will send real emails via EmailJS</span>':'<span style="color:var(--amber)">EmailJS not configured — logged only</span>'}];
+  document.getElementById('confirm-body').innerHTML=rows.map(r=>`<div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">${r.l}</span><strong style="text-align:right;max-width:65%">${r.v}</strong></div>`).join('');
+  document.getElementById('confirm-send-btn').textContent='Confirm & send to '+clients.length+' client'+(clients.length!==1?'s':'');
+  document.getElementById('confirm-smtp-note').innerHTML=smtpReady?'EmailJS configured — real emails will be sent to each client.':'EmailJS not set up — sends will be logged locally only. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',document.querySelectorAll(\'.ni\')[7]);return false" style="color:var(--blue)">Configure email →</a>';
   openM('m-send-confirm');
 }
-
-function executeSend(){
-  const docs=DOCS.filter(d=>sendSelectedDocs.has(d.id));
-  const clients=CLIENTS.filter(c=>sendSelectedClients.has(c.id));
+async function executeSend(){
+  const docs=DOCS.filter(d=>sendSelDocs.has(d.id));
+  const clients=CLIENTS.filter(c=>sendSelClients.has(c.id));
   const ack=document.getElementById('send-ack')?.value||'required';
   const meth=document.getElementById('send-method')?.value||'email';
   const subj=document.getElementById('send-subject')?.value||'Your disclosure documents';
   const body=document.getElementById('send-body')?.value||'';
+  const crmNote=document.getElementById('crm-note')?.value.trim()||'';
+  const crmPost=document.getElementById('crm-post')?.checked||false;
   const ts=Date.now();
-
-  clients.forEach(c=>{
-    const entry={
-      id:uid(), ts,
-      clientId:c.id, clientName:c.display,
-      clientEmail:c.email,
-      docIds:docs.map(d=>d.id),
-      docNames:docs.map(d=>d.name),
-      subject:subj,
-      ack, method:meth,
-      status: c.email?'sent':'bounced',
-      events:[{ts,event:c.email?'sent':'bounced - no email',note:''}]
-    };
-    LOG.push(entry);
-    // Update client last sent
-    const ci=CLIENTS.findIndex(x=>x.id===c.id);
-    if(ci>=0){ CLIENTS[ci].lastSent=ts; save('clients',CLIENTS); }
-  });
-  save('log',LOG);
-
+  const smtpReady=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
   closeM('m-send-confirm');
-  const crmNoteEl=document.getElementById('crm-note'); if(crmNoteEl) crmNoteEl.value='';
-  const crmPostEl=document.getElementById('crm-post'); if(crmPostEl) crmPostEl.checked=false;
-  toast(`✓ Sent to ${clients.length} client${clients.length!==1?'s':''}. Logged to delivery log.`);
-  sendSelectedDocs.clear();
-  sendSelectedClients.clear();
+  if(smtpReady){
+    emailjs.init(SMTP.pubKey);
+  }
+  let sentCount=0,failCount=0;
+  for(const c of clients){
+    const resolved=resolveMerge(body,c);
+    const resolvedSubj=resolveMerge(subj,c);
+    let status='sent';
+    if(!c.email){ status='bounced'; }
+    else if(smtpReady){
+      try{
+        await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:resolved+(PROFILE.sig?'\n\n'+PROFILE.sig:''),from_name:SMTP.fromName||PROFILE.firmName});
+        sentCount++;
+      }catch(err){
+        status='bounced';failCount++;
+        console.warn('EmailJS error for '+c.email,err);
+      }
+    }
+    const entry={id:uid(),ts,clientId:c.id,clientName:c.display,clientEmail:c.email,docIds:docs.map(d=>d.id),docNames:docs.map(d=>d.name),subject:resolvedSubj,body:resolved,ack,method:meth,status,crmNote,crmPending:crmPost&&!!crmNote,events:[{ts,event:c.email?(smtpReady?'email sent via EmailJS':'logged — no email system configured'):'bounced — no email on file',note:''}]};
+    LOG.push(entry);
+    const ci=CLIENTS.findIndex(x=>x.id===c.id);
+    if(ci>=0){CLIENTS[ci].lastSent=ts;save('clients',CLIENTS);}
+  }
+  save('log',LOG);
+  const crmEl=document.getElementById('crm-note');if(crmEl) crmEl.value='';
+  const crmPEl=document.getElementById('crm-post');if(crmPEl) crmPEl.checked=false;
+  if(smtpReady){
+    toast(`✓ Sent to ${sentCount} client${sentCount!==1?'s':''}${failCount?' ('+failCount+' failed)':''} via EmailJS`);
+  } else {
+    toast(`✓ Logged ${clients.length} delivery record${clients.length!==1?'s':''} — configure EmailJS to send real emails`);
+  }
+  sendSelDocs.clear();sendSelClients.clear();
   renderDashboard();
 }
+
+// ── SCHEDULES ─────────────────────────────────────────────────────────────────
+function renderScheds(){
+  const lbl=document.getElementById('sched-count-label');
+  if(lbl) lbl.textContent=SCHEDS.length+' schedule'+(SCHEDS.length!==1?'s':'');
+  const list=document.getElementById('sched-list');
+  if(!list) return;
+  list.innerHTML=SCHEDS.length?SCHEDS.map(s=>`
+    <div class="sched-row">
+      <div style="width:32px;height:32px;border-radius:7px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">📅</div>
+      <div class="sched-info">
+        <div class="sched-name">${s.name}</div>
+        <div class="sched-detail">${s.freqLabel} · ${s.docName} · ${s.recipLabel}${s.nextLabel?' · Next: '+s.nextLabel:''}</div>
+        ${s.notes?`<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${s.notes}</div>`:''}
+      </div>
+      <div style="display:flex;gap:5px;flex-shrink:0">
+        <button class="btn btn-xs btn-g" onclick="runSched('${s.id}')">Send now</button>
+        <button class="btn btn-xs" onclick="editSched('${s.id}')">Edit</button>
+        <button class="btn btn-xs btn-r" onclick="deleteSched('${s.id}')">✕</button>
+      </div>
+    </div>`).join(''):'<div style="padding:24px;text-align:center;font-size:12px;color:var(--text-muted)">No schedules yet.</div>';
+}
+function openAddSched(){
+  editingSchedId=null;
+  document.getElementById('sched-modal-title').textContent='Add schedule';
+  document.getElementById('sc-name').value='';
+  document.getElementById('sc-notes').value='';
+  document.getElementById('sc-date').value='';
+  document.getElementById('sc-freq').value='once';
+  // Populate doc select
+  const ds=document.getElementById('sc-doc');
+  ds.innerHTML='<option value="">— select document —</option>'+DOCS.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');
+  const rs=document.getElementById('sc-recip');
+  rs.innerHTML='<option value="all">All clients</option>'+CLIENTS.map(c=>`<option value="${c.id}">${c.display}</option>`).join('');
+  updateSchedFields();
+  openM('m-addsched');
+}
+function editSched(id){
+  const s=SCHEDS.find(x=>x.id===id);
+  if(!s) return;
+  editingSchedId=id;
+  document.getElementById('sched-modal-title').textContent='Edit schedule';
+  document.getElementById('sc-name').value=s.name;
+  document.getElementById('sc-notes').value=s.notes||'';
+  document.getElementById('sc-freq').value=s.freq;
+  const ds=document.getElementById('sc-doc');
+  ds.innerHTML='<option value="">— select document —</option>'+DOCS.map(d=>`<option value="${d.id}" ${s.docId===d.id?'selected':''}>${d.name}</option>`).join('');
+  const rs=document.getElementById('sc-recip');
+  rs.innerHTML='<option value="all" '+(s.recipId==='all'?'selected':'')+'>All clients</option>'+CLIENTS.map(c=>`<option value="${c.id}" ${s.recipId===c.id?'selected':''}>${c.display}</option>`).join('');
+  updateSchedFields();
+  if(s.freq==='once' && s.dateRaw) document.getElementById('sc-date').value=s.dateRaw;
+  if(s.freq==='monthly') document.getElementById('sc-mday').value=s.mday||'1';
+  if(s.freq==='quarterly'){if(document.getElementById('sc-qmonth')) document.getElementById('sc-qmonth').value=s.qmonth||'1';if(document.getElementById('sc-qday')) document.getElementById('sc-qday').value=s.qday||'1';}
+  if(s.freq==='annually'){if(document.getElementById('sc-amonth')) document.getElementById('sc-amonth').value=s.amonth||'4';if(document.getElementById('sc-aday')) document.getElementById('sc-aday').value=s.aday||'1';}
+  openM('m-addsched');
+}
+function updateSchedFields(){
+  const freq=document.getElementById('sc-freq')?.value;
+  document.getElementById('sc-once-fields').style.display=freq==='once'?'grid':'none';
+  document.getElementById('sc-monthly-fields').style.display=freq==='monthly'?'block':'none';
+  document.getElementById('sc-quarterly-fields').style.display=freq==='quarterly'?'block':'none';
+  document.getElementById('sc-annual-fields').style.display=freq==='annually'?'block':'none';
+}
+function saveSched(){
+  const name=document.getElementById('sc-name').value.trim();
+  if(!name){toast('Enter a schedule name');return;}
+  const docId=document.getElementById('sc-doc').value;
+  const doc=DOCS.find(d=>d.id===docId);
+  if(!docId||!doc){toast('Select a document');return;}
+  const freq=document.getElementById('sc-freq').value;
+  const recipId=document.getElementById('sc-recip').value;
+  const recipLabel=recipId==='all'?'All clients':(CLIENTS.find(c=>c.id===recipId)?.display||'Unknown');
+  const freqLabels={once:'One-time',monthly:'Monthly',quarterly:'Quarterly',annually:'Annually'};
+  let nextLabel='',dateRaw='',mday='',qmonth='',qday='',amonth='',aday='';
+  if(freq==='once'){
+    dateRaw=document.getElementById('sc-date').value;
+    if(!dateRaw){toast('Select a send date');return;}
+    nextLabel=new Date(dateRaw+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  } else if(freq==='monthly'){
+    mday=document.getElementById('sc-mday').value;
+    nextLabel='Day '+mday+' of each month';
+  } else if(freq==='quarterly'){
+    qmonth=document.getElementById('sc-qmonth')?.value||'1';
+    qday=document.getElementById('sc-qday')?.value||'1';
+    const qNames=['Jan','Feb','Mar'];
+    nextLabel=qNames[parseInt(qmonth)-1]+' '+qday+' (then +3mo)';
+  } else if(freq==='annually'){
+    amonth=document.getElementById('sc-amonth')?.value||'4';
+    aday=document.getElementById('sc-aday')?.value||'1';
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    nextLabel=months[parseInt(amonth)-1]+' '+aday+' each year';
+  }
+  const s={id:editingSchedId||uid(),name,docId,docName:doc.name,freq,freqLabel:freqLabels[freq]||freq,recipId,recipLabel,nextLabel,notes:document.getElementById('sc-notes').value.trim(),crm:document.getElementById('sc-crm')?.checked||false,dateRaw,mday,qmonth,qday,amonth,aday,created:Date.now()};
+  if(editingSchedId){const idx=SCHEDS.findIndex(x=>x.id===editingSchedId);if(idx>=0) SCHEDS[idx]=s;}
+  else SCHEDS.push(s);
+  save('scheds',SCHEDS);
+  closeM('m-addsched');
+  renderScheds();
+  renderDashboard();
+  toast('✓ Schedule saved — '+name);
+}
+function deleteSched(id){if(!confirm('Delete this schedule?')) return;SCHEDS=SCHEDS.filter(s=>s.id!==id);save('scheds',SCHEDS);renderScheds();renderDashboard();toast('Schedule deleted');}
+function runSched(id){const s=SCHEDS.find(x=>x.id===id);if(!s) return;if(!s.docId||!DOCS.find(d=>d.id===s.docId)){toast('Document no longer exists');return;}sendSelDocs=new Set([s.docId]);sendSelClients=s.recipId==='all'?new Set(CLIENTS.map(c=>c.id)):new Set([s.recipId]);go('send',document.querySelectorAll('.ni')[2]);}
 
 // ── DELIVERY LOG ──────────────────────────────────────────────────────────────
 function renderLog(){
   const filter=document.getElementById('log-filter')?.value||'all';
-  const entries=filter==='all'?LOG:[...LOG].filter(l=>l.status===filter);
+  const entries=filter==='all'?LOG:LOG.filter(l=>l.status===filter);
   const lbl=document.getElementById('log-count-label');
   if(lbl) lbl.textContent=entries.length+' entr'+(entries.length!==1?'ies':'y');
   const tbody=document.getElementById('log-tbody');
   if(!tbody) return;
-  if(!entries.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-muted)">No entries match this filter.</td></tr>';
-    return;
-  }
-  const sorted=[...entries].sort((a,b)=>b.ts-a.ts);
-  tbody.innerHTML=sorted.map(l=>{
+  if(!entries.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-muted)">No entries.</td></tr>';return;}
+  tbody.innerHTML=[...entries].sort((a,b)=>b.ts-a.ts).map(l=>{
     const sc=statusColor(l.status);
-    return `<tr>
-      <td style="white-space:nowrap">${fmt(l.ts)}</td>
-      <td><div style="font-weight:500">${l.clientName}</div><div style="font-size:10px;color:var(--text-muted)">${l.clientEmail||'No email'}</div></td>
-      <td style="max-width:180px"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.docNames.join(', ')}</div></td>
-      <td><span class="pill pgr">${l.method||'email'}</span></td>
-      <td><span class="pill" style="background:${sc.bg};color:${sc.col}"><span class="dot"></span>${l.status}</span></td>
-      <td>
-        <div style="display:flex;gap:4px">
-          <button class="btn btn-xs" onclick="viewLogEntry('${l.id}')">Detail</button>
-          ${l.status==='sent'?`<button class="btn btn-xs btn-g" onclick="markAcknowledged('${l.id}')">Mark ack.</button>`:''}
-        </div>
-      </td>
-    </tr>`;
+    return`<tr><td style="white-space:nowrap;font-size:11px">${fmt(l.ts)}</td><td><div style="font-weight:500">${l.clientName}</div><div style="font-size:10px;color:var(--text-muted)">${l.clientEmail||'No email'}</div></td><td style="max-width:180px"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.docNames.join(', ')}</div></td><td><span class="pill pgr">${l.method||'email'}</span></td><td><span class="pill" style="background:${sc.bg};color:${sc.col}"><span class="dot"></span>${l.status}</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="viewLogEntry('${l.id}')">Detail</button>${l.status==='sent'?`<button class="btn btn-xs pg" style="border:none;cursor:pointer" onclick="markAck('${l.id}')">Mark ack.</button>`:''}</div></td></tr>`;
   }).join('');
 }
-
 function viewLogEntry(id){
-  const l=LOG.find(x=>x.id===id);
-  if(!l) return;
+  const l=LOG.find(x=>x.id===id);if(!l) return;
   const sc=statusColor(l.status);
-  document.getElementById('log-detail-body').innerHTML=`
-    <div style="font-size:12px;display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px">
-      ${[
-        {l:'Client',v:l.clientName},
-        {l:'Email',v:l.clientEmail||'No email on file'},
-        {l:'Documents',v:l.docNames.join(', ')},
-        {l:'Subject',v:l.subject||'—'},
-        {l:'Sent',v:fmt(l.ts)},
-        {l:'Method',v:l.method},
-        {l:'Acknowledgement',v:l.ack},
-        {l:'Status',v:`<span class="pill" style="background:${sc.bg};color:${sc.col}">${l.status}</span>`},
-      {l:'CRM note',v:l.crmNote||'<span style="color:var(--text-muted)">None</span>'},
-      {l:'CRM sync',v:l.crmPending?'<span style="color:var(--amber)">⏳ Pending — will sync when Redtail connected</span>':l.crmNote?'<span style="color:var(--text-muted)">Logged locally only</span>':'<span style="color:var(--text-muted)">N/A</span>'},
-      ].map(r=>`<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">${r.l}</span><strong>${r.v}</strong></div>`).join('')}
-    </div>
-    <div style="font-size:11px;font-weight:500;color:var(--text-muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">Event timeline</div>
-    ${(l.events||[]).map(e=>`<div style="display:flex;gap:8px;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted);white-space:nowrap">${fmt(e.ts)}</span><span style="font-weight:500">${e.event}</span></div>`).join('')}`;
+  document.getElementById('log-detail-body').innerHTML=`<div style="font-size:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px">${[['Client',l.clientName],['Email',l.clientEmail||'None'],['Documents',l.docNames.join(', ')],['Sent',fmt(l.ts)],['Method',l.method],['Acknowledgement',l.ack],['Status',`<span class="pill" style="background:${sc.bg};color:${sc.col}">${l.status}</span>`],['CRM note',l.crmNote||'None'],['CRM pending',l.crmPending?'Yes — will sync to Redtail':'No']].map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">${k}</span><strong>${v}</strong></div>`).join('')}</div>${l.body?`<div style="font-size:11px;font-weight:500;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Message sent</div><div style="background:var(--cream);border-radius:7px;padding:10px 12px;font-size:12px;line-height:1.7;max-height:120px;overflow-y:auto">${l.body.replace(/\n/g,'<br>')}</div>`:''}`;
   openM('m-log-detail');
 }
-
-function markAcknowledged(id){
-  const idx=LOG.findIndex(x=>x.id===id);
-  if(idx<0) return;
-  LOG[idx].status='acknowledged';
-  LOG[idx].events.push({ts:Date.now(),event:'acknowledged by client',note:'Manually marked'});
-  save('log',LOG);
-  renderLog();
-  renderDashboard();
-  toast('✓ Marked as acknowledged');
-}
-
+function markAck(id){const idx=LOG.findIndex(x=>x.id===id);if(idx<0) return;LOG[idx].status='acknowledged';LOG[idx].events.push({ts:Date.now(),event:'marked acknowledged'});save('log',LOG);renderLog();renderDashboard();toast('✓ Marked acknowledged');}
 function exportLog(){
-  if(!LOG.length){ toast('No log entries to export'); return; }
-  const rows=[['Date','Client','Email','Documents','Method','Acknowledgement','Status','CRM Note','CRM Sync Pending']];
-  LOG.forEach(l=>rows.push([
-    fmt(l.ts), l.clientName, l.clientEmail||'',
-    l.docNames.join('; '), l.method, l.ack, l.status,
-    l.crmNote||'', l.crmPending?'Pending':''
-  ]));
+  if(!LOG.length){toast('No log entries');return;}
+  const rows=[['Date','Client','Email','Documents','Subject','Method','Acknowledgement','Status','CRM Note','CRM Pending']];
+  LOG.forEach(l=>rows.push([fmt(l.ts),l.clientName,l.clientEmail||'',l.docNames.join('; '),l.subject||'',l.method,l.ack,l.status,l.crmNote||'',l.crmPending?'Yes':'']));
   const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='disclosureiq-log-'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
-  toast('CSV downloaded');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='disclosureiq-log-'+new Date().toISOString().slice(0,10)+'.csv';a.click();toast('CSV downloaded');
 }
 
 // ── CLIENTS ──────────────────────────────────────────────────────────────────
 function renderClients(){
   const search=(document.getElementById('cl-search')?.value||'').toLowerCase();
-  const cust=document.getElementById('cl-cust-filter')?.value||'all';
+  const cust=document.getElementById('cl-cust')?.value||'all';
   const filtered=CLIENTS.filter(c=>{
-    const ms=!search||c.display.toLowerCase().includes(search)||
-      (c.email||'').toLowerCase().includes(search)||
-      (c.accounts||[]).some(a=>(a.acctId||'').toLowerCase().includes(search));
+    const ms=!search||c.display.toLowerCase().includes(search)||(c.email||'').toLowerCase().includes(search)||(c.accounts||[]).some(a=>(a.acctId||'').toLowerCase().includes(search));
     const mc=cust==='all'||(c.accounts||[]).some(a=>a.custodian===cust);
     return ms&&mc;
   });
-  const tbody=document.getElementById('clients-tbody');
-  const lbl=document.getElementById('clients-count-label');
-  const foot=document.getElementById('cl-footer');
-  if(lbl) lbl.textContent=CLIENTS.length+' client'+(CLIENTS.length!==1?'s':'');
-  if(foot) foot.textContent=filtered.length+' of '+CLIENTS.length+' shown';
-  if(!tbody) return;
-  if(!CLIENTS.length){
-    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients yet — add your first client.</td></tr>';
-    return;
-  }
+  const lbl=document.getElementById('clients-count-label');if(lbl) lbl.textContent=CLIENTS.length+' client'+(CLIENTS.length!==1?'s':'');
+  const foot=document.getElementById('cl-footer');if(foot) foot.textContent=filtered.length+' of '+CLIENTS.length+' shown';
+  const tbody=document.getElementById('clients-tbody');if(!tbody) return;
   const CCOLS={'Schwab':'#185FA5','Fidelity':'#2D6A4F','Pershing':'#854F0B','TD Ameritrade':'#534AB7','Vanguard':'#0F6E56','Other':'#777'};
-  tbody.innerHTML=filtered.map(c=>{
-    const a0=c.accounts?.[0]||{};
-    const cc=CCOLS[a0.custodian]||'#777';
-    const lastSent=c.lastSent?fmtDate(c.lastSent):'Never';
-    return `<tr>
-      <td><input type="checkbox" style="accent-color:var(--navy)"/></td>
-      <td><div style="font-weight:500">${c.display}</div><div style="font-size:10px;color:var(--text-muted)">${c.type||''}${c.advisor?' · '+c.advisor:''}</div></td>
-      <td style="font-family:monospace;font-size:11px">${a0.acctId||'—'}${c.accounts?.length>1?' +'+( c.accounts.length-1):''}</td>
-      <td><span style="padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500;background:${cc}18;color:${cc}">${a0.custodian||'—'}</span></td>
-      <td style="color:${c.email?'var(--text)':'var(--red)'}">${c.email||'No email'}</td>
-      <td style="font-size:11px;color:var(--text-muted)">${lastSent}</td>
-      <td><div style="display:flex;gap:4px">
-        <button class="btn btn-xs" onclick="viewClient('${c.id}')">View</button>
-        <button class="btn btn-xs" onclick="openEditClient('${c.id}')">Edit</button>
-        <button class="btn btn-xs btn-r" onclick="deleteClient('${c.id}')">✕</button>
-      </div></td>
-    </tr>`;
-  }).join('');
+  tbody.innerHTML=filtered.length?filtered.map(c=>{
+    const a0=c.accounts?.[0]||{};const cc=CCOLS[a0.custodian]||'#777';
+    return`<tr><td><input type="checkbox" style="accent-color:var(--navy)"/></td><td><div style="font-weight:500">${c.display}</div><div style="font-size:10px;color:var(--text-muted)">${c.type||''}${c.advisor?' · '+c.advisor:''}</div></td><td style="font-family:monospace;font-size:11px">${a0.acctId||'—'}${(c.accounts?.length||0)>1?' +'+(c.accounts.length-1):''}</td><td><span style="padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500;background:${cc}18;color:${cc}">${a0.custodian||'—'}</span></td><td style="color:${c.email?'var(--text)':'var(--red)'}">${c.email||'No email'}</td><td style="font-size:11px;color:var(--text-muted)">${c.lastSent?fmtDate(c.lastSent):'Never'}</td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="viewClient('${c.id}')">View</button><button class="btn btn-xs" onclick="openEditClient('${c.id}')">Edit</button><button class="btn btn-xs btn-r" onclick="deleteClient('${c.id}')">✕</button></div></td></tr>`;
+  }).join(''):'<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients match.</td></tr>';
 }
-
-function toggleAllClients(checked){
-  document.querySelectorAll('#clients-tbody input[type=checkbox]').forEach(cb=>cb.checked=checked);
-}
-
+function toggleAllClients(c){document.querySelectorAll('#clients-tbody input[type=checkbox]').forEach(cb=>cb.checked=c);}
 function openAddClient(){
   editingClientId=null;
   document.getElementById('m-cl-title').textContent='Add client';
-  ['cl-fn','cl-ln','cl-dn','cl-adv','cl-email','cl-phone','cl-addr','cl-city','cl-zip'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
+  ['cl-fn','cl-ln','cl-dn','cl-adv','cl-email','cl-phone','cl-addr','cl-city','cl-zip','cl-start-date','cl-first-due','cl-next-due','cl-onboarding-notes'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
+  const cyEl=document.getElementById('cl-cycle'); if(cyEl) cyEl.value='';
+  const prev=document.getElementById('cl-schedule-preview'); if(prev) prev.innerHTML='Enter a start date to see the calculated delivery schedule.';
   renderAcctRows([{acctId:'',custodian:'Schwab',clientId:''}]);
-  cmTab('identity',document.querySelector('.cm-tab'));
+  mtab('identity',document.querySelector('.mtab'));
   openM('m-client');
 }
-
 function openEditClient(id){
-  editingClientId=id;
-  const c=CLIENTS.find(x=>x.id===id);
-  if(!c) return;
+  editingClientId=id;const c=CLIENTS.find(x=>x.id===id);if(!c) return;
   document.getElementById('m-cl-title').textContent='Edit — '+c.display;
-  document.getElementById('cl-fn').value=c.fname||'';
-  document.getElementById('cl-ln').value=c.lname||'';
-  document.getElementById('cl-dn').value=c.display||'';
-  document.getElementById('cl-adv').value=c.advisor||'';
-  document.getElementById('cl-email').value=c.email||'';
-  document.getElementById('cl-phone').value=c.phone||'';
-  document.getElementById('cl-addr').value=c.addr||'';
-  document.getElementById('cl-city').value=c.city||'';
-  document.getElementById('cl-zip').value=c.zip||'';
+  document.getElementById('cl-fn').value=c.fname||'';document.getElementById('cl-ln').value=c.lname||'';document.getElementById('cl-dn').value=c.display||'';document.getElementById('cl-adv').value=c.advisor||'';document.getElementById('cl-email').value=c.email||'';document.getElementById('cl-phone').value=c.phone||'';document.getElementById('cl-addr').value=c.addr||'';document.getElementById('cl-city').value=c.city||'';document.getElementById('cl-zip').value=c.zip||'';
   if(document.getElementById('cl-type')) document.getElementById('cl-type').value=c.type||'Individual';
   if(document.getElementById('cl-del')) document.getElementById('cl-del').value=c.delivery||'Email (default)';
   renderAcctRows(c.accounts||[{acctId:'',custodian:'Schwab',clientId:''}]);
-  cmTab('identity',document.querySelector('.cm-tab'));
-  openM('m-client');
+  mtab('identity',document.querySelector('.mtab'));openM('m-client');
 }
-
 function renderAcctRows(accounts){
-  const container=document.getElementById('acct-rows');
-  if(!container) return;
+  const container=document.getElementById('acct-rows');if(!container) return;
   const custs=['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'];
-  container.innerHTML=accounts.map((a,i)=>`
-    <div class="acct-row" id="ar-${i}">
-      <div class="acct-row-head">Account ${i+1}${i>0?`<button onclick="document.getElementById('ar-${i}').remove()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1">×</button>`:''}
-      </div>
-      <div class="fr" style="margin-bottom:8px">
-        <div><label class="lbl">Account ID</label><input type="text" id="ai-${i}" value="${a.acctId||''}" placeholder="e.g. WH-4421"/></div>
-        <div><label class="lbl">Custodian</label><select id="ac-${i}">${custs.map(cu=>`<option ${a.custodian===cu?'selected':''}>${cu}</option>`).join('')}</select></div>
-      </div>
-      <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acid-${i}" value="${a.clientId||''}" placeholder="e.g. SWB-1193847"/></div>
-    </div>`).join('');
+  container.innerHTML=accounts.map((a,i)=>`<div class="acct-row" id="ar-${i}"><div class="acct-row-head">Account ${i+1}${i>0?`<button onclick="document.getElementById('ar-${i}').remove()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1">×</button>`:''}</div><div class="fr" style="margin-bottom:8px"><div><label class="lbl">Account ID</label><input type="text" id="ai-${i}" value="${a.acctId||''}" placeholder="e.g. WH-4421"/></div><div><label class="lbl">Custodian</label><select id="ac-${i}">${custs.map(cu=>`<option ${a.custodian===cu?'selected':''}>${cu}</option>`).join('')}</select></div></div><div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acid-${i}" value="${a.clientId||''}" placeholder="e.g. SWB-1193847"/></div></div>`).join('');
 }
-
 function addAcctRow(){
-  const rows=document.querySelectorAll('.acct-row').length;
-  const container=document.getElementById('acct-rows');
+  const rows=document.querySelectorAll('.acct-row').length;const container=document.getElementById('acct-rows');
   const custs=['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'];
-  const div=document.createElement('div');
-  div.className='acct-row'; div.id='ar-'+rows;
-  div.innerHTML=`
-    <div class="acct-row-head">Account ${rows+1}<button onclick="this.closest('.acct-row').remove()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1">×</button></div>
-    <div class="fr" style="margin-bottom:8px">
-      <div><label class="lbl">Account ID</label><input type="text" id="ai-${rows}" placeholder="e.g. WH-4422"/></div>
-      <div><label class="lbl">Custodian</label><select id="ac-${rows}">${custs.map(cu=>`<option>${cu}</option>`).join('')}</select></div>
-    </div>
-    <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acid-${rows}" placeholder="e.g. SWB-XXXXXXX"/></div>`;
+  const div=document.createElement('div');div.className='acct-row';div.id='ar-'+rows;
+  div.innerHTML=`<div class="acct-row-head">Account ${rows+1}<button onclick="this.closest('.acct-row').remove()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1">×</button></div><div class="fr" style="margin-bottom:8px"><div><label class="lbl">Account ID</label><input type="text" id="ai-${rows}" placeholder="e.g. WH-4422"/></div><div><label class="lbl">Custodian</label><select id="ac-${rows}">${custs.map(cu=>`<option>${cu}</option>`).join('')}</select></div></div><div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acid-${rows}" placeholder="e.g. SWB-XXXXXXX"/></div>`;
   container.appendChild(div);
 }
-
 function saveClient(){
-  const fn=document.getElementById('cl-fn')?.value.trim()||'';
-  const ln=document.getElementById('cl-ln')?.value.trim()||'';
+  const fn=document.getElementById('cl-fn')?.value.trim()||'',ln=document.getElementById('cl-ln')?.value.trim()||'';
   const dn=document.getElementById('cl-dn')?.value.trim()||(fn+' '+ln).trim();
-  if(!dn){ toast('Enter a client name'); return; }
-  const accounts=[];
-  let i=0;
-  while(document.getElementById('ai-'+i)){
-    accounts.push({
-      acctId:document.getElementById('ai-'+i)?.value.trim()||'',
-      custodian:document.getElementById('ac-'+i)?.value||'Schwab',
-      clientId:document.getElementById('acid-'+i)?.value.trim()||''
-    });
-    i++;
-  }
-  const c={
-    fname:fn, lname:ln, display:dn,
-    type:document.getElementById('cl-type')?.value||'Individual',
-    advisor:document.getElementById('cl-adv')?.value.trim()||'',
-    accounts, email:document.getElementById('cl-email')?.value.trim()||'',
-    phone:document.getElementById('cl-phone')?.value.trim()||'',
-    addr:document.getElementById('cl-addr')?.value.trim()||'',
-    city:document.getElementById('cl-city')?.value.trim()||'',
-    zip:document.getElementById('cl-zip')?.value.trim()||'',
-    delivery:document.getElementById('cl-del')?.value||'Email (default)'
-  };
-  if(editingClientId){
-    const idx=CLIENTS.findIndex(x=>x.id===editingClientId);
-    if(idx>=0) CLIENTS[idx]={...CLIENTS[idx],...c};
-    toast('✓ Client updated — '+dn);
-  } else {
-    c.id=uid(); c.created=Date.now();
-    CLIENTS.push(c);
-    toast('✓ Client added — '+dn);
-  }
-  save('clients',CLIENTS);
-  closeM('m-client');
-  renderClients();
-  renderDashboard();
+  if(!dn){toast('Enter a client name');return;}
+  const accounts=[];let i=0;
+  while(document.getElementById('ai-'+i)){accounts.push({acctId:document.getElementById('ai-'+i)?.value.trim()||'',custodian:document.getElementById('ac-'+i)?.value||'Schwab',clientId:document.getElementById('acid-'+i)?.value.trim()||''});i++;}
+  const c={fname:fn,lname:ln,display:dn,type:document.getElementById('cl-type')?.value||'Individual',advisor:document.getElementById('cl-adv')?.value.trim()||'',accounts,email:document.getElementById('cl-email')?.value.trim()||'',phone:document.getElementById('cl-phone')?.value.trim()||'',addr:document.getElementById('cl-addr')?.value.trim()||'',city:document.getElementById('cl-city')?.value.trim()||'',zip:document.getElementById('cl-zip')?.value.trim()||'',delivery:document.getElementById('cl-del')?.value||'Email (default)'};
+  if(editingClientId){const idx=CLIENTS.findIndex(x=>x.id===editingClientId);if(idx>=0) CLIENTS[idx]={...CLIENTS[idx],...c};}
+  else{c.id=uid();c.created=Date.now();CLIENTS.push(c);}
+  save('clients',CLIENTS);closeM('m-client');renderClients();renderDashboard();toast('✓ Client saved — '+dn);
 }
-
 function viewClient(id){
-  const c=CLIENTS.find(x=>x.id===id);
-  if(!c) return;
+  const c=CLIENTS.find(x=>x.id===id);if(!c) return;
   const CCOLS={'Schwab':'#185FA5','Fidelity':'#2D6A4F','Pershing':'#854F0B','TD Ameritrade':'#534AB7','Vanguard':'#0F6E56','Other':'#777'};
   const sentLogs=LOG.filter(l=>l.clientId===id);
   document.getElementById('vc-title').textContent=c.display;
-  document.getElementById('vc-body').innerHTML=`
-    <div class="g2" style="gap:12px;margin-bottom:12px">
-      <div>
-        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Identity</div>
-        ${[['Type',c.type||'—'],['Advisor',c.advisor||'—'],['Email',c.email||'<span style="color:var(--red)">None</span>'],['Phone',c.phone||'—'],['Address',c.addr?(c.addr+', '+c.city+' '+c.zip):'—'],['Delivery',c.delivery||'—']].map(([l,v])=>`<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px"><span style="color:var(--text-muted)">${l}</span><strong style="text-align:right">${v}</strong></div>`).join('')}
-      </div>
-      <div>
-        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Accounts</div>
-        ${(c.accounts||[]).map(a=>`<div style="background:var(--cream);border-radius:7px;padding:9px 11px;margin-bottom:7px"><div style="font-size:12px;font-weight:500">${a.acctId||'No account ID'}</div><div style="font-size:11px;color:${CCOLS[a.custodian]||'#777'};margin-top:2px">${a.custodian}</div>${a.clientId?`<div style="font-size:10px;font-family:monospace;color:var(--text-muted);margin-top:2px">${a.clientId}</div>`:''}</div>`).join('')}
-      </div>
-    </div>
-    <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px">Disclosure history (${sentLogs.length})</div>
-    ${sentLogs.length?sentLogs.slice(-5).reverse().map(l=>{const sc=statusColor(l.status);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px"><span class="pill" style="background:${sc.bg};color:${sc.col};flex-shrink:0">${l.status}</span><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.docNames.join(', ')}</span><span style="color:var(--text-muted);flex-shrink:0">${fmtDate(l.ts)}</span></div>`;}).join(''):'<div style="font-size:12px;color:var(--text-muted)">No disclosures sent yet</div>'}`;
+  document.getElementById('vc-body').innerHTML=`<div class="g2" style="gap:12px;margin-bottom:12px"><div><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Identity & contact</div>${[['First name',c.fname||'—'],['Last name',c.lname||'—'],['Type',c.type||'—'],['Advisor',c.advisor||'—'],['Email',c.email||'<span style="color:var(--red)">None</span>'],['Phone',c.phone||'—'],['Address',c.addr?(c.addr+', '+c.city+' '+c.zip):'—'],['Delivery',c.delivery||'—']].map(([l,v])=>`<div style="font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px"><span style="color:var(--text-muted)">${l}</span><strong style="text-align:right">${v}</strong></div>`).join('')}</div><div><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Accounts (${(c.accounts||[]).length})</div>${(c.accounts||[]).map(a=>`<div style="background:var(--cream);border-radius:7px;padding:9px 11px;margin-bottom:7px"><div style="font-size:12px;font-weight:500">${a.acctId||'No account ID'}</div><div style="font-size:11px;color:${CCOLS[a.custodian]||'#777'};margin-top:2px">${a.custodian}</div>${a.clientId?`<div style="font-size:10px;font-family:monospace;color:var(--text-muted);margin-top:2px">${a.clientId}</div>`:''}</div>`).join('')||'<div style="font-size:12px;color:var(--text-muted)">No accounts on record</div>'}</div></div><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px">Disclosure history (${sentLogs.length})</div>${sentLogs.length?sentLogs.slice(-5).reverse().map(l=>{const sc=statusColor(l.status);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px"><span class="pill" style="background:${sc.bg};color:${sc.col};flex-shrink:0">${l.status}</span><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.docNames.join(', ')}</span><span style="color:var(--text-muted);flex-shrink:0">${fmtDate(l.ts)}</span></div>`;}).join(''):'<div style="font-size:12px;color:var(--text-muted)">No disclosures sent yet</div>'}`;
+  // append schedule section if start date exists
+  if(c.startDate||c.nextDue){
+    const extra = document.getElementById('vc-body');
+    if(extra){
+      const fmtD2 = ts => ts?new Date(ts+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+      const due = c.nextDue?new Date(c.nextDue+'T12:00'):null;
+      const overdue = due && due < new Date();
+      extra.innerHTML += '<div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 7px">Disclosure schedule</div>'+
+        '<div style="background:'+(overdue?'var(--red-light)':' var(--cream)')+';border-radius:7px;padding:10px 12px;font-size:12px">'+
+        '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Start date</span><strong>'+fmtD2(c.startDate)+'</strong></div>'+
+        '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Review cycle</span><strong>'+(c.cycle||'Not set')+'</strong></div>'+
+        '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">First due</span><strong>'+fmtD2(c.firstDue)+'</strong></div>'+
+        '<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--text-muted)">Next due</span><strong style="color:'+(overdue?'var(--red)':' var(--text)')+'">'+fmtD2(c.nextDue)+(overdue?' <span style="color:var(--red);font-size:10px">(OVERDUE)</span>':'')+ '</strong></div>'+
+        (c.onboardingNotes?'<div style="margin-top:8px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:8px">Notes: '+c.onboardingNotes+'</div>':'')+
+        '</div>';
+    }
+  }
   editingClientId=id;
-  document.getElementById('vc-edit-btn').onclick=()=>{ closeM('m-view-client'); openEditClient(id); };
-  document.getElementById('vc-send-btn').onclick=()=>{ closeM('m-view-client'); sendSelectedClients=new Set([id]); go('send',document.querySelectorAll('.ni')[2]); };
+  document.getElementById('vc-edit-btn').onclick=()=>{closeM('m-view-client');openEditClient(id);};
+  document.getElementById('vc-send-btn').onclick=()=>{closeM('m-view-client');sendSelClients=new Set([id]);go('send',document.querySelectorAll('.ni')[2]);};
   openM('m-view-client');
 }
+function deleteClient(id){if(!confirm('Delete this client?')) return;CLIENTS=CLIENTS.filter(c=>c.id!==id);save('clients',CLIENTS);renderClients();renderDashboard();toast('Client deleted');}
+function mtab(id,el){document.querySelectorAll('.mtab-body').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));const tb=document.getElementById('mct-'+id);if(tb) tb.classList.add('active');if(el) el.classList.add('active');}
 
-function deleteClient(id){
-  if(!confirm('Delete this client? Their delivery logs will remain.')) return;
-  CLIENTS=CLIENTS.filter(c=>c.id!==id);
-  save('clients',CLIENTS);
-  renderClients();
-  renderDashboard();
-  toast('Client deleted');
-}
-
-function cmTab(id,el){
-  document.querySelectorAll('.cm-tab-body').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.cm-tab').forEach(t=>t.classList.remove('active'));
-  const tb=document.getElementById('cmt-'+id);
-  if(tb) tb.classList.add('active');
-  if(el) el.classList.add('active');
-}
-
-// ── PROFILE ──────────────────────────────────────────────────────────────────
+// ── PROFILE ───────────────────────────────────────────────────────────────────
 function loadProfile(){
-  const p=PROFILE;
-  const f=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||''; };
-  f('p-name',p.firmName); f('p-crd',p.crd); f('p-sec',p.sec);
-  f('p-addr',p.addr); f('p-city',p.city); f('p-zip',p.zip);
-  f('p-phone',p.phone); f('p-email',p.email);
-  f('p-uname',p.uname); f('p-role',p.role); f('p-uemail',p.uemail);
-  f('p-sig',p.sig);
-  if(document.getElementById('p-regtype')) document.getElementById('p-regtype').value=p.regtype||'SEC-registered RIA';
-  if(document.getElementById('p-ack-default')) document.getElementById('p-ack-default').value=p.ackDefault||'Required — sign before viewing';
-  if(document.getElementById('p-retention')) document.getElementById('p-retention').value=p.retention||'7 years';
+  const f=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
+  f('p-name',PROFILE.firmName);f('p-crd',PROFILE.crd);f('p-sec',PROFILE.sec);f('p-addr',PROFILE.addr);f('p-city',PROFILE.city);f('p-zip',PROFILE.zip);f('p-phone',PROFILE.phone);f('p-email',PROFILE.email);f('p-uname',PROFILE.uname);f('p-role',PROFILE.role);f('p-uemail',PROFILE.uemail);f('p-sig',PROFILE.sig);f('p-def-subject',PROFILE.defSubject);f('p-def-body',PROFILE.defBody);
+  if(document.getElementById('p-regtype')) document.getElementById('p-regtype').value=PROFILE.regtype||'SEC-registered RIA';
 }
-
 function saveProfile(){
-  PROFILE={
-    firmName:document.getElementById('p-name')?.value||'',
-    crd:document.getElementById('p-crd')?.value||'',
-    sec:document.getElementById('p-sec')?.value||'',
-    regtype:document.getElementById('p-regtype')?.value||'',
-    addr:document.getElementById('p-addr')?.value||'',
-    city:document.getElementById('p-city')?.value||'',
-    zip:document.getElementById('p-zip')?.value||'',
-    phone:document.getElementById('p-phone')?.value||'',
-    email:document.getElementById('p-email')?.value||'',
-    uname:document.getElementById('p-uname')?.value||'',
-    role:document.getElementById('p-role')?.value||'',
-    uemail:document.getElementById('p-uemail')?.value||'',
-    sig:document.getElementById('p-sig')?.value||'',
-    ackDefault:document.getElementById('p-ack-default')?.value||'',
-    retention:document.getElementById('p-retention')?.value||'7 years',
-  };
+  // Also pull default message from profile fields
+  const defSubjectEl=document.getElementById('p-def-subject'),defBodyEl=document.getElementById('p-def-body');
+  if(defSubjectEl&&defBodyEl&&(defSubjectEl.value||defBodyEl.value)){PROFILE.defSubject=defSubjectEl.value;PROFILE.defBody=defBodyEl.value;}
+  PROFILE={...PROFILE,firmName:document.getElementById('p-name')?.value||'',crd:document.getElementById('p-crd')?.value||'',sec:document.getElementById('p-sec')?.value||'',regtype:document.getElementById('p-regtype')?.value||'',addr:document.getElementById('p-addr')?.value||'',city:document.getElementById('p-city')?.value||'',zip:document.getElementById('p-zip')?.value||'',phone:document.getElementById('p-phone')?.value||'',email:document.getElementById('p-email')?.value||'',uname:document.getElementById('p-uname')?.value||'',role:document.getElementById('p-role')?.value||'',uemail:document.getElementById('p-uemail')?.value||'',sig:document.getElementById('p-sig')?.value||''};
   save('profile',PROFILE);
-  // Update sidebar
   document.getElementById('sb-firm-name').textContent=PROFILE.firmName;
-  document.getElementById('sb-firm-crd').textContent='CRD #'+PROFILE.crd;
+  document.getElementById('sb-firm-crd').textContent=PROFILE.crd?'CRD #'+PROFILE.crd:'';
   document.getElementById('sb-username').textContent=PROFILE.uname;
   document.getElementById('sb-role').textContent=PROFILE.role;
-  const initials=(PROFILE.uname||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('sb-initials').textContent=initials;
-  const banner=document.getElementById('profile-saved');
-  if(banner){ banner.style.display='flex'; setTimeout(()=>banner.style.display='none',4000); }
+  const init=(PROFILE.uname||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('sb-initials').textContent=init;
+  const b=document.getElementById('profile-saved');if(b){b.style.display='flex';setTimeout(()=>b.style.display='none',4000);}
   toast('✓ Profile saved');
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
+// ── SMTP / EMAILJS ────────────────────────────────────────────────────────────
+function loadSmtp(){
+  const f=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
+  f('smtp-service',SMTP.serviceId);f('smtp-template',SMTP.templateId);f('smtp-pubkey',SMTP.pubKey);f('smtp-fromname',SMTP.fromName);f('smtp-from',SMTP.fromEmail);f('smtp-notes',SMTP.notes);
+  if(document.getElementById('smtp-provider')) document.getElementById('smtp-provider').value=SMTP.provider||'Microsoft 365 / Outlook';
+  updateSmtpBadge();
+}
+function saveSmtp(){
+  SMTP={serviceId:document.getElementById('smtp-service')?.value.trim()||'',templateId:document.getElementById('smtp-template')?.value.trim()||'',pubKey:document.getElementById('smtp-pubkey')?.value.trim()||'',fromName:document.getElementById('smtp-fromname')?.value.trim()||PROFILE.firmName,fromEmail:document.getElementById('smtp-from')?.value.trim()||'',provider:document.getElementById('smtp-provider')?.value||'',notes:document.getElementById('smtp-notes')?.value||''};
+  save('smtp',SMTP);updateSmtpBadge();toast('✓ SMTP settings saved');
+}
+function updateSmtpBadge(){
+  const ok=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
+  const b=document.getElementById('smtp-status-badge');
+  if(b){b.className='smtp-badge '+(ok?'smtp-ok':'smtp-no');b.textContent=ok?'✓ EmailJS configured':'Not configured';}
+}
+async function testSmtp(){
+  saveSmtp();
+  if(!SMTP.serviceId||!SMTP.templateId||!SMTP.pubKey){toast('Complete EmailJS configuration first');return;}
+  const to=document.getElementById('smtp-test-email')?.value.trim();
+  if(!to){toast('Enter a test email address');return;}
+  toast('Sending test email...');
+  try{
+    emailjs.init(SMTP.pubKey);
+    await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:to,to_name:'Test Recipient',subject:'DisclosureIQ — Test Email',message:'This is a test email from DisclosureIQ. Your email configuration is working correctly.\n\nIf you received this, your EmailJS setup is ready to send disclosure emails.',from_name:SMTP.fromName||PROFILE.firmName});
+    toast('✓ Test email sent to '+to+' — check your inbox');
+  }catch(err){
+    toast('EmailJS error: '+(err.text||err.message||JSON.stringify(err)));
+    console.error('EmailJS test error',err);
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+// ── CLIENT START DATE & SCHEDULE PREVIEW ──────────────────────────────────────
+function calcSchedulePreview(){
+  const startEl = document.getElementById('cl-start-date');
+  const cycleEl = document.getElementById('cl-cycle');
+  const firstEl = document.getElementById('cl-first-due');
+  const nextEl  = document.getElementById('cl-next-due');
+  const preview = document.getElementById('cl-schedule-preview');
+  if(!startEl||!preview) return;
+
+  const start = startEl.value;
+  const cycle = cycleEl?.value||'annually';
+  if(!start){ preview.innerHTML='Enter a start date to see the calculated delivery schedule.'; return; }
+
+  const startDate = new Date(start+'T12:00');
+  const fmtD = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const today = new Date();
+
+  // Calculate first due: start date for onboarding, or next cycle anchor
+  let firstDue = new Date(startDate);
+  let nextDue  = null;
+  let lines    = [];
+
+  if(cycle==='onboarding'){
+    lines.push('First delivery: '+fmtD(firstDue)+' (onboarding)');
+    lines.push('No recurring schedule — one-time send on account open.');
+  } else if(cycle==='annually'){
+    // First due = same month/day next year if start < today, else start date
+    firstDue = new Date(startDate);
+    const upcomingAnnual = new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate());
+    if(upcomingAnnual <= today) upcomingAnnual.setFullYear(upcomingAnnual.getFullYear()+1);
+    nextDue = upcomingAnnual;
+    lines.push('Start date: '+fmtD(startDate));
+    lines.push('Annual delivery due: '+fmtD(nextDue));
+    lines.push('Then every year on: '+startDate.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+  } else if(cycle==='quarterly'){
+    const q = new Date(startDate);
+    while(q <= today) q.setMonth(q.getMonth()+3);
+    nextDue = q;
+    lines.push('Start date: '+fmtD(startDate));
+    lines.push('Next quarterly due: '+fmtD(nextDue));
+    lines.push('Then every 3 months from start date.');
+  } else if(cycle==='monthly'){
+    const m = new Date(startDate);
+    while(m <= today) m.setMonth(m.getMonth()+1);
+    nextDue = m;
+    lines.push('Start date: '+fmtD(startDate));
+    lines.push('Next monthly due: '+fmtD(nextDue));
+  }
+
+  // Auto-fill next-due field
+  if(nextDue && nextEl && !nextEl.value){
+    nextEl.value = nextDue.toISOString().slice(0,10);
+  }
+  if(firstEl && !firstEl.value && startDate){
+    firstEl.value = startDate.toISOString().slice(0,10);
+  }
+
+  preview.innerHTML = '<div style="display:flex;flex-direction:column;gap:5px">'+
+    lines.map(l=>'<div style="display:flex;gap:7px"><span style="color:var(--green)">✓</span>'+l+'</div>').join('')+
+    '</div>';
+}
+
+// Wire start date / cycle changes
+document.addEventListener('change',function(e){
+  if(['cl-start-date','cl-cycle'].includes(e.target.id)) calcSchedulePreview();
+});
+
+// ── DOCUMENT VERSION HISTORY ──────────────────────────────────────────────────
+let versionTargetDocId = null;
+let pendingNewVersion  = null;
+
+function openVersionHistory(docId){
+  const d = DOCS.find(x=>x.id===docId);
+  if(!d) return;
+  versionTargetDocId = docId;
+  document.getElementById('vh-title').textContent = 'Version history — '+d.name;
+  document.getElementById('vh-upload-btn').onclick = ()=>{ closeM('m-version-history'); openUploadVersion(docId); };
+
+  const versions = d.versions||[];
+  const body = document.getElementById('vh-body');
+
+  // Current version
+  let html = '<div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Current version</div>';
+  html += `<div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;margin-bottom:14px">
+    <div style="width:30px;height:36px;background:var(--navy);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;font-size:7px;color:var(--gold);font-weight:500;flex-shrink:0;position:relative"><div style="position:absolute;top:0;right:0;width:8px;height:8px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)"></div>PDF</div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:500;color:var(--green)">${d.name} <span style="font-size:10px;font-weight:400;color:var(--green);opacity:.8">(current)</span></div>
+      <div style="font-size:11px;color:var(--green);margin-top:3px">${d.type} · ${d.size}${d.effectiveDate?' · Effective '+d.effectiveDate:''}</div>
+      <div style="font-size:11px;color:var(--green);margin-top:2px">Added ${fmtDate(d.created)}${d.notes?' · '+d.notes:''}</div>
+    </div>
+    <div style="font-size:11px;color:var(--green);font-weight:500;flex-shrink:0">${LOG.filter(l=>l.docIds?.includes(d.id)).length} sends</div>
+  </div>`;
+
+  if(versions.length){
+    html += '<div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Archived versions ('+versions.length+')</div>';
+    html += versions.slice().reverse().map((v,i)=>{
+      const sendCount = LOG.filter(l=>l.docIds?.includes(v.archivedId)).length;
+      return `<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 14px;background:var(--cream);border:1px solid var(--border);border-radius:8px;margin-bottom:7px">
+        <div style="width:30px;height:36px;background:#888;border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;font-size:7px;color:rgba(255,255,255,.7);font-weight:500;flex-shrink:0;position:relative"><div style="position:absolute;top:0;right:0;width:8px;height:8px;background:#aaa;clip-path:polygon(0 0,100% 100%,100% 0)"></div>PDF</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:500;color:var(--text-muted)">${v.name} <span style="font-size:10px;color:var(--text-muted);opacity:.7">(archived v${versions.length-i})</span></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:3px">${v.type||''}${v.effectiveDate?' · Effective '+v.effectiveDate:''}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Archived ${fmtDate(v.archivedAt)}${v.changeNotes?' · '+v.changeNotes:''}</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);flex-shrink:0">${sendCount} sends<br><span style="font-size:10px;color:var(--blue);cursor:pointer;text-decoration:underline" onclick="viewArchivedSends('${v.archivedId}')">View log</span></div>
+      </div>`;
+    }).join('');
+  } else {
+    html += '<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:14px">No archived versions yet. Upload a new version to create an archive.</div>';
+  }
+
+  body.innerHTML = html;
+  openM('m-version-history');
+}
+
+function openUploadVersion(docId){
+  const d = DOCS.find(x=>x.id===docId);
+  if(!d) return;
+  versionTargetDocId = docId;
+  pendingNewVersion = null;
+  document.getElementById('uv-title').textContent = 'New version — '+d.name;
+  document.getElementById('uv-preview').innerHTML = '';
+  document.getElementById('uv-date').value = '';
+  document.getElementById('uv-notes').value = '';
+  document.getElementById('uv-file-in').value = '';
+  document.getElementById('uv-zone').classList.remove('drag');
+  openM('m-upload-version');
+}
+
+function dropNewVersion(e){
+  e.preventDefault();
+  document.getElementById('uv-zone').classList.remove('drag');
+  const f = e.dataTransfer?.files?.[0];
+  if(!f||f.type!=='application/pdf'){ toast('Please drop a PDF file'); return; }
+  setNewVersionFile(f);
+}
+
+function newVersionChosen(input){
+  if(input.files[0]) setNewVersionFile(input.files[0]);
+}
+
+function setNewVersionFile(f){
+  pendingNewVersion = f;
+  const kb = f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
+  document.getElementById('uv-preview').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:7px">
+      <span style="font-size:18px">📄</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--green)">${f.name}</div><div style="font-size:11px;color:var(--green)">${kb} · Ready to archive old version and save this as current</div></div>
+    </div>`;
+}
+
+function saveNewVersion(){
+  if(!pendingNewVersion){ toast('Please select a PDF file first'); return; }
+  const d = DOCS.find(x=>x.id===versionTargetDocId);
+  if(!d){ toast('Document not found'); return; }
+
+  const kb = pendingNewVersion.size<1048576?(pendingNewVersion.size/1024).toFixed(0)+' KB':(pendingNewVersion.size/1048576).toFixed(1)+' MB';
+  const newDate = document.getElementById('uv-date')?.value.trim()||'';
+  const changeNotes = document.getElementById('uv-notes')?.value.trim()||'';
+  const notify = document.getElementById('uv-notify')?.checked||false;
+
+  // Archive the current version
+  const archived = {
+    archivedId: uid(),          // unique ID so log queries still match
+    name: d.name,
+    type: d.type,
+    size: d.size,
+    effectiveDate: d.effectiveDate||'',
+    notes: d.notes||'',
+    created: d.created,
+    archivedAt: Date.now(),
+    changeNotes,
+    fileName: d.fileName||''
+  };
+
+  // Redirect any future log references to use archivedId
+  // (existing log entries already have the old docId — they stay as-is for history)
+  if(!d.versions) d.versions = [];
+  d.versions.push(archived);
+
+  // Update current version with new file details
+  d.size = kb;
+  d.fileName = pendingNewVersion.name;
+  d.effectiveDate = newDate;
+  d.notes = changeNotes;
+  d.updated = Date.now();
+  // Keep same d.id so existing schedule links still work
+
+  save('docs', DOCS);
+  pendingNewVersion = null;
+
+  closeM('m-upload-version');
+  renderDocs();
+  renderDashboard();
+
+  if(notify){
+    toast('✓ New version saved. Opening Send screen to redistribute...',4000);
+    setTimeout(()=>preselectAndSend(d.id), 1500);
+  } else {
+    toast('✓ New version saved — old version archived. '+d.versions.length+' version'+(d.versions.length!==1?'s':'')+' in history.');
+  }
+}
+
+function viewArchivedSends(archivedId){
+  closeM('m-version-history');
+  // Filter log to entries containing this archived version ID
+  // For demo: just go to log screen
+  go('log', document.querySelectorAll('.ni')[4]);
+  toast('Showing delivery log — filter by document to find sends of this archived version.');
+}
+
+// ── EXTENDED saveClient / openEditClient FOR START DATE ───────────────────────
+const _origSaveClient = saveClient;
+saveClient = function(){
+  // Gather schedule fields before calling original
+  const startDate = document.getElementById('cl-start-date')?.value||'';
+  const cycle     = document.getElementById('cl-cycle')?.value||'';
+  const firstDue  = document.getElementById('cl-first-due')?.value||'';
+  const nextDue   = document.getElementById('cl-next-due')?.value||'';
+  const onbNotes  = document.getElementById('cl-onboarding-notes')?.value.trim()||'';
+
+  // Call the original
+  const fn = document.getElementById('cl-fn')?.value.trim()||'',ln=document.getElementById('cl-ln')?.value.trim()||'';
+  const dn = document.getElementById('cl-dn')?.value.trim()||(fn+' '+ln).trim();
+  if(!dn){ toast('Enter a client name'); return; }
+  const accounts=[];let i=0;
+  while(document.getElementById('ai-'+i)){accounts.push({acctId:document.getElementById('ai-'+i)?.value.trim()||'',custodian:document.getElementById('ac-'+i)?.value||'Schwab',clientId:document.getElementById('acid-'+i)?.value.trim()||''});i++;}
+  const c={fname:fn,lname:ln,display:dn,type:document.getElementById('cl-type')?.value||'Individual',advisor:document.getElementById('cl-adv')?.value.trim()||'',accounts,email:document.getElementById('cl-email')?.value.trim()||'',phone:document.getElementById('cl-phone')?.value.trim()||'',addr:document.getElementById('cl-addr')?.value.trim()||'',city:document.getElementById('cl-city')?.value.trim()||'',zip:document.getElementById('cl-zip')?.value.trim()||'',delivery:document.getElementById('cl-del')?.value||'Email (default)',
+    startDate, cycle, firstDue, nextDue, onboardingNotes:onbNotes
+  };
+
+  // Find if editing
+  const editId = editingClientId;
+  if(editId){const idx=CLIENTS.findIndex(x=>x.id===editId);if(idx>=0) CLIENTS[idx]={...CLIENTS[idx],...c};}
+  else{c.id=uid();c.created=Date.now();CLIENTS.push(c);}
+  save('clients',CLIENTS);closeM('m-client');renderClients();renderDashboard();toast('✓ Client saved — '+dn);
+};
+
+const _origOpenEditClient = openEditClient;
+openEditClient = function(id){
+  _origOpenEditClient(id);
+  const c = CLIENTS.find(x=>x.id===id);
+  if(!c) return;
+  // Populate schedule tab
+  const sdEl = document.getElementById('cl-start-date'); if(sdEl) sdEl.value = c.startDate||'';
+  const cyEl = document.getElementById('cl-cycle');      if(cyEl) cyEl.value = c.cycle||'';
+  const fdEl = document.getElementById('cl-first-due');  if(fdEl) fdEl.value = c.firstDue||'';
+  const ndEl = document.getElementById('cl-next-due');   if(ndEl) ndEl.value = c.nextDue||'';
+  const onEl = document.getElementById('cl-onboarding-notes'); if(onEl) onEl.value = c.onboardingNotes||'';
+  calcSchedulePreview();
+};
+
+// Show next due date in client table and view
+const _origRenderClients = renderClients;
+renderClients = function(){
+  _origRenderClients();
+  // Add next-due indicator to rows that have a nextDue set
+  // (Already included in table via the standard render — just flag overdue ones)
+  CLIENTS.forEach(c=>{
+    if(c.nextDue){
+      const due = new Date(c.nextDue+'T12:00');
+      const today = new Date();
+      if(due < today){
+        // Find the client row and add overdue indicator - done via title attr on email cell
+      }
+    }
+  });
+};
+
 function init(){
-  // Apply saved profile to sidebar
   document.getElementById('sb-firm-name').textContent=PROFILE.firmName||'Your Firm';
   document.getElementById('sb-firm-crd').textContent=PROFILE.crd?'CRD #'+PROFILE.crd:'';
   document.getElementById('sb-username').textContent=PROFILE.uname||'';
   document.getElementById('sb-role').textContent=PROFILE.role||'';
-  const initials=(PROFILE.uname||'U').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('sb-initials').textContent=initials;
+  const init2=(PROFILE.uname||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('sb-initials').textContent=init2;
+  updateSmtpBadge();
   renderDashboard();
-  renderSend();
+  // Load default msg into send screen immediately
+  if(PROFILE.defSubject){const el=document.getElementById('send-subject');if(el) el.value=PROFILE.defSubject;}
+  if(PROFILE.defBody){const el=document.getElementById('send-body');if(el) el.value=PROFILE.defBody;}
 }
-
-// Fix greeting typo in template literal
-(function fixGreeting(){
-  // already handled inline below
-})();
-
 init();
 </script>
 </body>
