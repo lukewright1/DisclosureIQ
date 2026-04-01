@@ -183,6 +183,7 @@ tr:hover td{background:#FAFAF8}
     <div class="ni" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7c1.5 0 3 1 3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Clients</div>
     <div class="nl">Settings</div>
     <div class="ni" onclick="go('profile',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Firm Profile</div>
+    <div class="ni" onclick="go('advisors',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><circle cx="11" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-2.5 1.8-4 4-4M8 13c0-2.5 1.8-4 4-4M10 9c1.5 0 4 1 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Advisors</div>
     <div class="ni" onclick="go('smtp',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12v8H2z" stroke="currentColor" stroke-width="1.2" rx="1"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Email (SMTP)</div>
   </nav>
   <div class="sb-foot">
@@ -284,7 +285,15 @@ tr:hover td{background:#FAFAF8}
             <div style="border:1px solid var(--border);border-radius:7px;padding:12px;line-height:1.7;color:var(--text-mid);max-height:140px;overflow-y:auto;font-size:12px" id="prev-body"></div>
           </div>
         </div>
-        <div class="card"><div class="ch"><div class="ct">Summary</div></div><div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:7px"><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Documents</span><strong id="sum-docs">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Recipients</span><strong id="sum-recips">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Acknowledgement</span><strong id="sum-ack">—</strong></div><button class="btn btn-g" style="width:100%;padding:11px;margin-top:4px" onclick="sendDisclosures()">Send →</button></div></div>
+        <div class="card"><div class="ch"><div class="ct">Sending as</div></div><div class="cb">
+  <div class="fg" style="margin-bottom:0">
+    <label class="lbl">Advisor / sender</label>
+    <select id="send-advisor" onchange="onAdvisorChange()" style="width:100%">
+      <option value="">Firm default (from profile)</option>
+    </select>
+  </div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Summary</div></div><div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:7px"><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Documents</span><strong id="sum-docs">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Recipients</span><strong id="sum-recips">0</strong></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Acknowledgement</span><strong id="sum-ack">—</strong></div><button class="btn btn-g" style="width:100%;padding:11px;margin-top:4px" onclick="sendDisclosures()">Send →</button></div></div>
       </div>
     </div>
   </div>
@@ -309,10 +318,67 @@ tr:hover td{background:#FAFAF8}
 
 <!-- CLIENTS -->
 <div id="s-clients" class="scr">
-  <div class="topbar"><div class="tbl"><span class="pt">Clients</span><span class="ps" id="clients-count-label"></span></div><div class="tbr"><button class="btn btn-sm" onclick="openM('m-import')">Import CSV</button><button class="btn btn-p" onclick="openAddClient()">+ Add client</button></div></div>
+  <div class="topbar">
+    <div class="tbl"><span class="pt">Clients</span><span class="ps" id="clients-count-label"></span></div>
+    <div class="tbr">
+      <button class="btn btn-sm" onclick="openM('m-import')">Import CSV</button>
+      <button class="btn btn-p" onclick="openAddClient()">+ Add client</button>
+    </div>
+  </div>
   <div class="con">
-    <div style="display:flex;gap:8px;margin-bottom:12px"><input type="text" id="cl-search" placeholder="Search name, email, account..." style="flex:1" oninput="renderClients()"/><select id="cl-cust" style="width:150px" onchange="renderClients()"><option value="all">All custodians</option><option>Schwab</option><option>Fidelity</option><option>Pershing</option><option>TD Ameritrade</option><option>Vanguard</option><option>Other</option></select></div>
-    <div class="card"><table><thead><tr><th><input type="checkbox" id="cl-all" onchange="toggleAllClients(this.checked)"/></th><th>Client</th><th>Account ID</th><th>Custodian</th><th>Email</th><th>Last sent</th><th>Actions</th></tr></thead><tbody id="clients-tbody"><tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients yet.</td></tr></tbody></table><div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;justify-content:space-between;align-items:center"><span id="cl-footer" style="font-size:11px;color:var(--text-muted)"></span><button class="btn btn-xs" onclick="openAddClient()">+ Add client</button></div></div>
+    <!-- FILTER BAR -->
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <input type="text" id="cl-search" placeholder="Search name, email, account..." style="flex:1;min-width:160px" oninput="renderClients()"/>
+      <select id="cl-sort" style="width:160px" onchange="renderClients()">
+        <option value="name">Sort: Name A–Z</option>
+        <option value="last-sent">Sort: Last sent</option>
+        <option value="next-due">Sort: Next due</option>
+        <option value="flag">Sort: Needs attention first</option>
+      </select>
+      <select id="cl-flag-filter" style="width:160px" onchange="renderClients()">
+        <option value="all">All clients</option>
+        <option value="overdue">Overdue only</option>
+        <option value="never">Never sent</option>
+        <option value="ok">Up to date</option>
+      </select>
+      <select id="cl-cust" style="width:140px" onchange="renderClients()">
+        <option value="all">All custodians</option>
+        <option>Schwab</option><option>Fidelity</option><option>Pershing</option>
+        <option>TD Ameritrade</option><option>Vanguard</option><option>Other</option>
+      </select>
+    </div>
+
+    <!-- BULK ACTION BAR (shows when clients selected) -->
+    <div id="cl-bulk-bar" style="display:none;background:var(--navy);border-radius:8px;padding:10px 14px;margin-bottom:10px;display:none;align-items:center;gap:10px">
+      <span style="font-size:12px;color:var(--white);font-weight:500" id="cl-bulk-label">0 selected</span>
+      <div style="flex:1"></div>
+      <button class="btn btn-xs btn-g" onclick="bulkSendSelected()">Send disclosures</button>
+      <button class="btn btn-xs" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--white)" onclick="bulkAssignSchedule()">Add to schedule</button>
+      <button class="btn btn-xs" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.6)" onclick="clearClientSelection()">Clear</button>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32px"><input type="checkbox" id="cl-all" onchange="toggleAllClients(this.checked)"/></th>
+            <th>Client</th>
+            <th>Account / Custodian</th>
+            <th>Status</th>
+            <th>Last sent</th>
+            <th>Next due</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="clients-tbody">
+          <tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients yet.</td></tr>
+        </tbody>
+      </table>
+      <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;justify-content:space-between;align-items:center">
+        <span id="cl-footer" style="font-size:11px;color:var(--text-muted)"></span>
+        <button class="btn btn-xs" onclick="openAddClient()">+ Add client</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -334,6 +400,20 @@ Luke Wright
 Horizon Wealth Advisors, LLC
 (714) 555-0100 | CRD #317245</textarea></div></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVISORS -->
+<div id="s-advisors" class="scr">
+  <div class="topbar">
+    <div class="tbl"><span class="pt">Advisors</span><span class="ps" id="adv-count-label"></span></div>
+    <div class="tbr"><button class="btn btn-p" onclick="openAddAdvisor()">+ Add advisor</button></div>
+  </div>
+  <div class="con">
+    <div class="al al-b"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Each advisor can have their own email signature and default disclosure message. When sending, choose an advisor and their template pre-fills automatically. Assign advisors to clients so the right message always goes out.</div>
+    <div id="advisors-grid" style="display:flex;flex-direction:column;gap:10px">
+      <div style="text-align:center;padding:28px;color:var(--text-muted);font-size:12px">No advisors yet — add your first advisor above.</div>
     </div>
   </div>
 </div>
@@ -419,7 +499,14 @@ Horizon Wealth Advisors, LLC
   <div class="mo mo-lg">
     <div class="moh"><div class="mot" id="sched-modal-title">Add schedule</div><button class="moc" onclick="closeM('m-addsched')">×</button></div>
     <div class="mob">
-      <div class="fr"><div><label class="lbl">Schedule name</label><input type="text" id="sc-name" placeholder="e.g. Annual ADV Part 2A"/></div><div><label class="lbl">Document(s)</label><select id="sc-doc"><option value="">— select —</option></select></div></div>
+      <div class="fr"><div><label class="lbl">Schedule name</label><input type="text" id="sc-name" placeholder="e.g. Annual ADV disclosures"/></div><div><label class="lbl">Assigned advisor</label><select id="sc-advisor"><option value="">Firm default</option></select></div></div>
+      <div class="fg">
+        <label class="lbl">Documents to send <span style="color:var(--text-muted);font-weight:400">(select one or more)</span></label>
+        <div id="sc-doc-list" style="border:1px solid var(--border);border-radius:6px;max-height:160px;overflow-y:auto;background:var(--white)">
+          <div style="padding:12px;font-size:12px;color:var(--text-muted)">No documents — upload PDFs first.</div>
+        </div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="sc-doc-count-label">0 documents selected</div>
+      </div>
       <div class="fr"><div><label class="lbl">Recipients</label><select id="sc-recip"><option value="all">All clients</option></select></div><div><label class="lbl">Frequency</label><select id="sc-freq" onchange="updateSchedFields()"><option value="once">One-time (specific date)</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="annually">Annually</option></select></div></div>
       <div id="sc-date-fields">
         <div class="fr" id="sc-once-fields">
@@ -539,6 +626,66 @@ Horizon Wealth Advisors, LLC
   </div>
 </div>
 
+<!-- BULK ASSIGN SCHEDULE -->
+<div class="mbg" id="m-bulk-sched">
+  <div class="mo">
+    <div class="moh"><div class="mot">Add clients to schedule</div><button class="moc" onclick="closeM('m-bulk-sched')">×</button></div>
+    <div class="mob">
+      <div class="fg"><label class="lbl">Choose schedule</label>
+        <select id="bulk-sched-select" style="width:100%"><option value="">— select a schedule —</option></select>
+      </div>
+      <div class="fg"><label class="lbl">Or create a new schedule for these clients</label>
+        <button class="btn btn-sm btn-p" onclick="closeM('m-bulk-sched');openAddSched()">+ Create new schedule</button>
+      </div>
+      <div id="bulk-sched-clients" style="margin-top:8px;border:1px solid var(--border);border-radius:7px;max-height:180px;overflow-y:auto;padding:8px 12px;font-size:12px"></div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-bulk-sched')">Cancel</button><button class="btn btn-p" onclick="confirmBulkAssign()">Add to schedule</button></div>
+  </div>
+</div>
+
+<!-- ADD / EDIT ADVISOR -->
+<div class="mbg" id="m-advisor">
+  <div class="mo mo-lg">
+    <div class="moh"><div class="mot" id="m-adv-title">Add advisor</div><button class="moc" onclick="closeM('m-advisor')">×</button></div>
+    <div class="mob">
+      <div class="fr">
+        <div><label class="lbl">First name</label><input type="text" id="adv-fn" placeholder="Sarah"/></div>
+        <div><label class="lbl">Last name</label><input type="text" id="adv-ln" placeholder="Chen"/></div>
+      </div>
+      <div class="fr">
+        <div><label class="lbl">Title / role</label><input type="text" id="adv-role" placeholder="Financial Advisor"/></div>
+        <div><label class="lbl">Email address</label><input type="email" id="adv-email" placeholder="advisor@yourfirm.com"/></div>
+      </div>
+      <div class="fr">
+        <div><label class="lbl">Phone</label><input type="text" id="adv-phone" placeholder="(714) 555-0000"/></div>
+        <div><label class="lbl">CRD number (optional)</label><input type="text" id="adv-crd" placeholder="Individual CRD"/></div>
+      </div>
+      <div class="fg"><label class="lbl">Default email subject line</label><input type="text" id="adv-subject" placeholder="Important: Your regulatory disclosure documents"/></div>
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+          <label class="lbl" style="margin:0">Default message body</label>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="merge-btn" onclick="insAdv('[First Name]')">First Name</button>
+            <button class="merge-btn" onclick="insAdv('[Full Name]')">Full Name</button>
+            <button class="merge-btn" onclick="insAdv('[Firm Name]')">Firm Name</button>
+            <button class="merge-btn" onclick="insAdv('[Advisor Name]')">Advisor Name</button>
+          </div>
+        </div>
+        <textarea id="adv-body" style="height:100px;resize:vertical;font-size:12px;line-height:1.7" placeholder="Dear [First Name],&#10;&#10;Please find your disclosure documents attached..."></textarea>
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="lbl">Email signature</label>
+        <textarea id="adv-sig" style="height:70px;resize:vertical;font-size:12px;line-height:1.7" placeholder="Sincerely,&#10;Sarah Chen&#10;Horizon Wealth Advisors, LLC&#10;(714) 555-0200"></textarea>
+      </div>
+    </div>
+    <div class="mof">
+      <button class="btn btn-r btn-sm" id="adv-del-btn" style="display:none" onclick="">Delete advisor</button>
+      <button class="btn" onclick="closeM('m-advisor')">Cancel</button>
+      <button class="btn btn-p" onclick="saveAdvisor()">Save advisor</button>
+    </div>
+  </div>
+</div>
+
 <!-- IMPORT -->
 <div class="mbg" id="m-import">
   <div class="mo"><div class="moh"><div class="mot">Import clients from CSV</div><button class="moc" onclick="closeM('m-import')">×</button></div><div class="mob"><div class="al al-b" style="margin-bottom:10px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Required: <strong>first_name</strong> + <strong>last_name</strong> or <strong>name</strong>. Optional: account_id, custodian, client_id, email, phone, address, city, state, zip.</div><div class="upz" onclick="toast('Select CSV file — full import requires backend (v2.2)')"><div class="upz-icon">📊</div><div class="upz-title">Drop CSV or click to browse</div><div class="upz-sub">.csv only</div></div><div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Format: <code style="background:var(--cream);padding:1px 4px;border-radius:3px;font-size:10px">first_name, last_name, account_id, custodian, client_id, email, phone, address, city, state, zip</code></div></div><div class="mof"><button class="btn" onclick="closeM('m-import')">Close</button></div></div>
@@ -548,7 +695,21 @@ Horizon Wealth Advisors, LLC
 <div class="mbg" id="m-changelog">
   <div class="mo"><div class="moh"><div class="mot">Version history</div><button class="moc" onclick="closeM('m-changelog')">×</button></div><div class="mob">
     <div style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span style="font-family:monospace;font-size:13px;font-weight:500;color:var(--navy)">v2.1.0</span><span style="font-size:11px;color:var(--text-muted)">2026-04-01</span><span class="pill pb" style="font-size:9px">Current</span></div><ul style="list-style:none;display:flex;flex-direction:column;gap:5px">${['Multi-file PDF upload with per-file edit before saving','Rename & edit any document after upload','Save/load default email message (subject + body)','All client merge fields: [First Name] [Last Name] [Full Name] [Account #] [Custodian] [Advisor Name]','Schedules screen — monthly, quarterly, annual, one-time date','Email system via EmailJS (real sends from browser)','CRM note hook for future Redtail integration','Live message preview with merge fields resolved','Delivery log with CSV export + mark acknowledged'].map(n=>`<li style="display:flex;gap:7px;font-size:12px;color:var(--text-mid)"><span style="color:var(--green)">✓</span>${n}</li>`).join('')}</ul></div>
-  </div><div class="mof"><button class="btn" onclick="closeM('m-changelog')">Close</button></div></div>
+  </div><div style="border-top:1px solid var(--border);margin-top:14px;padding-top:14px">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span style="font-family:monospace;font-size:13px;font-weight:500;color:var(--text-muted)">v2.2.0</span><span style="font-size:11px;color:var(--text-muted)">Planned</span><span class="pill pa" style="font-size:9px">In progress</span></div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px">
+          ${[
+            'Client page: select clients and send disclosures directly from client list',
+            'Client page: sort by last sent date, flag overdue / never sent clients',
+            'Client page: assign client to a schedule without leaving the client list',
+            'Schedules: support multiple documents per schedule (not just one)',
+            'Advisors: multiple advisor profiles with their own default email message and signature',
+            'Automation: auto-send when schedule is due (requires backend connection)',
+            'Automation: auto-flag clients based on start date and review cycle',
+          ].map(n=>`<li style="display:flex;gap:7px;font-size:12px;color:var(--text-muted)"><span style="color:var(--amber)">→</span>${n}</li>`).join('')}
+        </ul>
+      </div>
+  <div class="mof"><button class="btn" onclick="closeM('m-changelog')">Close</button></div></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -590,6 +751,10 @@ function fmtDate(ts){return new Date(ts).toLocaleDateString('en-US',{month:'shor
 function resolveMerge(text,client){
   if(!client) return text;
   const a0=client.accounts?.[0]||{};
+  // Pull advisor name from selected advisor if set, else profile
+  let advisorName = PROFILE.uname||'';
+  const advId = document.getElementById('send-advisor')?.value;
+  if(advId){ const a=ADVISORS.find(x=>x.id===advId); if(a) advisorName=a.fname+' '+a.lname; }
   return text
     .replace(/\[First Name\]/g,client.fname||client.display||'')
     .replace(/\[Last Name\]/g,client.lname||'')
@@ -598,7 +763,7 @@ function resolveMerge(text,client){
     .replace(/\[Custodian\]/g,a0.custodian||'—')
     .replace(/\[Firm Name\]/g,PROFILE.firmName||'')
     .replace(/\[Date\]/g,new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}))
-    .replace(/\[Advisor Name\]/g,PROFILE.uname||'');
+    .replace(/\[Advisor Name\]/g,advisorName);
 }
 
 function statusColor(s){
@@ -756,6 +921,7 @@ function uploadAll(){
 
 // ── SEND ──────────────────────────────────────────────────────────────────────
 function renderSend(){
+  refreshAdvisorSelects();
   // Load default message if body is empty
   const body=document.getElementById('send-body');
   if(body && !body.value) loadDefaultMsg();
@@ -858,7 +1024,7 @@ async function executeSend(){
     if(!c.email){ status='bounced'; }
     else if(smtpReady){
       try{
-        await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:resolved+(PROFILE.sig?'\n\n'+PROFILE.sig:''),from_name:SMTP.fromName||PROFILE.firmName});
+        await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:(()=>{const advId=document.getElementById('send-advisor')?.value;const adv=advId?ADVISORS.find(x=>x.id===advId):null;const sig=adv?.sig||PROFILE.sig||'';return resolved+(sig?'\n\n'+sig:'');})(),from_name:SMTP.fromName||PROFILE.firmName});
         sentCount++;
       }catch(err){
         status='bounced';failCount++;
@@ -1161,6 +1327,407 @@ async function testSmtp(){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+
+// ── ADVISORS ──────────────────────────────────────────────────────────────────
+let ADVISORS = load('advisors', []);
+let editingAdvisorId = null;
+let selectedClientIds = new Set();
+
+function renderAdvisors(){
+  const lbl = document.getElementById('adv-count-label');
+  if(lbl) lbl.textContent = ADVISORS.length + ' advisor' + (ADVISORS.length!==1?'s':'');
+  const grid = document.getElementById('advisors-grid');
+  if(!grid) return;
+  if(!ADVISORS.length){
+    grid.innerHTML = '<div style="text-align:center;padding:28px;color:var(--text-muted);font-size:12px">No advisors yet — add your first advisor above.</div>';
+    return;
+  }
+  grid.innerHTML = ADVISORS.map(a=>`
+    <div class="doc-card" style="align-items:flex-start;gap:14px">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:var(--gold);flex-shrink:0">${(a.fname||'?')[0]}${(a.lname||'')[0]||''}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500">${a.fname} ${a.lname}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${a.role||'Advisor'}${a.email?' · '+a.email:''}${a.crd?' · CRD '+a.crd:''}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">"${(a.subject||'No default subject set')}"</div>
+        <div style="font-size:10px;color:var(--blue);margin-top:3px">${CLIENTS.filter(c=>c.advisor===a.fname+' '+a.lname).length} clients assigned</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-xs" onclick="previewAdvisorMsg('${a.id}')">Preview</button>
+        <button class="btn btn-xs" onclick="openEditAdvisor('${a.id}')">Edit</button>
+        <button class="btn btn-xs btn-r" onclick="deleteAdvisor('${a.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function openAddAdvisor(){
+  editingAdvisorId = null;
+  document.getElementById('m-adv-title').textContent = 'Add advisor';
+  ['adv-fn','adv-ln','adv-role','adv-email','adv-phone','adv-crd','adv-subject','adv-body','adv-sig'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
+  document.getElementById('adv-del-btn').style.display='none';
+  openM('m-advisor');
+}
+
+function openEditAdvisor(id){
+  const a = ADVISORS.find(x=>x.id===id);
+  if(!a) return;
+  editingAdvisorId = id;
+  document.getElementById('m-adv-title').textContent = 'Edit — '+a.fname+' '+a.lname;
+  document.getElementById('adv-fn').value = a.fname||'';
+  document.getElementById('adv-ln').value = a.lname||'';
+  document.getElementById('adv-role').value = a.role||'';
+  document.getElementById('adv-email').value = a.email||'';
+  document.getElementById('adv-phone').value = a.phone||'';
+  document.getElementById('adv-crd').value = a.crd||'';
+  document.getElementById('adv-subject').value = a.subject||'';
+  document.getElementById('adv-body').value = a.body||'';
+  document.getElementById('adv-sig').value = a.sig||'';
+  const delBtn = document.getElementById('adv-del-btn');
+  delBtn.style.display='inline-flex';
+  delBtn.onclick = ()=>{ closeM('m-advisor'); deleteAdvisor(id); };
+  openM('m-advisor');
+}
+
+function saveAdvisor(){
+  const fn = document.getElementById('adv-fn')?.value.trim()||'';
+  const ln = document.getElementById('adv-ln')?.value.trim()||'';
+  if(!fn){ toast('Enter a first name'); return; }
+  const a = {
+    fname:fn, lname:ln,
+    role:document.getElementById('adv-role')?.value.trim()||'',
+    email:document.getElementById('adv-email')?.value.trim()||'',
+    phone:document.getElementById('adv-phone')?.value.trim()||'',
+    crd:document.getElementById('adv-crd')?.value.trim()||'',
+    subject:document.getElementById('adv-subject')?.value||'',
+    body:document.getElementById('adv-body')?.value||'',
+    sig:document.getElementById('adv-sig')?.value||'',
+  };
+  if(editingAdvisorId){
+    const idx=ADVISORS.findIndex(x=>x.id===editingAdvisorId);
+    if(idx>=0) ADVISORS[idx]={...ADVISORS[idx],...a};
+    toast('✓ Advisor updated — '+fn+' '+ln);
+  } else {
+    a.id=uid(); a.created=Date.now();
+    ADVISORS.push(a);
+    toast('✓ Advisor added — '+fn+' '+ln);
+  }
+  save('advisors',ADVISORS);
+  closeM('m-advisor');
+  renderAdvisors();
+  refreshAdvisorSelects();
+}
+
+function deleteAdvisor(id){
+  if(!confirm('Delete this advisor?')) return;
+  ADVISORS=ADVISORS.filter(a=>a.id!==id);
+  save('advisors',ADVISORS);
+  renderAdvisors();
+  refreshAdvisorSelects();
+  toast('Advisor deleted');
+}
+
+function previewAdvisorMsg(id){
+  const a = ADVISORS.find(x=>x.id===id);
+  if(!a) return;
+  const sample = CLIENTS[0]||{display:'[Client Name]',fname:'[First',lname:'Name]',accounts:[{acctId:'[Account #]',custodian:'[Custodian]'}]};
+  const resolved = resolveMerge(a.body||'', sample).replace(/\n/g,'<br>');
+  toast('Subject: '+resolveMerge(a.subject||'',sample));
+}
+
+function insAdv(tag){
+  const ta = document.getElementById('adv-body');
+  if(!ta) return;
+  const s=ta.selectionStart,e=ta.selectionEnd;
+  ta.value=ta.value.slice(0,s)+tag+ta.value.slice(e);
+  ta.selectionStart=ta.selectionEnd=s+tag.length;
+  ta.focus();
+}
+
+function refreshAdvisorSelects(){
+  // Send screen advisor select
+  const sendAdv = document.getElementById('send-advisor');
+  if(sendAdv){
+    const cur = sendAdv.value;
+    sendAdv.innerHTML = '<option value="">Firm default (from profile)</option>'+
+      ADVISORS.map(a=>`<option value="${a.id}">${a.fname} ${a.lname}${a.role?' — '+a.role:''}</option>`).join('');
+    sendAdv.value = cur;
+  }
+  // Schedule advisor select
+  const schedAdv = document.getElementById('sc-advisor');
+  if(schedAdv){
+    schedAdv.innerHTML = '<option value="">Firm default</option>'+
+      ADVISORS.map(a=>`<option value="${a.id}">${a.fname} ${a.lname}</option>`).join('');
+  }
+}
+
+function onAdvisorChange(){
+  const id = document.getElementById('send-advisor')?.value;
+  if(!id){ loadDefaultMsg(); return; }
+  const a = ADVISORS.find(x=>x.id===id);
+  if(!a) return;
+  if(a.subject){ const el=document.getElementById('send-subject'); if(el) el.value=a.subject; }
+  if(a.body){ const el=document.getElementById('send-body'); if(el) el.value=a.body; }
+  livePreview();
+  toast('Loaded '+a.fname+' '+a.lname+'\'s default message');
+}
+
+// ── ENHANCED CLIENT RENDERING ──────────────────────────────────────────────────
+function clientFlag(c){
+  // Returns {level:'ok'|'warn'|'overdue'|'never', label, color}
+  if(!c.lastSent && !c.nextDue && !c.startDate) return {level:'never',label:'Never sent',dot:'#854F0B',bg:'#FAEEDA',col:'#854F0B'};
+  if(c.nextDue){
+    const due = new Date(c.nextDue+'T12:00');
+    const today = new Date();
+    const daysUntil = Math.round((due-today)/(1000*60*60*24));
+    if(daysUntil < 0) return {level:'overdue',label:'Overdue '+Math.abs(daysUntil)+'d',dot:'#A32D2D',bg:'#FCEBEB',col:'#A32D2D'};
+    if(daysUntil <= 14) return {level:'warn',label:'Due in '+daysUntil+'d',dot:'#854F0B',bg:'#FAEEDA',col:'#854F0B'};
+    return {level:'ok',label:'Up to date',dot:'#2D6A4F',bg:'#D8EFE6',col:'#2D6A4F'};
+  }
+  if(c.lastSent) return {level:'ok',label:'Sent '+fmtDate(c.lastSent),dot:'#2D6A4F',bg:'#D8EFE6',col:'#2D6A4F'};
+  return {level:'never',label:'Never sent',dot:'#854F0B',bg:'#FAEEDA',col:'#854F0B'};
+}
+
+renderClients = function(){
+  const search=(document.getElementById('cl-search')?.value||'').toLowerCase();
+  const cust=document.getElementById('cl-cust')?.value||'all';
+  const sort=document.getElementById('cl-sort')?.value||'name';
+  const flagFilter=document.getElementById('cl-flag-filter')?.value||'all';
+
+  let filtered=CLIENTS.filter(c=>{
+    const ms=!search||c.display.toLowerCase().includes(search)||(c.email||'').toLowerCase().includes(search)||(c.accounts||[]).some(a=>(a.acctId||'').toLowerCase().includes(search));
+    const mc=cust==='all'||(c.accounts||[]).some(a=>a.custodian===cust);
+    const flag=clientFlag(c);
+    const mf=flagFilter==='all'||(flagFilter==='overdue'&&flag.level==='overdue')||(flagFilter==='never'&&flag.level==='never')||(flagFilter==='ok'&&flag.level==='ok');
+    return ms&&mc&&mf;
+  });
+
+  // Sort
+  if(sort==='last-sent') filtered.sort((a,b)=>(b.lastSent||0)-(a.lastSent||0));
+  else if(sort==='next-due') filtered.sort((a,b)=>{const da=a.nextDue?new Date(a.nextDue+'T12:00').getTime():9e15;const db=b.nextDue?new Date(b.nextDue+'T12:00').getTime():9e15;return da-db;});
+  else if(sort==='flag') filtered.sort((a,b)=>{const order={overdue:0,never:1,warn:2,ok:3};return order[clientFlag(a).level]-order[clientFlag(b).level];});
+  else filtered.sort((a,b)=>a.display.localeCompare(b.display));
+
+  const lbl=document.getElementById('clients-count-label');if(lbl) lbl.textContent=CLIENTS.length+' client'+(CLIENTS.length!==1?'s':'');
+  const foot=document.getElementById('cl-footer');if(foot) foot.textContent=filtered.length+' of '+CLIENTS.length+' shown';
+
+  // Bulk bar
+  const bar=document.getElementById('cl-bulk-bar');
+  const bulkLbl=document.getElementById('cl-bulk-label');
+  if(bar) bar.style.display=selectedClientIds.size>0?'flex':'none';
+  if(bulkLbl) bulkLbl.textContent=selectedClientIds.size+' client'+(selectedClientIds.size!==1?'s':'')+' selected';
+
+  const CCOLS={'Schwab':'#185FA5','Fidelity':'#2D6A4F','Pershing':'#854F0B','TD Ameritrade':'#534AB7','Vanguard':'#0F6E56','Other':'#777'};
+  const tbody=document.getElementById('clients-tbody');if(!tbody) return;
+  tbody.innerHTML=filtered.length?filtered.map(c=>{
+    const a0=c.accounts?.[0]||{};const cc=CCOLS[a0.custodian]||'#777';
+    const flag=clientFlag(c);
+    return`<tr style="cursor:default">
+      <td><input type="checkbox" ${selectedClientIds.has(c.id)?'checked':''} onchange="toggleClientSel('${c.id}',this.checked)" style="accent-color:var(--navy)"/></td>
+      <td><div style="font-weight:500">${c.display}</div><div style="font-size:10px;color:var(--text-muted)">${c.type||''}${c.advisor?' · '+c.advisor:''}</div></td>
+      <td>
+        <div style="font-family:monospace;font-size:11px">${a0.acctId||'—'}${(c.accounts?.length||0)>1?' +'+( c.accounts.length-1):''}</div>
+        <span style="padding:1px 7px;border-radius:99px;font-size:9px;font-weight:500;background:${cc}18;color:${cc}">${a0.custodian||'—'}</span>
+      </td>
+      <td><span class="pill" style="background:${flag.bg};color:${flag.col}"><span class="dot"></span>${flag.label}</span></td>
+      <td style="font-size:11px;color:var(--text-muted)">${c.lastSent?fmtDate(c.lastSent):'Never'}</td>
+      <td style="font-size:11px;color:${flag.level==='overdue'?'var(--red)':flag.level==='warn'?'var(--amber)':'var(--text-muted)'}">${c.nextDue?fmtDate(c.nextDue+'T12:00'):'—'}</td>
+      <td><div style="display:flex;gap:4px">
+        <button class="btn btn-xs btn-g" onclick="sendToClient('${c.id}')" title="Send disclosures">Send</button>
+        <button class="btn btn-xs" onclick="viewClient('${c.id}')">View</button>
+        <button class="btn btn-xs" onclick="openEditClient('${c.id}')">Edit</button>
+        <button class="btn btn-xs btn-r" onclick="deleteClient('${c.id}')">✕</button>
+      </div></td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-muted)">No clients match.</td></tr>';
+};
+
+function toggleClientSel(id,checked){
+  checked?selectedClientIds.add(id):selectedClientIds.delete(id);
+  renderClients();
+}
+function clearClientSelection(){ selectedClientIds.clear(); renderClients(); }
+toggleAllClients = function(checked){
+  const boxes=document.querySelectorAll('#clients-tbody input[type=checkbox]');
+  boxes.forEach(cb=>{
+    cb.checked=checked;
+    const row=cb.closest('tr');
+    if(row){const btn=row.querySelector('.btn-r');if(btn){const id=btn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];if(id){checked?selectedClientIds.add(id):selectedClientIds.delete(id);}}}
+  });
+  // Simpler: just select all filtered clients
+  const visibleIds=Array.from(document.querySelectorAll('#clients-tbody input[type=checkbox]')).map(cb=>{
+    const tr=cb.closest('tr');const sendBtn=tr?.querySelector('.btn-g');
+    return sendBtn?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+  }).filter(Boolean);
+  visibleIds.forEach(id=>checked?selectedClientIds.add(id):selectedClientIds.delete(id));
+  renderClients();
+};
+
+function sendToClient(id){
+  sendSelClients = new Set([id]);
+  go('send', document.querySelectorAll('.ni')[2]);
+}
+
+function bulkSendSelected(){
+  if(!selectedClientIds.size){ toast('No clients selected'); return; }
+  sendSelClients = new Set(selectedClientIds);
+  clearClientSelection();
+  go('send', document.querySelectorAll('.ni')[2]);
+}
+
+function bulkAssignSchedule(){
+  if(!selectedClientIds.size){ toast('No clients selected'); return; }
+  const sel=document.getElementById('bulk-sched-select');
+  sel.innerHTML='<option value="">— select a schedule —</option>'+
+    SCHEDS.map(s=>`<option value="${s.id}">${s.name} (${s.freqLabel})</option>`).join('');
+  const clientList=document.getElementById('bulk-sched-clients');
+  const names=[...selectedClientIds].map(id=>CLIENTS.find(c=>c.id===id)?.display||'').filter(Boolean);
+  clientList.innerHTML='<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Adding '+names.length+' client'+(names.length!==1?'s':'')+' to schedule:</div>'+
+    names.map(n=>`<div style="padding:3px 0;font-weight:500">${n}</div>`).join('');
+  openM('m-bulk-sched');
+}
+
+function confirmBulkAssign(){
+  const schedId=document.getElementById('bulk-sched-select')?.value;
+  if(!schedId){ toast('Select a schedule first'); return; }
+  const s=SCHEDS.find(x=>x.id===schedId);
+  if(!s){ toast('Schedule not found'); return; }
+  // In a real backend this would update the schedule's recipient list
+  // For now: if schedule uses "all", note it; otherwise track specific IDs
+  if(!s.extraClientIds) s.extraClientIds=[];
+  selectedClientIds.forEach(id=>{ if(!s.extraClientIds.includes(id)) s.extraClientIds.push(id); });
+  save('scheds',SCHEDS);
+  closeM('m-bulk-sched');
+  clearClientSelection();
+  toast('✓ '+selectedClientIds.size+' client'+(selectedClientIds.size!==1?'s':'')+' added to "'+s.name+'"');
+}
+
+// ── SCHEDULE MULTI-DOC ────────────────────────────────────────────────────────
+let schedSelectedDocs = new Set();
+
+function renderSchedDocList(){
+  const container = document.getElementById('sc-doc-list');
+  const countLbl  = document.getElementById('sc-doc-count-label');
+  if(!container) return;
+  if(!DOCS.length){
+    container.innerHTML='<div style="padding:12px;font-size:12px;color:var(--text-muted)">No documents — upload PDFs first.</div>';
+    if(countLbl) countLbl.textContent='0 documents selected';
+    return;
+  }
+  container.innerHTML = DOCS.map(d=>`
+    <label style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid var(--border);cursor:pointer;font-size:12px">
+      <input type="checkbox" ${schedSelectedDocs.has(d.id)?'checked':''} onchange="toggleSchedDoc('${d.id}',this.checked)" style="accent-color:var(--navy)"/>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.name}</div>
+        <div style="font-size:10px;color:var(--text-muted)">${d.type} · ${d.size}</div>
+      </div>
+    </label>`).join('');
+  updateSchedDocCount();
+}
+
+function toggleSchedDoc(id,checked){
+  checked?schedSelectedDocs.add(id):schedSelectedDocs.delete(id);
+  updateSchedDocCount();
+}
+
+function updateSchedDocCount(){
+  const lbl=document.getElementById('sc-doc-count-label');
+  if(lbl) lbl.textContent=schedSelectedDocs.size+' document'+(schedSelectedDocs.size!==1?'s':'')+' selected';
+}
+
+// Override openAddSched to also render doc list
+const _origOpenAddSched = openAddSched;
+openAddSched = function(){
+  schedSelectedDocs.clear();
+  _origOpenAddSched();
+  renderSchedDocList();
+  refreshAdvisorSelects();
+};
+
+// Override editSched to restore selected docs
+const _origEditSched = editSched;
+editSched = function(id){
+  _origEditSched(id);
+  const s=SCHEDS.find(x=>x.id===id);
+  schedSelectedDocs = new Set(s?.docIds||[]);
+  renderSchedDocList();
+  refreshAdvisorSelects();
+  if(document.getElementById('sc-advisor')&&s?.advisorId) document.getElementById('sc-advisor').value=s.advisorId||'';
+};
+
+// Override saveSched to save multiple doc IDs
+const _origSaveSched = saveSched;
+saveSched = function(){
+  const name=document.getElementById('sc-name')?.value.trim();
+  if(!name){toast('Enter a schedule name');return;}
+  if(!schedSelectedDocs.size){toast('Select at least one document');return;}
+  const docIds=[...schedSelectedDocs];
+  const docs=DOCS.filter(d=>docIds.includes(d.id));
+  const docName=docs.map(d=>d.name).join(', ');
+  const freq=document.getElementById('sc-freq')?.value||'once';
+  const recipId=document.getElementById('sc-recip')?.value||'all';
+  const recipLabel=recipId==='all'?'All clients':(CLIENTS.find(c=>c.id===recipId)?.display||'Unknown');
+  const advisorId=document.getElementById('sc-advisor')?.value||'';
+  const freqLabels={once:'One-time',monthly:'Monthly',quarterly:'Quarterly',annually:'Annually'};
+  let nextLabel='',dateRaw='',mday='',qmonth='',qday='',amonth='',aday='';
+  if(freq==='once'){dateRaw=document.getElementById('sc-date')?.value;if(!dateRaw){toast('Select a send date');return;}nextLabel=new Date(dateRaw+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  else if(freq==='monthly'){mday=document.getElementById('sc-mday')?.value||'1';nextLabel='Day '+mday+' of each month';}
+  else if(freq==='quarterly'){qmonth=document.getElementById('sc-qmonth')?.value||'1';qday=document.getElementById('sc-qday')?.value||'1';const qN=['Jan','Feb','Mar'];nextLabel=qN[parseInt(qmonth)-1]+' '+qday+' (then +3mo)';}
+  else if(freq==='annually'){amonth=document.getElementById('sc-amonth')?.value||'4';aday=document.getElementById('sc-aday')?.value||'1';const mNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];nextLabel=mNames[parseInt(amonth)-1]+' '+aday+' each year';}
+  const s={id:editingSchedId||uid(),name,docIds,docName,freq,freqLabel:freqLabels[freq]||freq,recipId,recipLabel,advisorId,nextLabel,notes:document.getElementById('sc-notes')?.value.trim()||'',crm:document.getElementById('sc-crm')?.checked||false,dateRaw,mday,qmonth,qday,amonth,aday,created:Date.now()};
+  if(editingSchedId){const idx=SCHEDS.findIndex(x=>x.id===editingSchedId);if(idx>=0) SCHEDS[idx]=s;}
+  else SCHEDS.push(s);
+  save('scheds',SCHEDS);closeM('m-addsched');renderScheds();renderDashboard();toast('✓ Schedule saved — '+name);
+};
+
+// Override runSched for multiple docs
+runSched = function(id){
+  const s=SCHEDS.find(x=>x.id===id);if(!s) return;
+  const docIds=s.docIds||[s.docId];
+  const validDocs=docIds.filter(did=>DOCS.find(d=>d.id===did));
+  if(!validDocs.length){toast('No valid documents in this schedule');return;}
+  sendSelDocs=new Set(validDocs);
+  sendSelClients=s.recipId==='all'?new Set(CLIENTS.map(c=>c.id)):new Set([s.recipId,...(s.extraClientIds||[])]);
+  // Pre-select advisor if set
+  if(s.advisorId){setTimeout(()=>{const el=document.getElementById('send-advisor');if(el){el.value=s.advisorId;onAdvisorChange();}},100);}
+  go('send',document.querySelectorAll('.ni')[2]);
+};
+
+// ── AUTOMATION HELPERS ─────────────────────────────────────────────────────────
+function checkDueClients(){
+  const today = new Date();
+  let dueCount = 0;
+  CLIENTS.forEach(c=>{
+    if(c.nextDue){
+      const due = new Date(c.nextDue+'T12:00');
+      if(due <= today && clientFlag(c).level!=='ok') dueCount++;
+    }
+  });
+  return dueCount;
+}
+
+// Auto-update next due date when a client receives a send
+const _origExecuteSend = executeSend;
+executeSend = async function(){
+  await _origExecuteSend();
+  // After send, advance nextDue for each client based on their cycle
+  const clients = CLIENTS.filter(c=>sendSelClients.has(c.id));
+  clients.forEach(c=>{
+    if(c.cycle && c.nextDue){
+      const cur = new Date(c.nextDue+'T12:00');
+      let next = new Date(cur);
+      if(c.cycle==='monthly') next.setMonth(next.getMonth()+1);
+      else if(c.cycle==='quarterly') next.setMonth(next.getMonth()+3);
+      else if(c.cycle==='annually') next.setFullYear(next.getFullYear()+1);
+      const idx=CLIENTS.findIndex(x=>x.id===c.id);
+      if(idx>=0){
+        CLIENTS[idx].nextDue=next.toISOString().slice(0,10);
+        CLIENTS[idx].lastSent=Date.now();
+      }
+    }
+  });
+  save('clients',CLIENTS);
+  renderClients();
+};
+
 // ── CLIENT START DATE & SCHEDULE PREVIEW ──────────────────────────────────────
 function calcSchedulePreview(){
   const startEl = document.getElementById('cl-start-date');
@@ -1438,6 +2005,8 @@ function init(){
   const init2=(PROFILE.uname||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   document.getElementById('sb-initials').textContent=init2;
   updateSmtpBadge();
+  renderAdvisors();
+  refreshAdvisorSelects();
   renderDashboard();
   // Load default msg into send screen immediately
   if(PROFILE.defSubject){const el=document.getElementById('send-subject');if(el) el.value=PROFILE.defSubject;}
