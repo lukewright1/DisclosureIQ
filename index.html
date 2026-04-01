@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DisclosureIQ — Live SEC IAPD Sync</title>
+<title>DisclosureIQ — Compliance Disclosure Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
 <style>
@@ -13,567 +13,722 @@
   --gold:#C9A84C;--gold-light:#E8D5A3;--gold-pale:#FBF6EA;
   --cream:#F6F3ED;--cream-dark:#EAE5DA;
   --white:#fff;--text:#1A1A1A;--text-mid:#444;--text-muted:#777;
-  --border:#DDD8CF;
+  --border:#DDD8CF;--sw:220px;
   --green:#2D6A4F;--green-light:#D8EFE6;--green-mid:#9FD1B8;
   --amber:#854F0B;--amber-light:#FAEEDA;
   --red:#A32D2D;--red-light:#FCEBEB;
   --blue:#185FA5;--blue-light:#E6F1FB;
 }
-body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--cream);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--cream);display:flex;min-height:100vh;overflow-x:hidden}
 
-/* TOPBAR */
-.topbar{background:var(--navy);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:5px;display:flex;align-items:center;justify-content:center}
-.logo-mark svg{width:14px;height:14px}
-.logo-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--white);font-weight:500}
-.logo-name span{color:var(--gold)}
-.topbar-title{font-size:13px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
-.topbar-title strong{color:var(--white)}
-.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(45,106,79,.3);border:1px solid rgba(159,209,184,.3);border-radius:99px;padding:3px 10px;font-size:10px;color:#9FD1B8;font-weight:500}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#9FD1B8;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* SIDEBAR */
+.sb{width:var(--sw);background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}
+.lm{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lm svg{width:15px;height:15px}
+.ln{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);font-weight:500}
+.ln span{color:var(--gold)}
+.sb-firm{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sf-l{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.sf-n{font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.sf-c{font-size:10px;color:rgba(255,255,255,.3)}
+.sb-nav{flex:1;padding:10px 8px;overflow-y:auto}
+.nl{font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;padding:10px 8px 4px;font-weight:500}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;cursor:pointer;color:rgba(255,255,255,.5);font-size:13px;transition:all .15s;margin-bottom:1px;position:relative;user-select:none}
+.ni:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.ni.active{background:rgba(201,168,76,.12);color:var(--white)}
+.ni.active::before{content:'';position:absolute;left:0;top:25%;bottom:25%;width:2px;background:var(--gold);border-radius:0 2px 2px 0}
+.ni svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.ni.active svg{opacity:1}
+.nb{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:500;padding:1px 6px;border-radius:99px}
+.nb-a{background:rgba(133,79,11,.5);color:#FAC775}
+.sb-foot{padding:11px 16px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:8px}
+.ua{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--navy);flex-shrink:0}
+.un{font-size:12px;color:rgba(255,255,255,.65);font-weight:500}
+.ur{font-size:10px;color:rgba(255,255,255,.3)}
 
-/* LAYOUT */
-.page{max-width:900px;margin:0 auto;padding:24px 28px 48px}
-
-/* CARDS */
-.card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
-.card-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.card-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
-.card-body{padding:16px}
-
-/* PILLS */
-.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:500}
-.pill-green{background:var(--green-light);color:var(--green)}
-.pill-amber{background:var(--amber-light);color:var(--amber)}
-.pill-red{background:var(--red-light);color:var(--red)}
-.pill-blue{background:var(--blue-light);color:var(--blue)}
-.pill-gray{background:var(--cream-dark);color:var(--text-muted)}
-.pill-gold{background:var(--gold-pale);color:#7A5E1A}
-.dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-
-/* SEARCH */
-.search-row{display:flex;gap:10px;margin-bottom:16px}
-.search-input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:7px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);outline:none;transition:border-color .15s}
-.search-input:focus{border-color:var(--navy)}
-.search-btn{padding:10px 22px;background:var(--navy);border:none;border-radius:7px;color:var(--white);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;white-space:nowrap}
-.search-btn:hover{background:var(--navy-mid)}
-.search-btn:disabled{background:var(--border);cursor:not-allowed}
-.quick-btns{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
-.quick-btn{padding:5px 14px;border:1px solid var(--border);border-radius:99px;background:var(--white);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text-mid);transition:all .15s}
-.quick-btn:hover{border-color:var(--navy);color:var(--navy);background:var(--blue-light)}
-
-/* FIRM RESULT */
-.firm-header{background:var(--navy);border-radius:9px;padding:16px 18px;margin-bottom:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.firm-name-block{}
-.firm-result-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);margin-bottom:4px}
-.firm-meta{font-size:11px;color:rgba(255,255,255,.45);display:flex;gap:14px;flex-wrap:wrap}
-.firm-meta-item{display:flex;align-items:center;gap:5px}
-.firm-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:.5}
-
-/* BROCHURE TABLE */
-.brochure-row{display:grid;grid-template-columns:2.2fr 130px 90px 1fr;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);align-items:center;font-size:13px}
-.brochure-row:last-child{border-bottom:none}
-.brochure-row:hover{background:#FAFAF8}
-.brochure-name{font-weight:500;line-height:1.3}
-.brochure-name-sub{font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px}
-.brochure-date{font-size:12px;color:var(--text-muted)}
-.brochure-actions{display:flex;gap:6px;justify-content:flex-end}
-.btn{padding:5px 12px;border-radius:5px;border:1px solid var(--border);background:var(--white);color:var(--text);cursor:pointer;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .1s;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.tb{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.tbl{display:flex;align-items:center;gap:12px}
+.pt{font-size:15px;font-weight:500}
+.ps{font-size:11px;color:var(--text-muted)}
+.tbr{display:flex;align-items:center;gap:8px}
+.btn{padding:6px 13px;border-radius:5px;border:1px solid var(--border);background:var(--white);color:var(--text);cursor:pointer;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .1s}
 .btn:hover{background:var(--cream)}
-.btn-primary{background:var(--navy);border-color:var(--navy);color:var(--white)}
-.btn-primary:hover{background:var(--navy-mid)}
-.btn-xs{padding:3px 9px;font-size:10px}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.btn-p:hover{background:var(--navy-mid)}
+.btn-g{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn-g:hover{background:var(--gold-light)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-xs{padding:3px 8px;font-size:10px}
+.con{padding:20px 24px;flex:1}
 
-/* AGE BADGE */
-.age-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:99px;font-size:9px;font-weight:500}
+/* SCREENS */
+.scr{display:none;animation:fi .2s ease}
+.scr.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* SKELETON */
-.skeleton{background:linear-gradient(90deg,var(--cream) 25%,var(--cream-dark) 50%,var(--cream) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* COMPONENTS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.ch{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
+.cb{padding:14px 15px}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500}
+.pg{background:var(--green-light);color:var(--green)}
+.pa{background:var(--amber-light);color:var(--amber)}
+.pr{background:var(--red-light);color:var(--red)}
+.pb{background:var(--blue-light);color:var(--blue)}
+.pgr{background:var(--cream-dark);color:var(--text-muted)}
+.pgo{background:var(--gold-pale);color:#7A5E1A}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g64{display:grid;grid-template-columns:1.6fr 1fr;gap:14px}
+input,select,textarea{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--navy)}
+input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--navy)}
+.lbl{font-size:11px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse}
+th{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--cream);white-space:nowrap}
+td{padding:10px 14px;font-size:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAF8}
+.met{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
+.ml{font-size:11px;color:var(--text-muted);margin-bottom:4px}
+.mv{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;line-height:1}
+.ms{font-size:11px;color:var(--text-muted);margin-top:4px}
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.al{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:7px;font-size:12px;line-height:1.6;border:1px solid;margin-bottom:12px}
+.al-a{background:var(--amber-light);border-color:#FAC775;color:var(--amber)}
+.al-b{background:var(--blue-light);border-color:#B5D4F4;color:var(--blue)}
+.al-g{background:var(--green-light);border-color:var(--green-mid);color:var(--green)}
+.al-r{background:var(--red-light);border-color:#F7C1C1;color:var(--red)}
+.pt{height:5px;background:var(--cream-dark);border-radius:99px;overflow:hidden;margin-top:5px}
+.pf{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy),var(--navy-light))}
+.ai{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--border)}
+.ai:last-child{border-bottom:none}
+.aic{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px}
+.sr{display:flex;align-items:center;gap:9px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.sr:last-child{border-bottom:none}
+.fp{padding:3px 8px;border-radius:99px;font-size:9px;font-weight:500}
 
-/* EMPTY / ERROR */
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
-.empty-icon{font-size:32px;margin-bottom:10px;opacity:.4}
-.empty-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
-.empty-sub{font-size:13px;line-height:1.6}
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:flex-start;justify-content:center;padding-top:60px}
+.mbg.open{display:flex}
+.mo{background:var(--white);border-radius:10px;border:1px solid var(--border);width:500px;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.moh{padding:13px 17px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mot{font-size:14px;font-weight:500}
+.moc{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted);line-height:1}
+.mob{padding:15px 17px}
+.mof{padding:11px 17px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
+.fg{margin-bottom:9px}
 
-/* ALERT */
-.alert{display:flex;align-items:flex-start;gap:8px;padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.6;border:1px solid;margin-bottom:14px}
-.alert-blue{background:var(--blue-light);border-color:#B5D4F4;color:var(--blue)}
-.alert-amber{background:var(--amber-light);border-color:#FAC775;color:var(--amber)}
-.alert-green{background:var(--green-light);border-color:var(--green-mid);color:var(--green)}
+/* COMPOSE */
+.cl{display:grid;grid-template-columns:280px 1fr;gap:14px;height:calc(100vh - 150px)}
+.dp{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.cp{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.ctabs{display:flex;border-bottom:1px solid var(--border)}
+.ctab{flex:1;padding:9px 6px;font-size:11px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;text-align:center;transition:all .15s}
+.ctab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.ctb{display:none;padding:13px;flex:1;overflow-y:auto}
+.ctb.active{display:block}
+.dci{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--border);cursor:pointer}
+.dci:last-child{border-bottom:none}
+.dci:hover{background:var(--cream)}
+.dcn{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dcm{font-size:10px;color:var(--text-muted);margin-top:1px}
 
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
-.stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.stat-value{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;line-height:1}
-.stat-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+/* TRACKING STEPS */
+.ts{display:flex;align-items:center}
+.tsd{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.tsd.done{background:var(--green)}
+.tsd.act{background:var(--blue)}
+.tsd.err{background:var(--red)}
+.tsl{flex:1;height:2px;background:var(--border)}
+.tsl.done{background:var(--green)}
+
+/* PORTAL PREVIEW */
+.pp{background:var(--navy);border-radius:8px;padding:0;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.ppb{background:var(--navy-mid);padding:7px 11px;display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(255,255,255,.07)}
+.ppd{width:7px;height:7px;border-radius:50%}
+.ppu{font-size:9px;color:rgba(255,255,255,.25);margin-left:6px;font-family:monospace}
+.ppc{padding:14px}
+.ppn{font-family:'Playfair Display',serif;font-size:13px;color:var(--white);margin-bottom:8px}
+.ppn span{color:var(--gold)}
+.ppg{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.ppm{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);margin-bottom:10px}
+.pprow{background:rgba(255,255,255,.06);border-radius:5px;padding:8px 10px;display:flex;align-items:center;gap:7px;margin-bottom:5px;border:1px solid rgba(255,255,255,.07)}
+.ppi{width:26px;height:32px;background:var(--navy-light);border-radius:2px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;flex-shrink:0;font-size:6px;color:var(--gold);font-weight:500;letter-spacing:.03em}
+.ppft{font-size:10px;color:rgba(255,255,255,.75);font-weight:500;flex:1}
+.ppbdg{font-size:8px;padding:1px 5px;border-radius:99px;background:rgba(45,106,79,.4);color:#9FD1B8}
+.ppsa{background:rgba(255,255,255,.04);border-radius:5px;padding:9px 10px;margin-top:8px;border:1px solid rgba(255,255,255,.07)}
+.ppsl{font-size:8px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.ppsf{border-bottom:1px solid rgba(255,255,255,.12);height:22px;display:flex;align-items:flex-end;padding-bottom:2px}
+.ppst{font-family:'Playfair Display',serif;font-size:14px;color:rgba(255,255,255,.55);font-style:italic}
+
+/* IAPD */
+.iapd-link-box{background:var(--navy);border-radius:10px;padding:22px;text-align:center;margin-bottom:14px}
+.iapd-link-box h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--white);margin-bottom:8px}
+.iapd-link-box p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:16px;max-width:480px;margin-left:auto;margin-right:auto}
+.iapd-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:var(--gold);border-radius:6px;font-size:13px;font-weight:500;color:var(--navy);text-decoration:none;transition:all .15s}
+.iapd-btn:hover{background:var(--gold-light)}
+.upload-zone{border:2px dashed var(--border);border-radius:9px;padding:28px;text-align:center;cursor:pointer;transition:all .15s;background:var(--cream)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--navy);background:var(--blue-light)}
+.uz-icon{font-size:28px;margin-bottom:10px;opacity:.5}
+.uz-title{font-size:14px;font-weight:500;margin-bottom:5px}
+.uz-sub{font-size:12px;color:var(--text-muted)}
+.upload-queue{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.uq-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--white);border:1px solid var(--border);border-radius:7px}
+.uq-icon{width:32px;height:38px;background:var(--navy);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;flex-shrink:0;font-size:7px;color:var(--gold);font-weight:500;letter-spacing:.03em;position:relative}
+.uq-fold{position:absolute;top:0;right:0;width:9px;height:9px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)}
+.uq-name{font-size:12px;font-weight:500;flex:1}
+.uq-meta{font-size:10px;color:var(--text-muted);margin-top:2px}
+
+/* AGE */
+.age-g{background:var(--green-light);color:var(--green)}
+.age-a{background:var(--amber-light);color:var(--amber)}
+.age-r{background:var(--red-light);color:var(--red)}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:var(--white);padding:10px 16px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold)}
-
-/* TABLE HEADER */
-.tbl-head{display:grid;grid-template-columns:2.2fr 130px 90px 1fr;gap:10px;padding:8px 16px;background:var(--cream);border-bottom:1px solid var(--border)}
-.tbl-head span{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
-
-/* SPINNER */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:0}
-.tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab.active{color:var(--navy);border-bottom-color:var(--navy)}
-.tab-body{display:none;padding:14px 0}
-.tab-body.active{display:block}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--navy);color:var(--white);padding:10px 15px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:280px}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <a href="#" class="logo">
-    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
-    <div class="logo-name">Disclosure<span>IQ</span></div>
-  </a>
-  <div class="topbar-title"><strong>SEC IAPD Sync</strong> — Live data from adviserinfo.sec.gov</div>
-  <div class="live-badge"><div class="live-dot"></div>Live SEC data</div>
+<!-- SIDEBAR -->
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="lm"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
+    <div class="ln">Disclosure<span>IQ</span></div>
+  </div>
+  <div class="sb-firm">
+    <div class="sf-l">Current firm</div>
+    <div class="sf-n">Horizon Wealth Advisors</div>
+    <div class="sf-c">CRD #317245 · SEC Registered RIA</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="nl">Main</div>
+    <div class="ni active" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>Dashboard</div>
+    <div class="ni" onclick="go('library',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3M5 7h6M5 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Document Library</div>
+    <div class="ni" onclick="go('send',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>Send Disclosures</div>
+    <div class="ni" onclick="go('tracking',this)" style="position:relative"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Delivery Tracking<span class="nb">3</span></div>
+    <div class="nl">Compliance</div>
+    <div class="ni" onclick="go('iapd',this)" style="position:relative"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3M8 10v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>SEC IAPD Sync<span class="nb nb-a">2</span></div>
+    <div class="ni" onclick="go('schedule',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Schedules</div>
+    <div class="ni" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-3 2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7c1.5 0 3 1 3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Clients</div>
+    <div class="ni" onclick="go('mail',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Physical Mail</div>
+    <div class="nl">Settings</div>
+    <div class="ni" onclick="go('integrations',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="4" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8h2M10 4.5L7 7M10 11.5L7 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Integrations</div>
+  </nav>
+  <div class="sb-foot">
+    <div class="ua">LW</div>
+    <div><div class="un">Luke Wright</div><div class="ur">Compliance Officer</div></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══════════════════════ DASHBOARD ═══════════════════════ -->
+<div id="s-dashboard" class="scr active">
+  <div class="tb">
+    <div class="tbl"><span class="pt">Dashboard</span><span class="ps">Good morning, Luke · March 13, 2026</span></div>
+    <div class="tbr"><button class="btn btn-g" onclick="go('send',document.querySelectorAll('.ni')[2])">Send disclosures</button></div>
+  </div>
+  <div class="con">
+    <div class="al al-a"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><div><strong>2 SEC IAPD mismatches detected</strong> — Your ADV Part 2A and Wrap Fee Brochure have newer versions filed on IAPD than what clients last received. <span style="color:var(--amber);cursor:pointer;font-weight:500;text-decoration:underline" onclick="go('iapd',document.querySelectorAll('.ni')[4])">Review →</span></div></div>
+    <div class="mets">
+      <div class="met"><div class="ml">Clients covered</div><div class="mv" style="color:var(--navy)">247</div><div class="ms" style="color:var(--green)">↑ 12 this quarter</div></div>
+      <div class="met"><div class="ml">Delivered (30 days)</div><div class="mv" style="color:var(--green)">231</div><div class="ms">93.5% acknowledgement rate</div></div>
+      <div class="met"><div class="ml">Pending action</div><div class="mv" style="color:var(--amber)">16</div><div class="ms">8 bounced · 5 unsigned · 3 mailed</div></div>
+      <div class="met"><div class="ml">SEC match rate</div><div class="mv" style="color:var(--red)">83%</div><div class="ms" style="color:var(--red)">2 docs outdated</div></div>
+    </div>
+    <div class="g64" style="align-items:start">
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">Recent activity</div><button class="btn btn-sm" onclick="go('tracking',document.querySelectorAll('.ni')[3])">View all</button></div>
+          <div style="padding:0">
+            <div class="ai" style="padding:9px 15px"><div class="aic" style="background:var(--green-light);color:var(--green)">✓</div><div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2A acknowledged — James & Patricia Whitmore</div><div style="font-size:11px;color:var(--text-muted)">Mar 13, 2026 · 2:47 PM · Typed signature · WH-4421</div></div><span class="pill pg">Signed</span></div>
+            <div class="ai" style="padding:9px 15px"><div class="aic" style="background:var(--blue-light);color:var(--blue)">→</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Annual disclosures sent — 247 clients</div><div style="font-size:11px;color:var(--text-muted)">Mar 13, 2026 · 9:00 AM · Email + secure portal</div></div><span class="pill pb">Sent</span></div>
+            <div class="ai" style="padding:9px 15px"><div class="aic" style="background:var(--red-light);color:var(--red)">!</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Email bounced — Margaret O'Sullivan (OS-8834)</div><div style="font-size:11px;color:var(--text-muted)">Mar 13, 2026 · 9:02 AM · Auto-queued for physical mail</div></div><span class="pill pr">Bounced</span></div>
+            <div class="ai" style="padding:9px 15px"><div class="aic" style="background:var(--amber-light);color:var(--amber)">⚡</div><div style="flex:1"><div style="font-size:12px;font-weight:500">IAPD mismatch detected — ADV Part 2A</div><div style="font-size:11px;color:var(--text-muted)">Mar 13, 2026 · 8:15 AM · Auto-detected · Action required</div></div><span class="pill pa">Alert</span></div>
+            <div class="ai" style="padding:9px 15px"><div class="aic" style="background:var(--green-light);color:var(--green)">✓</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Fee Disclosure delivered — Yuki Tanaka via Lob</div><div style="font-size:11px;color:var(--text-muted)">Mar 12, 2026 · USPS Certified · Delivery confirmed</div></div><span class="pill pg">Delivered</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Upcoming sends</div></div>
+          <div style="padding:0">
+            <div class="sr"><div style="flex:1"><div style="font-weight:500;font-size:12px">Annual ADV Part 2A + Form CRS</div><div style="font-size:11px;color:var(--text-muted)">All 247 clients · Email + portal</div></div><span class="fp" style="background:var(--blue-light);color:var(--blue)">Apr 1</span></div>
+            <div class="sr"><div style="flex:1"><div style="font-weight:500;font-size:12px">Q2 Fee Disclosure</div><div style="font-size:11px;color:var(--text-muted)">All clients · Email</div></div><span class="fp" style="background:var(--blue-light);color:var(--blue)">Apr 15</span></div>
+            <div class="sr"><div style="flex:1"><div style="font-weight:500;font-size:12px">Privacy Policy — new client onboarding</div><div style="font-size:11px;color:var(--text-muted)">Trigger: 3 new accounts pending</div></div><span class="fp" style="background:var(--green-light);color:var(--green)">Pending</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">Document status</div><button class="btn btn-sm" onclick="go('library',document.querySelectorAll('.ni')[1])">Library</button></div>
+          <div style="padding:10px 15px">
+            <div style="padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">ADV Part 2A</span><span class="pill pr">IAPD mismatch</span></div><div class="pt"><div class="pf" style="width:100%;background:var(--red)"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Your ver: Mar 1 · IAPD: Mar 28</div></div>
+            <div style="padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">Privacy Policy</span><span class="pill pg">Current</span></div><div class="pt"><div class="pf" style="width:100%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Matches IAPD · Last sent Mar 13</div></div>
+            <div style="padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">Form CRS</span><span class="pill pg">Current</span></div><div class="pt"><div class="pf" style="width:100%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Matches IAPD · Last sent Mar 13</div></div>
+            <div style="padding:8px 0"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:500">Wrap Fee Brochure</span><span class="pill pa">IAPD mismatch</span></div><div class="pt"><div class="pf" style="width:60%;background:var(--amber)"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Your ver: Jan 15 · IAPD: Feb 28</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Mail queue</div><button class="btn btn-sm btn-p" onclick="toast('5 letters dispatched via Lob — tracking active')">Send via Lob</button></div>
+          <div style="padding:10px 14px">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">5 clients need physical mail · Est. $3.75</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:6px"><div style="width:22px;height:22px;border-radius:50%;background:#F5C4B3;color:#993C1D;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0">MO</div><span style="flex:1">Margaret O'Sullivan</span><span class="pill pr" style="font-size:9px">No address</span></div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:6px"><div style="width:22px;height:22px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0">DP</div><span style="flex:1">David & Sandra Park</span><span class="pill pa" style="font-size:9px">Queued</span></div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:12px"><div style="width:22px;height:22px;border-radius:50%;background:var(--green-light);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0">TE</div><span style="flex:1">Thomas Ellsworth III</span><span class="pill pa" style="font-size:9px">Queued</span></div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:7px">+ 2 more clients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="page">
-
-  <div class="alert alert-blue">
-    <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-    <div>This pulls <strong>live data directly from the SEC's IAPD database</strong> — no API key required. Search any RIA by firm name or CRD number to see their actual filed brochures and dates. Try searching <strong>Ameritas</strong>, <strong>Vanguard</strong>, or your own firm.</div>
+<!-- ═══════════════════════ LIBRARY ═══════════════════════ -->
+<div id="s-library" class="scr">
+  <div class="tb">
+    <div class="tbl"><span class="pt">Document Library</span></div>
+    <div class="tbr"><button class="btn btn-sm" onclick="openM('m-upload')">+ Upload document</button></div>
   </div>
-
-  <!-- SEARCH -->
-  <div class="card">
-    <div class="card-head">
-      <div class="card-title">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Search SEC IAPD
+  <div class="con">
+    <div class="card">
+      <div class="ch">
+        <div class="ct">All documents</div>
+        <div style="display:flex;gap:7px"><input type="text" placeholder="Search..." style="width:160px"/><select style="width:120px"><option>All statuses</option><option>IAPD mismatch</option><option>Current</option></select></div>
       </div>
-    </div>
-    <div class="card-body">
-      <div class="search-row">
-        <input class="search-input" id="search-input" type="text" placeholder="Enter firm name or CRD number (e.g. Ameritas, 317245, Vanguard...)" onkeydown="if(event.key==='Enter')doSearch()"/>
-        <button class="search-btn" id="search-btn" onclick="doSearch()">Search IAPD</button>
-      </div>
-      <div class="quick-btns">
-        <span style="font-size:11px;color:var(--text-muted);align-self:center">Quick lookup:</span>
-        <button class="quick-btn" onclick="quickSearch('Ameritas Investment Corp')">Ameritas</button>
-        <button class="quick-btn" onclick="quickSearch('Vanguard')">Vanguard</button>
-        <button class="quick-btn" onclick="quickSearch('Fidelity')">Fidelity</button>
-        <button class="quick-btn" onclick="quickSearch('Charles Schwab')">Schwab</button>
-        <button class="quick-btn" onclick="quickSearch('Raymond James')">Raymond James</button>
-        <button class="quick-btn" onclick="quickSearch('Edward Jones')">Edward Jones</button>
-        <button class="quick-btn" onclick="quickCRD('108523')">Vanguard CRD</button>
-        <button class="quick-btn" onclick="quickCRD('361')">Goldman CRD</button>
-      </div>
+      <table>
+        <thead><tr><th>Document</th><th>Your version</th><th>IAPD filed</th><th>IAPD status</th><th>Last sent</th><th>Ack rate</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td><div style="font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:10px;color:var(--text-muted)">28 pages · 847 KB</div></td><td>Mar 1, 2025</td><td style="color:var(--red);font-weight:500">Mar 28, 2025</td><td><span class="pill pr"><span class="dot"></span>Outdated</span></td><td>Mar 13, 2026</td><td><div style="font-size:12px;font-weight:500">93%</div><div class="pt" style="width:70px"><div class="pf" style="width:93%"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button><button class="btn btn-xs" onclick="toast('Sending to all clients...')">Send</button></div></td></tr>
+          <tr><td><div style="font-weight:500">ADV Part 2B – Supplement</div><div style="font-size:10px;color:var(--text-muted)">18 pages · 312 KB</div></td><td>Apr 2, 2024</td><td>Apr 2, 2024</td><td><span class="pill pg"><span class="dot"></span>Current</span></td><td>Mar 13, 2026</td><td><div style="font-size:12px;font-weight:500">91%</div><div class="pt" style="width:70px"><div class="pf" style="width:91%"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td></tr>
+          <tr><td><div style="font-weight:500">Form CRS</div><div style="font-size:10px;color:var(--text-muted)">2 pages · 98 KB</div></td><td>Jan 15, 2026</td><td>Jan 15, 2026</td><td><span class="pill pg"><span class="dot"></span>Current</span></td><td>Mar 13, 2026</td><td><div style="font-size:12px;font-weight:500">96%</div><div class="pt" style="width:70px"><div class="pf" style="width:96%"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td></tr>
+          <tr><td><div style="font-weight:500">Privacy Policy (Reg S-P)</div><div style="font-size:10px;color:var(--text-muted)">12 pages · 204 KB</div></td><td>Mar 5, 2026</td><td>Mar 5, 2026</td><td><span class="pill pg"><span class="dot"></span>Current</span></td><td>Mar 13, 2026</td><td><div style="font-size:12px;font-weight:500">89%</div><div class="pt" style="width:70px"><div class="pf" style="width:89%"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td></tr>
+          <tr><td><div style="font-weight:500">Fee Disclosure – Quarterly</div><div style="font-size:10px;color:var(--text-muted)">6 pages · 156 KB</div></td><td>Jan 1, 2026</td><td>—</td><td><span class="pill pgr">Internal only</span></td><td>Jan 15, 2026</td><td><div style="font-size:12px;font-weight:500">88%</div><div class="pt" style="width:70px"><div class="pf" style="width:88%"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td></tr>
+          <tr><td><div style="font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:10px;color:var(--text-muted)">24 pages · 421 KB</div></td><td>Jan 15, 2026</td><td style="color:var(--red);font-weight:500">Feb 28, 2026</td><td><span class="pill pa"><span class="dot"></span>Outdated</span></td><td>Jan 20, 2026</td><td><div style="font-size:12px;font-weight:500">82%</div><div class="pt" style="width:70px"><div class="pf" style="width:82%;background:var(--amber)"></div></div></td><td><div style="display:flex;gap:4px"><button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
-  <!-- RESULTS -->
-  <div id="results-area"></div>
+<!-- ═══════════════════════ SEND ═══════════════════════ -->
+<div id="s-send" class="scr">
+  <div class="tb">
+    <div class="tbl"><span class="pt">Send Disclosures</span><span class="ps">Select documents · compose · deliver</span></div>
+    <div class="tbr"><button class="btn btn-g" onclick="openM('m-confirmsend')">Send to 247 clients →</button></div>
+  </div>
+  <div class="con" style="padding-bottom:0">
+    <div class="cl">
+      <div class="dp">
+        <div class="ch" style="background:var(--cream)"><div class="ct">Documents</div><span class="pill pb">4 selected</span></div>
+        <div style="padding:7px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px"><input type="checkbox" checked/><span style="font-size:11px;font-weight:500">Select all</span></div>
+        <div style="flex:1;overflow-y:auto">
+          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">ADV Part 2A – Firm Brochure</div><div class="dcm">28 pg · <span style="color:var(--red)">IAPD outdated</span></div></div></div>
+          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">ADV Part 2B – Supplement</div><div class="dcm">18 pg · Current</div></div></div>
+          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">Form CRS</div><div class="dcm">2 pg · Current</div></div></div>
+          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">Privacy Policy (Reg S-P)</div><div class="dcm">12 pg · Current</div></div></div>
+          <div class="dci"><input type="checkbox"/><div><div class="dcn">Fee Disclosure – Quarterly</div><div class="dcm">6 pg · Internal</div></div></div>
+          <div class="dci"><input type="checkbox"/><div><div class="dcn">Wrap Fee Brochure</div><div class="dcm">24 pg · <span style="color:var(--amber)">IAPD outdated</span></div></div></div>
+        </div>
+        <div style="padding:8px 11px;border-top:1px solid var(--border);background:var(--cream);font-size:10px;color:var(--text-muted)">4 docs · 1.46 MB · 247 recipients</div>
+      </div>
+      <div class="cp">
+        <div class="ctabs">
+          <div class="ctab active" onclick="ctab('compose',this)">Compose</div>
+          <div class="ctab" onclick="ctab('preview',this)">Preview</div>
+          <div class="ctab" onclick="ctab('recipients',this)">Recipients (247)</div>
+          <div class="ctab" onclick="ctab('checklist',this)">Pre-send ✓</div>
+        </div>
+        <div class="ctb active" id="ctb-compose">
+          <div class="fg"><label class="lbl">From address</label><input type="text" value="compliance@horizonwealth.com" style="width:100%"/></div>
+          <div class="fg"><label class="lbl">Subject</label><input type="text" value="Important: Your annual regulatory disclosure documents — Horizon Wealth Advisors" style="width:100%"/></div>
+          <div class="fg"><label class="lbl">Message</label><textarea style="width:100%;height:100px;resize:vertical">Dear [Client Name],
 
+Horizon Wealth Advisors, LLC is providing your annual regulatory disclosures as required by the SEC. Please review them via the secure link below.
+
+[SECURE PORTAL LINK]
+
+Questions? Call us at (714) 555-0100.
+
+Sincerely,
+Luke Wright · Compliance Officer</textarea></div>
+          <div class="fr"><div><label class="lbl">Delivery method</label><select style="width:100%"><option>Email + Secure portal link</option><option>Physical mail only</option><option>Email with PDF attachment</option></select></div><div><label class="lbl">Acknowledgement</label><select style="width:100%"><option>Required — gate before view</option><option>Prompted — can skip</option><option>None</option></select></div></div>
+          <div class="al al-a"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>ADV Part 2A is outdated vs IAPD — consider uploading the current version before sending. <span style="text-decoration:underline;cursor:pointer;margin-left:4px" onclick="go('iapd',document.querySelectorAll('.ni')[4])">Resolve →</span></div>
+        </div>
+        <div class="ctb" id="ctb-preview">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Email preview — what clients receive</div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;line-height:1.7;margin-bottom:12px">
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:7px"><strong>From:</strong> compliance@horizonwealth.com &nbsp;·&nbsp; <strong>To:</strong> [Client Email]</div>
+            <div style="font-size:10px;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:7px;margin-bottom:10px"><strong>Subject:</strong> Important: Your annual regulatory disclosure documents</div>
+            <div style="height:3px;background:var(--navy);border-radius:2px;margin-bottom:10px"></div>
+            <p style="margin-bottom:8px">Dear James & Patricia Whitmore,</p>
+            <p style="margin-bottom:8px;color:var(--text-mid)">Horizon Wealth Advisors, LLC is providing your annual regulatory disclosures as required by the SEC.</p>
+            <div style="background:var(--navy);border-radius:6px;padding:11px;text-align:center;margin:12px 0">
+              <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px">Your secure document portal</div>
+              <div style="font-size:12px;font-weight:500;color:var(--white)">View & acknowledge your documents →</div>
+              <div style="font-size:9px;color:var(--gold);margin-top:3px">disclosures.horizonwealth.com/c/WH-4421</div>
+            </div>
+            <div style="font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:8px">Horizon Wealth Advisors, LLC · CRD #317245 · 2100 Main St Suite 500 · Huntington Beach, CA 92648</div>
+          </div>
+          <div style="font-size:11px;font-weight:500;margin-bottom:8px">Client portal preview</div>
+          <div class="pp">
+            <div class="ppb"><div class="ppd" style="background:#FF5F57"></div><div class="ppd" style="background:#FFBD2E"></div><div class="ppd" style="background:#28C840"></div><span class="ppu">disclosures.horizonwealth.com/c/WH-4421</span></div>
+            <div class="ppc">
+              <div class="ppn">Horizon Wealth <span>Advisors</span></div>
+              <div class="ppg">Secure disclosure portal</div>
+              <div class="ppm">James & Patricia Whitmore</div>
+              <div class="pprow"><div class="ppi">PDF</div><div class="ppft">ADV Part 2A – Firm Brochure</div><span class="ppbdg">Required</span></div>
+              <div class="pprow"><div class="ppi">PDF</div><div class="ppft">Form CRS</div><span class="ppbdg">Required</span></div>
+              <div class="ppsa"><div class="ppsl">Sign to acknowledge receipt</div><div class="ppsf"><div class="ppst">James Whitmore</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ctb" id="ctb-recipients">
+          <div style="display:flex;gap:7px;margin-bottom:10px"><input type="text" placeholder="Search clients..." style="flex:1"/><select style="width:120px"><option>All clients</option><option>Email valid</option><option>Needs mail</option></select></div>
+          <table><thead><tr><th>Client</th><th>Account</th><th>Email</th><th>Status</th></tr></thead><tbody>
+            <tr><td style="font-weight:500">James & Patricia Whitmore</td><td>WH-4421</td><td>j.whitmore@email.com</td><td><span class="pill pg">Valid</span></td></tr>
+            <tr><td style="font-weight:500">Margaret O'Sullivan</td><td>OS-8834</td><td style="color:var(--red)">Email bounced</td><td><span class="pill pa">Mail queue</span></td></tr>
+            <tr><td style="font-weight:500">David & Sandra Park</td><td>PK-1109</td><td>d.park@email.com</td><td><span class="pill pg">Valid</span></td></tr>
+            <tr><td style="font-weight:500">Yuki Tanaka</td><td>TN-5523</td><td>y.tanaka@email.com</td><td><span class="pill pg">Valid</span></td></tr>
+            <tr><td style="font-weight:500">Thomas Ellsworth III</td><td>EL-0042</td><td style="color:var(--red)">Email bounced</td><td><span class="pill pa">Mail queue</span></td></tr>
+            <tr><td colspan="4" style="color:var(--text-muted);font-size:11px">+ 242 more clients</td></tr>
+          </tbody></table>
+        </div>
+        <div class="ctb" id="ctb-checklist">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">All required items must be resolved before sending.</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>247 recipients loaded from Redtail sync</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>4 documents selected · 1.46 MB total</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>SMTP configured · compliance@horizonwealth.com</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>Compliance footer enabled</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber)">⚠</span><span style="flex:1"><strong>ADV Part 2A outdated vs IAPD</strong> — upload current version before send</span><button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload</button></div>
+            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber)">⚠</span>2 clients have bounced emails — will auto-queue for Lob mail</div>
+          </div>
+          <button class="btn btn-g" style="width:100%;margin-top:12px;padding:11px" onclick="openM('m-confirmsend')">Proceed to send →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TRACKING ═══════════════════════ -->
+<div id="s-tracking" class="scr">
+  <div class="tb">
+    <div class="tbl"><span class="pt">Delivery Tracking</span></div>
+    <div class="tbr"><button class="btn btn-sm" onclick="toast('Exporting audit log as CSV...')">Export audit log</button></div>
+  </div>
+  <div class="con">
+    <div class="card">
+      <div class="ch"><div class="ct">Delivery audit trail</div><div style="display:flex;gap:7px"><select style="width:110px"><option>All statuses</option><option>Signed</option><option>Opened</option><option>Bounced</option><option>Mailed</option></select><input type="text" placeholder="Search client..." style="width:150px"/></div></div>
+      <table>
+        <thead><tr><th>Client</th><th>Document(s)</th><th>Method</th><th>Sent</th><th>Status</th><th>Tracking</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><div style="font-weight:500">James & Patricia Whitmore</div><div style="font-size:10px;color:var(--text-muted)">WH-4421</div></td><td>ADV 2A, Form CRS, Privacy Policy</td><td><span class="pill pb">Email + Portal</span></td><td>Mar 13</td><td><span class="pill pg"><span class="dot"></span>Acknowledged</span></td><td><div class="ts"><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">Sent · Opened · Viewed · Signed</div></td><td><button class="btn btn-xs" onclick="toast('Opening detail log...')">View log</button></td></tr>
+          <tr><td><div style="font-weight:500">Margaret O'Sullivan</div><div style="font-size:10px;color:var(--text-muted)">OS-8834</div></td><td>ADV 2A, Privacy Policy</td><td><span class="pill pa">Email bounced</span></td><td>Mar 13</td><td><span class="pill pr"><span class="dot"></span>Bounced</span></td><td><div class="ts"><div class="tsd done"></div><div class="tsl"></div><div class="tsd err"></div><div class="tsl"></div><div class="tsd"></div><div class="tsl"></div><div class="tsd"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">Sent · Bounced</div></td><td><button class="btn btn-xs btn-p" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
+          <tr><td><div style="font-weight:500">Yuki Tanaka</div><div style="font-size:10px;color:var(--text-muted)">TN-5523</div></td><td>Fee Disclosure</td><td><span class="pill pgr">USPS Certified</span></td><td>Mar 10</td><td><span class="pill pg"><span class="dot"></span>Delivered</span></td><td><div class="ts"><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">Printed · Mailed · Delivered</div></td><td><button class="btn btn-xs" onclick="toast('Opening detail...')">View log</button></td></tr>
+          <tr><td><div style="font-weight:500">David & Sandra Park</div><div style="font-size:10px;color:var(--text-muted)">PK-1109</div></td><td>ADV 2A, Form CRS</td><td><span class="pill pb">Email + Portal</span></td><td>Mar 13</td><td><span class="pill pa"><span class="dot"></span>Opened — pending</span></td><td><div class="ts"><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd act"></div><div class="tsl"></div><div class="tsd"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">Sent · Opened · Viewing</div></td><td><button class="btn btn-xs" onclick="toast('Reminder sent to d.park@email.com')">Send reminder</button></td></tr>
+          <tr><td><div style="font-weight:500">Dorothy & Frank Nguyen</div><div style="font-size:10px;color:var(--text-muted)">NG-3318</div></td><td>ADV 2A, Privacy Policy, CRS</td><td><span class="pill pb">Email + Portal</span></td><td>Mar 13</td><td><span class="pill pg"><span class="dot"></span>Acknowledged</span></td><td><div class="ts"><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div><div class="tsl done"></div><div class="tsd done"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:2px">Sent · Opened · Signed</div></td><td><button class="btn btn-xs" onclick="toast('Opening detail...')">View log</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ IAPD ═══════════════════════ -->
+<div id="s-iapd" class="scr">
+  <div class="tb">
+    <div class="tbl"><span class="pt">SEC IAPD Sync</span><span class="ps">2 mismatches detected</span></div>
+    <div class="tbr"><button class="btn btn-sm btn-p" onclick="openM('m-upload')">Upload new version</button></div>
+  </div>
+  <div class="con">
+    <div class="iapd-link-box">
+      <h3>Look up your filings on SEC IAPD</h3>
+      <p>The SEC's Investment Adviser Public Disclosure database is public and free. Search your firm by name or CRD number to see your current filed documents, then download the latest PDF and upload it here.</p>
+      <a href="https://adviserinfo.sec.gov" target="_blank" class="iapd-btn">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M7 3H3v10h10V9M9 2h5v5M14 2L8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Open SEC IAPD (adviserinfo.sec.gov)
+      </a>
+      <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.35)">Search for "Horizon Wealth Advisors" or enter CRD #317245 · Download PDFs from the Brochures tab · Upload below</div>
+    </div>
+
+    <div class="g2" style="align-items:start">
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">Document version status</div></div>
+          <div style="padding:0">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your file: Mar 1, 2025 · IAPD shows: Mar 28, 2025</div></div>
+              <span class="pill pr">27 days behind</span>
+              <button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2B – Supplement</div><div style="font-size:11px;color:var(--text-muted)">Your file: Apr 2, 2024 · IAPD shows: Apr 2, 2024</div></div>
+              <span class="pill pg">Match</span>
+              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:500">Form CRS</div><div style="font-size:11px;color:var(--text-muted)">Your file: Jan 15, 2026 · IAPD shows: Jan 15, 2026</div></div>
+              <span class="pill pg">Match</span>
+              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:500">Privacy Policy (Reg S-P)</div><div style="font-size:11px;color:var(--text-muted)">Your file: Mar 5, 2026 · IAPD shows: Mar 5, 2026</div></div>
+              <span class="pill pg">Match</span>
+              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0"></div>
+              <div style="flex:1"><div style="font-size:12px;font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your file: Jan 15, 2026 · IAPD shows: Feb 28, 2026</div></div>
+              <span class="pill pa">44 days behind</span>
+              <button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">Upload updated document</div></div>
+          <div class="cb">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">Download the latest version from IAPD, then upload it here. DisclosureIQ will update your library and flag which clients need to receive the new version.</div>
+            <div class="upload-zone" id="main-upload-zone" onclick="openM('m-upload')" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event,'main-upload-zone')">
+              <div class="uz-icon">📄</div>
+              <div class="uz-title">Drop PDF here or click to browse</div>
+              <div class="uz-sub">Accepts PDF · Max 50 MB · Will auto-match to existing documents</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">How to get the latest from IAPD</div></div>
+          <div class="cb" style="padding:12px 14px">
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">1</div><span style="color:var(--text-mid)">Click <strong>Open SEC IAPD</strong> above to go to adviserinfo.sec.gov</span></div>
+              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">2</div><span style="color:var(--text-mid)">Search your firm name or enter CRD #317245</span></div>
+              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">3</div><span style="color:var(--text-mid)">Click your firm → go to the <strong>Brochures</strong> tab</span></div>
+              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">4</div><span style="color:var(--text-mid)">Download the latest PDF and upload it above</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ SCHEDULE ═══════════════════════ -->
+<div id="s-schedule" class="scr">
+  <div class="tb"><div class="tbl"><span class="pt">Delivery Schedules</span></div><div class="tbr"><button class="btn btn-sm btn-p" onclick="toast('Opening schedule editor...')">Add schedule</button></div></div>
+  <div class="con">
+    <div class="card">
+      <div class="ch"><div class="ct">Active schedules</div></div>
+      <table>
+        <thead><tr><th>Document</th><th>Frequency</th><th>Next send</th><th>Recipients</th><th>IAPD trigger</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:500">ADV Part 2A</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
+          <tr><td style="font-weight:500">Privacy Policy</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
+          <tr><td style="font-weight:500">Form CRS</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Onboarding</span></td><td>Next new client</td><td>New accounts only</td><td><span class="pill pgr" style="font-size:9px">N/A</span></td><td><span class="pill pg">Active</span></td></tr>
+          <tr><td style="font-weight:500">Fee Disclosure</td><td><span class="fp" style="background:#EEEDFE;color:#534AB7">Quarterly</span></td><td>Apr 15, 2026</td><td>All clients (247)</td><td><span class="pill pgr" style="font-size:9px">Off</span></td><td><span class="pill pg">Active</span></td></tr>
+          <tr><td style="font-weight:500">ADV Part 2B</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CLIENTS ═══════════════════════ -->
+<div id="s-clients" class="scr">
+  <div class="tb"><div class="tbl"><span class="pt">Clients</span><span class="ps">247 total · synced from Redtail</span></div><div class="tbr"><button class="btn btn-sm" onclick="toast('Syncing Redtail CRM...')">Sync Redtail</button><button class="btn btn-sm" onclick="toast('Import CSV dialog')">Import CSV</button></div></div>
+  <div class="con">
+    <div class="card">
+      <div class="ch"><div class="ct">All clients</div><div style="display:flex;gap:7px"><input type="text" placeholder="Search..." style="width:160px"/><select style="width:130px"><option>All clients</option><option>Missing email</option><option>Not acknowledged</option></select></div></div>
+      <table>
+        <thead><tr><th>Client name</th><th>Account #</th><th>Email</th><th>Last delivery</th><th>Ack status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:500">James & Patricia Whitmore</td><td>WH-4421</td><td>j.whitmore@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+          <tr><td style="font-weight:500">Margaret O'Sullivan</td><td>OS-8834</td><td style="color:var(--red)">Bounced</td><td>Mar 13, 2026</td><td><span class="pill pr">Not signed</span></td><td><button class="btn btn-xs btn-p" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
+          <tr><td style="font-weight:500">David & Sandra Park</td><td>PK-1109</td><td>d.park@email.com</td><td>Mar 13, 2026</td><td><span class="pill pa">Opened — pending</span></td><td><button class="btn btn-xs" onclick="toast('Reminder sent')">Remind</button></td></tr>
+          <tr><td style="font-weight:500">Yuki Tanaka</td><td>TN-5523</td><td>y.tanaka@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+          <tr><td style="font-weight:500">Thomas Ellsworth III</td><td>EL-0042</td><td style="color:var(--red)">Bounced</td><td>Mar 13, 2026</td><td><span class="pill pr">Not signed</span></td><td><button class="btn btn-xs btn-p" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
+          <tr><td style="font-weight:500">Dorothy & Frank Nguyen</td><td>NG-3318</td><td>d.nguyen@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+          <tr><td colspan="6" style="color:var(--text-muted);font-size:11px">+ 241 more clients — use search to filter</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PHYSICAL MAIL ═══════════════════════ -->
+<div id="s-mail" class="scr">
+  <div class="tb"><div class="tbl"><span class="pt">Physical Mail</span><span class="ps">5 clients queued</span></div><div class="tbr"><button class="btn btn-sm btn-p" onclick="toast('5 letters dispatched via Lob — tracking active in minutes')">Send all via Lob</button></div></div>
+  <div class="con">
+    <div class="al al-b"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><div>Lob API handles printing, stuffing, and USPS delivery automatically. Estimated cost: <strong>$3.75</strong> for 5 letters via USPS First Class. <a href="https://lob.com" target="_blank" style="color:var(--blue);text-decoration:none">Learn about Lob ↗</a></div></div>
+    <div class="card">
+      <div class="ch"><div class="ct">Mail queue — 5 clients</div><div style="display:flex;gap:7px"><select style="width:130px"><option>All reasons</option><option>Email bounced</option><option>Mail preference</option></select></div></div>
+      <table>
+        <thead><tr><th><input type="checkbox" checked/></th><th>Client</th><th>Mailing address</th><th>Documents</th><th>Reason</th><th>Est. cost</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><input type="checkbox" checked/></td><td style="font-weight:500">Margaret O'Sullivan<div style="font-size:10px;color:var(--red);font-weight:400">OS-8834</div></td><td style="color:var(--red);font-size:11px">Address missing — check Redtail</td><td style="font-size:11px">ADV 2A, Privacy Policy</td><td><span class="pill pr" style="font-size:9px">Email bounced</span></td><td style="font-size:11px">$0.75</td><td><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual</button></td></tr>
+          <tr><td><input type="checkbox" checked/></td><td style="font-weight:500">David & Sandra Park<div style="font-size:10px;color:var(--text-muted);font-weight:400">PK-1109</div></td><td style="font-size:11px">55 Pine Ave, Laguna Niguel CA 92677</td><td style="font-size:11px">ADV 2A, Privacy Policy</td><td><span class="pill pr" style="font-size:9px">Email bounced</span></td><td style="font-size:11px">$0.75</td><td><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual</button></td></tr>
+          <tr><td><input type="checkbox" checked/></td><td style="font-weight:500">Thomas Ellsworth III<div style="font-size:10px;color:var(--text-muted);font-weight:400">EL-0042</div></td><td style="font-size:11px">18 Sycamore Ct, Dana Point CA 92629</td><td style="font-size:11px">ADV 2A</td><td><span class="pill pr" style="font-size:9px">Email bounced</span></td><td style="font-size:11px">$0.75</td><td><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual</button></td></tr>
+          <tr><td><input type="checkbox" checked/></td><td style="font-weight:500">Dorothy & Frank Nguyen<div style="font-size:10px;color:var(--text-muted);font-weight:400">NG-3318</div></td><td style="font-size:11px">402 Magnolia Dr, Anaheim CA 92801</td><td style="font-size:11px">ADV 2A, Fee Disclosure</td><td><span class="pill" style="background:#E1F5EE;color:#085041;font-size:9px">Mail preference</span></td><td style="font-size:11px">$0.75</td><td><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual</button></td></tr>
+          <tr><td><input type="checkbox" checked/></td><td style="font-weight:500">Carol Steinberg<div style="font-size:10px;color:var(--text-muted);font-weight:400">ST-7751</div></td><td style="font-size:11px">220 Birch Ln, Newport Beach CA 92660</td><td style="font-size:11px">ADV 2A</td><td><span class="pill pgr" style="font-size:9px">No email on file</span></td><td style="font-size:11px">$0.75</td><td><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual</button></td></tr>
+        </tbody>
+      </table>
+      <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-muted)">
+        <span>5 selected · estimated total $3.75 via Lob First Class</span>
+        <div style="display:flex;gap:7px"><button class="btn btn-xs" onclick="openM('m-manualmail')">Log manual mail</button><button class="btn btn-xs btn-p" onclick="toast('5 letters sent via Lob — tracking starts in ~2 min')">Send via Lob API</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ INTEGRATIONS ═══════════════════════ -->
+<div id="s-integrations" class="scr">
+  <div class="tb"><div class="tbl"><span class="pt">Integrations</span></div></div>
+  <div class="con">
+    <div class="g2">
+      <div class="card"><div class="ch"><div class="ct">Redtail CRM</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Syncs client names, emails, and mailing addresses. Triggers automatic disclosure sends on new account creation.</div><div class="fg"><label class="lbl">API key</label><input type="password" value="rtk_•••••••••••••" style="width:100%"/></div><div class="fg"><label class="lbl">Username</label><input type="text" value="lwright@horizonwealth.com" style="width:100%"/></div><div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Syncing Redtail...')">Sync now</button><button class="btn btn-sm" onclick="toast('Last sync: Mar 13 9:00 AM · 247 clients')">View log</button></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Orion Portfolio</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Syncs account types and AUM tiers. Confirms account status before each disclosure send.</div><div class="fg"><label class="lbl">Client ID</label><input type="text" value="orion_hwm_317245" style="width:100%"/></div><div class="fg"><label class="lbl">OAuth secret</label><input type="password" value="osk_•••••••••••••" style="width:100%"/></div><div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Connection OK')">Test connection</button></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">Lob — Physical Mail</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Handles print, stuff, and USPS delivery for clients needing physical mail. Automatic tracking included.</div><div class="fg"><label class="lbl">API key</label><input type="password" value="live_•••••••••••••" style="width:100%"/></div><div class="fr"><div><label class="lbl">Default mail type</label><select style="width:100%"><option>USPS First Class</option><option>USPS Certified</option></select></div><div><label class="lbl">Color</label><select style="width:100%"><option>Black & white</option><option>Color</option></select></div></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">SEC IAPD</div><span class="pill pg"><span class="dot"></span>Active</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Tracks your IAPD filing dates. Alerts on version mismatches. Manual upload flow for keeping documents current.</div><div class="fg"><label class="lbl">Your firm CRD</label><input type="text" value="317245" style="width:100%"/></div><div class="fg"><label class="lbl">Alert on mismatch</label><select style="width:100%"><option>Yes — notify immediately</option><option>Weekly digest</option><option>No</option></select></div><button class="btn btn-sm btn-p" style="margin-top:4px" onclick="toast('Checking IAPD for updates...')">Check now</button></div></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ═══════════════════════ MODALS ═══════════════════════ -->
+
+<!-- UPLOAD MODAL -->
+<div class="mbg" id="m-upload">
+  <div class="mo">
+    <div class="moh"><div class="mot">Upload disclosure document</div><button class="moc" onclick="closeM('m-upload')">×</button></div>
+    <div class="mob">
+      <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Download the latest PDF from <a href="https://adviserinfo.sec.gov" target="_blank" style="color:var(--blue);font-weight:500">adviserinfo.sec.gov</a> then upload it here.</div>
+      <div class="upload-zone" id="modal-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event,'modal-upload-zone')" onclick="document.getElementById('file-input').click()" style="margin-bottom:12px">
+        <div class="uz-icon">📁</div>
+        <div class="uz-title">Drop PDF here or click to browse</div>
+        <div class="uz-sub">PDF files only · Max 50 MB</div>
+      </div>
+      <input type="file" id="file-input" accept=".pdf" style="display:none" onchange="handleFileInput(this)"/>
+      <div id="upload-queue" class="upload-queue"></div>
+      <div class="fg" style="margin-top:10px"><label class="lbl">Document type</label><select style="width:100%"><option>ADV Part 2A – Firm Brochure</option><option>ADV Part 2B – Supplement</option><option>Form CRS</option><option>Privacy Policy (Reg S-P)</option><option>Fee Disclosure</option><option>Wrap Fee Program Brochure</option><option>Other / custom</option></select></div>
+      <div class="fg"><label class="lbl">Effective date</label><input type="text" placeholder="e.g. Mar 28, 2025" style="width:100%"/></div>
+      <div style="display:flex;align-items:center;gap:7px;padding:8px 10px;background:var(--cream);border-radius:6px;font-size:12px"><input type="checkbox" id="ck-notify" checked/><label for="ck-notify" style="cursor:pointer">Flag clients who need to receive this updated version</label></div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-upload')">Cancel</button><button class="btn btn-p" onclick="submitUpload()">Upload & save to library</button></div>
+  </div>
+</div>
+
+<!-- CONFIRM SEND MODAL -->
+<div class="mbg" id="m-confirmsend">
+  <div class="mo">
+    <div class="moh"><div class="mot">Confirm & send</div><button class="moc" onclick="closeM('m-confirmsend')">×</button></div>
+    <div class="mob">
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">Recipients</span><strong>247 clients</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">Documents</span><strong>4 selected</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">Delivery</span><strong>Email + secure portal</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">Physical mail fallback</span><strong>Lob API (5 clients)</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 13px;font-size:12px"><span style="color:var(--text-muted)">Acknowledgement</span><strong>Required — gate before view</strong></div>
+      </div>
+      <div class="al al-a"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>ADV Part 2A is outdated vs IAPD. Sending the older version unless you upload a new one first.</div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-confirmsend')">Cancel</button><button class="btn btn-g" onclick="closeM('m-confirmsend');toast('✓ Sent to 247 clients — audit trail logging in real time')">Confirm & send to 247 clients</button></div>
+  </div>
+</div>
+
+<!-- MANUAL MAIL MODAL -->
+<div class="mbg" id="m-manualmail">
+  <div class="mo">
+    <div class="moh"><div class="mot">Log manual mail delivery</div><button class="moc" onclick="closeM('m-manualmail')">×</button></div>
+    <div class="mob">
+      <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/></svg>Use this to record a disclosure you mailed yourself. Creates a compliance audit trail entry.</div>
+      <div class="fr"><div><label class="lbl">Client name</label><input type="text" value="David & Sandra Park" style="width:100%"/></div><div><label class="lbl">Account #</label><input type="text" value="PK-1109" style="width:100%"/></div></div>
+      <div class="fg"><label class="lbl">Documents included</label><select style="width:100%" multiple size="3"><option selected>ADV Part 2A – Firm Brochure</option><option selected>Privacy Policy</option><option>Form CRS</option><option>Fee Disclosure</option></select></div>
+      <div class="fr"><div><label class="lbl">Mail method</label><select style="width:100%"><option>USPS First Class</option><option>USPS Certified Mail</option><option>FedEx</option><option>Hand delivered</option></select></div><div><label class="lbl">Date mailed</label><input type="text" value="Mar 13, 2026" style="width:100%"/></div></div>
+      <div class="fg"><label class="lbl">Tracking number (optional)</label><input type="text" placeholder="e.g. 9400111899223397910653" style="width:100%"/></div>
+      <div class="fg"><label class="lbl">Staff who mailed</label><input type="text" value="L. Wright — Compliance" style="width:100%"/></div>
+      <div class="fg"><label class="lbl">Notes</label><textarea style="width:100%;height:52px">Client requested physical copy per account agreement.</textarea></div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-manualmail')">Cancel</button><button class="btn btn-g" onclick="closeM('m-manualmail');toast('✓ Logged — added to audit trail')">Save to audit log</button></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── helpers ──────────────────────────────────────────────────────────────────
-function toast(msg, dur=2800){
+// NAV
+function go(id, el){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// COMPOSE TABS
+function ctab(id, el){
+  document.querySelectorAll('.ctb').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ctb-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// MODALS
+function openM(id){ document.getElementById(id).classList.add('open'); }
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m) m.classList.remove('open')}));
+
+// TOAST
+function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.style.opacity='1';
-  clearTimeout(t._tid);
-  t._tid=setTimeout(()=>t.style.opacity='0', dur);
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',3000);
 }
 
-function setLoading(on){
-  const btn=document.getElementById('search-btn');
-  btn.disabled=on;
-  btn.innerHTML=on?'<span class="spinner"></span>&nbsp;Fetching...':'Search IAPD';
+// FILE UPLOAD
+function handleFileInput(input){
+  if(input.files.length) addToQueue(input.files[0]);
 }
 
-function ageBadge(dateStr){
-  if(!dateStr) return '<span class="age-badge" style="background:var(--cream-dark);color:var(--text-muted)">Unknown</span>';
-  const days=Math.floor((Date.now()-new Date(dateStr))/(1000*60*60*24));
-  const months=Math.floor(days/30);
-  if(days<180) return `<span class="age-badge" style="background:var(--green-light);color:var(--green)">${months}mo ago</span>`;
-  if(days<365) return `<span class="age-badge" style="background:var(--amber-light);color:var(--amber)">${months}mo ago</span>`;
-  return `<span class="age-badge" style="background:var(--red-light);color:var(--red)">${Math.floor(days/365)}yr+ ago</span>`;
+function handleDrop(event, zoneId){
+  event.preventDefault();
+  document.getElementById(zoneId).classList.remove('drag');
+  const file = event.dataTransfer.files[0];
+  if(file && file.type==='application/pdf') addToQueue(file);
+  else toast('Please drop a PDF file');
 }
 
-function fmtDate(d){
-  if(!d) return '—';
-  try{ return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
-  catch{ return d; }
-}
-
-function truncate(s,n=60){ return s&&s.length>n?s.slice(0,n)+'…':s; }
-
-// ── search by firm name ──────────────────────────────────────────────────────
-async function doSearch(){
-  const raw = document.getElementById('search-input').value.trim();
-  if(!raw){ toast('Enter a firm name or CRD number'); return; }
-  // detect numeric CRD
-  if(/^\d+$/.test(raw)){
-    await fetchByCRD(raw);
-  } else {
-    await fetchByName(raw);
-  }
-}
-
-function quickSearch(name){
-  document.getElementById('search-input').value=name;
-  fetchByName(name);
-}
-function quickCRD(crd){
-  document.getElementById('search-input').value=crd;
-  fetchByCRD(crd);
-}
-
-// ── fetch by firm name via IAPD autocomplete ─────────────────────────────────
-async function fetchByName(name){
-  setLoading(true);
-  showSkeleton();
-  try {
-    // IAPD firm search endpoint — returns matching firms
-    const url=`https://efts.sec.gov/LATEST/search-index?q=%22${encodeURIComponent(name)}%22&dateRange=custom&startdt=2000-01-01&enddt=2030-01-01&forms=ADV&hits.hits._source=period_of_report,file_date,biz_name,entity_id,file_num&hits.hits.total=true`;
-    // Use IAPD's own search endpoint instead
-    const searchUrl = `https://efts.sec.gov/LATEST/search-index?q=%22${encodeURIComponent(name)}%22&forms=ADV`;
-    
-    // Try the IAPD adviser search
-    const iapd = await fetch(`https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(name)}&forms=ADV&dateRange=custom&startdt=2022-01-01&enddt=2026-12-31`);
-    
-    if(!iapd.ok) throw new Error('IAPD search unavailable');
-    const data = await iapd.json();
-    
-    if(!data.hits?.hits?.length){
-      showNoResults(name);
-      return;
-    }
-    
-    // Show firm list to pick from
-    showFirmList(data.hits.hits, name);
-  } catch(e) {
-    // Fallback to IAPD adviser search API
-    try {
-      await fetchByNameFallback(name);
-    } catch(e2){
-      showError(e2.message);
-    }
-  } finally {
-    setLoading(false);
-  }
-}
-
-async function fetchByNameFallback(name){
-  // SEC EDGAR full text search for ADV filings
-  const r = await fetch(`https://efts.sec.gov/LATEST/search-index?q=%22${encodeURIComponent(name)}%22&forms=ADV`);
-  if(!r.ok) throw new Error('SEC search returned '+r.status);
-  const d = await r.json();
-  if(!d.hits?.hits?.length){ showNoResults(name); return; }
-  showFirmList(d.hits.hits, name);
-}
-
-// ── fetch by CRD directly ────────────────────────────────────────────────────
-async function fetchByCRD(crd){
-  setLoading(true);
-  showSkeleton();
-  try{
-    // IAPD's internal API — returns firm info and brochures by CRD
-    const r = await fetch(`https://api.adviserinfo.sec.gov/api/Individual/9900003?hl=true&nrows=12&start=0&r=25&sort=score+desc`);
-    // That's individual — use firm endpoint
-    throw new Error('use firm endpoint');
-  } catch {
-    try {
-      await fetchByCRDViaSEC(crd);
-    } catch(e) {
-      showError(e.message);
-    }
-  } finally {
-    setLoading(false);
-  }
-}
-
-async function fetchByCRDViaSEC(crd){
-  // Try IAPD firm summary API (the one the website uses internally)
-  const endpoints = [
-    `https://api.adviserinfo.sec.gov/api/Firm/${crd}`,
-    `https://efts.sec.gov/LATEST/search-index?q=%22${crd}%22&forms=ADV`,
-  ];
-  
-  let firmData = null;
-  let brochures = [];
-  
-  // Try the IAPD internal firm API first
-  try {
-    const r = await fetch(`https://api.adviserinfo.sec.gov/api/Firm/${crd}?hl=true&nrows=12&start=0&r=25&sort=score+desc`, {
-      headers: {'Accept': 'application/json'}
-    });
-    if(r.ok){
-      const d = await r.json();
-      if(d.hits?.hits?.length){
-        firmData = d.hits.hits[0]._source;
-      }
-    }
-  } catch {}
-
-  // Try EDGAR full text search for this CRD
-  const r2 = await fetch(`https://efts.sec.gov/LATEST/search-index?q=%22${crd}%22&forms=ADV`);
-  if(!r2.ok) throw new Error('EDGAR search unavailable ('+r2.status+')');
-  const d2 = await r2.json();
-  
-  if(!d2.hits?.hits?.length){
-    showNoResults('CRD '+crd);
-    return;
-  }
-  
-  showFirmList(d2.hits.hits, 'CRD '+crd, crd);
-}
-
-// ── render firm list ─────────────────────────────────────────────────────────
-function showFirmList(hits, query, highlightCRD=null){
-  // Group and deduplicate by entity name
-  const seen = new Set();
-  const firms = [];
-  for(const h of hits){
-    const s = h._source || {};
-    const name = s.display_names?.[0] || s.entity_name || s.biz_name || 'Unknown Firm';
-    const key = name.toLowerCase().slice(0,30);
-    if(seen.has(key)) continue;
-    seen.add(key);
-    firms.push({
-      name,
-      fileDate: s.file_date || s.period_of_report || '',
-      fileNum: s.file_num || '',
-      entityId: s.entity_id || '',
-      cik: h._id || '',
-      raw: s
-    });
-    if(firms.length>=8) break;
-  }
-
-  if(firms.length===1){
-    // Auto-select if only one result
-    selectFirm(firms[0]);
-    return;
-  }
-
-  const ra = document.getElementById('results-area');
-  ra.innerHTML=`
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">Results for "${query}" — select a firm</div>
-        <span class="pill pill-blue">${firms.length} match${firms.length!==1?'es':''}</span>
-      </div>
-      <div id="firm-list">
-        ${firms.map((f,i)=>`
-          <div onclick="selectFirmByIndex(${i})" style="display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s" onmouseover="this.style.background='#FAFAF8'" onmouseout="this.style.background=''">
-            <div style="width:36px;height:36px;border-radius:7px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:500;color:var(--blue)">${f.name.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('')}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name}</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:2px">
-                ${f.fileNum?'File: '+f.fileNum+' · ':''} 
-                ${f.fileDate?'Last filed: '+fmtDate(f.fileDate):''}
-              </div>
-            </div>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;color:var(--text-muted)"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-        `).join('')}
-      </div>
-    </div>`;
-  
-  // store firms for click handler
-  window._iapd_firms = firms;
-}
-
-function selectFirmByIndex(i){
-  selectFirm(window._iapd_firms[i]);
-}
-
-// ── select firm and fetch brochures ──────────────────────────────────────────
-async function selectFirm(firm){
-  showSkeleton();
-  setLoading(true);
-  
-  try {
-    // Try to get brochures via EDGAR EFTS — search for ADV Part 2 exhibits
-    const name = firm.name;
-    const query = `"${name.split(' ').slice(0,3).join(' ')}"`;
-    
-    // Fetch ADV filings for this firm
-    const r = await fetch(`https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(query)}&forms=ADV&dateRange=custom&startdt=2018-01-01&enddt=2026-12-31`);
-    
-    if(!r.ok) throw new Error('Could not fetch filing data');
-    const d = await r.json();
-    
-    // Try to get actual brochure data from the IAPD brochure API
-    let brochures = [];
-    let firmInfo = {};
-    
-    // Extract filings metadata
-    const filings = d.hits?.hits || [];
-    
-    // Build brochure list from filings — each ADV filing may have part 2 brochures
-    const seenDates = new Set();
-    for(const f of filings){
-      const s = f._source || {};
-      const dt = s.file_date || s.period_of_report;
-      if(!dt || seenDates.has(dt)) continue;
-      seenDates.add(dt);
-      
-      // Look for Part 2 indicators in the filing
-      const desc = (s.form_type||'').toLowerCase();
-      const isAmended = desc.includes('/a');
-      
-      brochures.push({
-        name: isAmended ? 'Form ADV Part 2 (Amendment)' : 'Form ADV Part 2',
-        dateSubmitted: dt,
-        formType: s.form_type || 'ADV',
-        fileNum: s.file_num || '',
-        accession: (f._id||'').replace(/[^0-9]/g,'').slice(0,18),
-        edgarUrl: s.file_num ? 
-          `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&filenum=${encodeURIComponent(s.file_num)}&type=ADV&dateb=&owner=include&count=40` :
-          `https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(query)}&forms=ADV`,
-        isAmended
-      });
-      
-      if(brochures.length>=12) break;
-    }
-    
-    firmInfo = {
-      name: firm.name,
-      fileNum: firm.fileNum || (filings[0]?._source?.file_num) || '',
-      totalFilings: d.hits?.total?.value || filings.length,
-      lastFiled: filings[0]?._source?.file_date || ''
-    };
-    
-    renderFirmResult(firmInfo, brochures, query);
-    
-  } catch(e){
-    showError('Could not load brochures: ' + e.message);
-  } finally {
-    setLoading(false);
-  }
-}
-
-// ── render firm result ───────────────────────────────────────────────────────
-function renderFirmResult(firm, brochures, query){
-  const ra = document.getElementById('results-area');
-  
-  const mostRecent = brochures[0]?.dateSubmitted || '';
-  const daysSince = mostRecent ? Math.floor((Date.now()-new Date(mostRecent))/(1000*60*60*24)) : null;
-  
-  ra.innerHTML=`
-    <div class="firm-header">
-      <div class="firm-name-block">
-        <div class="firm-result-name">${firm.name}</div>
-        <div class="firm-meta">
-          ${firm.fileNum?`<div class="firm-meta-item"><div class="firm-meta-dot"></div>SEC File: ${firm.fileNum}</div>`:''}
-          <div class="firm-meta-item"><div class="firm-meta-dot"></div>${firm.totalFilings} ADV filings on EDGAR</div>
-          ${firm.lastFiled?`<div class="firm-meta-item"><div class="firm-meta-dot"></div>Most recent: ${fmtDate(firm.lastFiled)}</div>`:''}
-          <div class="firm-meta-item"><div class="firm-meta-dot"></div>Data: SEC EDGAR live</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0">
-        ${daysSince!==null?`<span class="pill ${daysSince<180?'pill-green':daysSince<365?'pill-amber':'pill-red'}"><span class="dot"></span>${daysSince<180?'Current':'Needs review'}</span>`:''}
-        <a href="https://adviserinfo.sec.gov/firm/summary/${firm.fileNum?firm.fileNum.replace('801-','').replace('802-',''):'0'}" target="_blank" class="btn btn-xs" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7);background:rgba(255,255,255,.08)">View on IAPD ↗</a>
-      </div>
+function addToQueue(file){
+  const q = document.getElementById('upload-queue');
+  const kb = (file.size/1024).toFixed(0);
+  const item = document.createElement('div');
+  item.className = 'uq-item';
+  item.innerHTML = `
+    <div class="uq-icon"><div class="uq-fold"></div>PDF</div>
+    <div style="flex:1">
+      <div class="uq-name">${file.name}</div>
+      <div class="uq-meta">${kb} KB · Ready to upload</div>
     </div>
-    
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/></svg>
-          ADV Filings — ${brochures.length} found
-        </div>
-        <div style="display:flex;gap:7px;align-items:center">
-          <button class="btn btn-xs" onclick="doSearch()">← New search</button>
-          <a href="https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(query)}&forms=ADV" target="_blank" class="btn btn-xs">View all on EDGAR ↗</a>
-        </div>
-      </div>
-      
-      ${brochures.length===0?`
-        <div class="empty-state">
-          <div class="empty-icon">📄</div>
-          <div class="empty-title">No ADV filings found</div>
-          <div class="empty-sub">This firm may not have electronic filings on EDGAR, or may be state-registered only.</div>
-        </div>
-      `:`
-        <div class="tbl-head">
-          <span>Filing type</span>
-          <span>Filed date</span>
-          <span>Age</span>
-          <span style="text-align:right">Actions</span>
-        </div>
-        ${brochures.map((b,i)=>`
-          <div class="brochure-row">
-            <div>
-              <div class="brochure-name">${b.name}${b.isAmended?' <span style="font-size:10px;font-weight:400;color:var(--amber)">(Amendment)</span>':''}</div>
-              <div class="brochure-name-sub">${b.formType}${b.fileNum?' · '+b.fileNum:''}</div>
-            </div>
-            <div class="brochure-date">${fmtDate(b.dateSubmitted)}</div>
-            <div>${ageBadge(b.dateSubmitted)}</div>
-            <div class="brochure-actions">
-              <a href="${b.edgarUrl}" target="_blank" class="btn btn-xs">View on EDGAR ↗</a>
-              ${i===0?`<button class="btn btn-xs btn-primary" onclick="toast('In production: imports this filing into your document library')">Import</button>`:''}
-            </div>
-          </div>
-        `).join('')}
-      `}
-      
-      <div style="padding:12px 16px;background:var(--cream);border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);display:flex;align-items:center;justify-content:space-between">
-        <span>Live data from SEC EDGAR · Updated daily by the SEC · <a href="https://adviserinfo.sec.gov" target="_blank" style="color:var(--blue);text-decoration:none">adviserinfo.sec.gov ↗</a></span>
-        <span>Searched: ${new Date().toLocaleTimeString()}</span>
-      </div>
-    </div>
-    
-    <div class="alert alert-amber">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      <div><strong>Production note:</strong> The "Import" button would pull the latest ADV Part 2A PDF from EDGAR into your DisclosureIQ document library and flag any clients who haven't received the updated version. In this demo it shows a toast. EDGAR provides direct PDF links for each filing.</div>
-    </div>
-  `;
+    <span class="pill pg">Ready</span>`;
+  q.appendChild(item);
+  toast('File ready — select document type and click Upload');
 }
 
-// ── skeleton / error / empty ─────────────────────────────────────────────────
-function showSkeleton(){
-  document.getElementById('results-area').innerHTML=`
-    <div class="card">
-      <div class="card-head"><div class="card-title">Searching IAPD...</div></div>
-      <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
-        <div class="skeleton" style="height:14px;width:60%"></div>
-        <div class="skeleton" style="height:14px;width:80%"></div>
-        <div class="skeleton" style="height:14px;width:45%"></div>
-        <div class="skeleton" style="height:14px;width:70%"></div>
-      </div>
-    </div>`;
-}
-
-function showNoResults(q){
-  document.getElementById('results-area').innerHTML=`
-    <div class="card"><div class="empty-state">
-      <div class="empty-icon">🔍</div>
-      <div class="empty-title">No results for "${q}"</div>
-      <div class="empty-sub">Try a different firm name, or enter the CRD number directly.<br>Some state-registered advisers may not appear in EDGAR.</div>
-    </div></div>`;
-}
-
-function showError(msg){
-  document.getElementById('results-area').innerHTML=`
-    <div class="card"><div class="empty-state">
-      <div class="empty-icon">⚠️</div>
-      <div class="empty-title">Could not reach SEC EDGAR</div>
-      <div class="empty-sub">${msg}<br><br>SEC EDGAR may be temporarily unavailable, or your browser may be blocking the cross-origin request. Try opening this page on a server (GitHub Pages) rather than as a local file.</div>
-    </div></div>
-    <div class="alert alert-blue">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      <div><strong>Tip:</strong> The SEC EDGAR API works best when the page is served from a domain (GitHub Pages, Vercel, etc.). Opening the HTML file directly from your desktop may trigger CORS restrictions. Upload to GitHub Pages and the live search will work.</div>
-    </div>`;
+function submitUpload(){
+  closeM('m-upload');
+  document.getElementById('upload-queue').innerHTML='';
+  toast('✓ Document uploaded and saved to library');
 }
 </script>
 </body>
