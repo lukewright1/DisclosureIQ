@@ -194,6 +194,98 @@ tr:hover td{background:#FAFAF8}
 
 /* TOAST */
 .toast{position:fixed;bottom:18px;right:18px;background:var(--navy);color:var(--white);padding:10px 15px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:280px}
+
+/* IAPD LOOKUP */
+.qcrd-btn{padding:4px 12px;border:1px solid var(--border);border-radius:99px;background:var(--white);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text-mid);transition:all .15s}
+.qcrd-btn:hover{border-color:var(--navy);color:var(--navy);background:var(--blue-light)}
+.iapd-step{display:flex;gap:11px;padding:10px 12px;border-radius:7px;transition:background .15s}
+.iapd-step.active-step{background:var(--blue-light);border:1px solid #B5D4F4}
+.iapd-step:not(.active-step){opacity:.6}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;margin-top:1px}
+.active-step .step-num{background:var(--blue)}
+.step-title{font-size:12px;font-weight:500;margin-bottom:3px;color:var(--text)}
+.step-desc{font-size:11px;color:var(--text-muted);line-height:1.5}
+.upload-zone{border:2px dashed var(--border);border-radius:9px;padding:22px;text-align:center;cursor:pointer;transition:all .15s;background:var(--cream)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--navy);background:var(--blue-light)}
+.uz-icon{font-size:24px;margin-bottom:8px;opacity:.5}
+.uz-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.uz-sub{font-size:11px;color:var(--text-muted)}
+.upload-queue{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.uq-item{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--white);border:1px solid var(--border);border-radius:7px}
+.uq-icon{width:28px;height:34px;background:var(--navy);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;flex-shrink:0;font-size:7px;color:var(--gold);font-weight:500;letter-spacing:.03em;position:relative}
+.uq-fold{position:absolute;top:0;right:0;width:8px;height:8px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)}
+.iapd-doc-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.iapd-doc-row:last-child{border-bottom:none}
+.iapd-status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+
+/* SCHEDULE EDITOR */
+.sched-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sched-card.expanded .sched-expand{display:block}
+.sched-card.expanded .sched-chevron{transform:rotate(180deg)}
+.sched-header{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;user-select:none}
+.sched-header:hover{background:#FAFAF8}
+.sched-doc-icon{width:32px;height:38px;background:var(--navy);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;flex-shrink:0;font-size:7px;color:var(--gold);font-weight:500;letter-spacing:.02em;position:relative}
+.sched-doc-fold{position:absolute;top:0;right:0;width:8px;height:8px;background:var(--navy-light);clip-path:polygon(0 0,100% 100%,100% 0)}
+.sched-info{flex:1;min-width:0}
+.sched-name{font-size:13px;font-weight:500}
+.sched-summary{font-size:11px;color:var(--text-muted);margin-top:2px}
+.sched-badges{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.sched-chevron{color:var(--text-muted);font-size:12px;transition:transform .2s;flex-shrink:0;margin-left:4px}
+.sched-expand{display:none;border-top:1px solid var(--border);padding:16px;background:var(--cream)}
+.sched-expand-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.sched-toggle{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer}
+.toggle-switch{width:34px;height:18px;background:var(--border);border-radius:99px;position:relative;transition:background .2s;flex-shrink:0;cursor:pointer}
+.toggle-switch.on{background:var(--green)}
+.toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--white);border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-switch.on::after{transform:translateX(16px)}
+.freq-select{padding:5px 9px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:var(--white);font-family:'DM Sans',sans-serif;color:var(--text);outline:none;cursor:pointer}
+.freq-select:focus{border-color:var(--navy)}
+.next-send-preview{background:var(--white);border:1px solid var(--border);border-radius:7px;padding:10px 13px;font-size:12px}
+.nsp-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.nsp-date{font-size:15px;font-weight:500;color:var(--navy);font-family:'Playfair Display',serif}
+.nsp-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.custom-dates{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.custom-date-row{display:flex;align-items:center;gap:7px;font-size:12px}
+.delete-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 4px;border-radius:3px;line-height:1}
+.delete-btn:hover{color:var(--red);background:var(--red-light)}
+
+
+/* SEND COMPOSER EXTRAS */
+.merge-btn{padding:3px 9px;border:1px solid rgba(201,168,76,.35);border-radius:99px;background:rgba(201,168,76,.1);color:#7A5E1A;font-size:10px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.merge-btn:hover{background:var(--gold);color:var(--navy)}
+.check-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:7px;font-size:12px;border:1px solid}
+.check-ok{background:var(--green-light);border-color:var(--green-mid);color:var(--green)}
+.check-warn{background:var(--amber-light);border-color:#FAC775;color:var(--amber)}
+.ci-icon{font-size:13px;flex-shrink:0}
+.ci-text{flex:1}
+
+/* PROFILE */
+.contact-row:last-child{border-bottom:none}
+
+
+/* CLIENT MODAL TABS */
+.cl-modal-tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none}
+.cl-modal-tab:hover{color:var(--text)}
+.cl-modal-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.cl-tab-body{display:none}
+.cl-tab-body.active{display:block}
+
+/* ACCOUNT ROWS */
+.acct-row{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;position:relative}
+.acct-row-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.acct-row-label{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.acct-del-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:0;line-height:1}
+.acct-del-btn:hover{color:var(--red)}
+
+/* EMAIL SYSTEM CALLOUT */
+.email-option-card{border:1.5px solid var(--border);border-radius:8px;padding:13px;cursor:pointer;transition:all .15s}
+.email-option-card:hover{border-color:var(--navy)}
+.email-option-card.selected{border-color:var(--navy);background:var(--blue-light)}
+.email-option-name{font-size:13px;font-weight:500;margin-bottom:3px}
+.email-option-desc{font-size:11px;color:var(--text-muted);line-height:1.5}
+.email-option-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+
 </style>
 </head>
 <body>
@@ -222,6 +314,7 @@ tr:hover td{background:#FAFAF8}
     <div class="ni" onclick="go('mail',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Physical Mail</div>
     <div class="nl">Settings</div>
     <div class="ni" onclick="go('integrations',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="4" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8h2M10 4.5L7 7M10 11.5L7 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Integrations</div>
+    <div class="ni" onclick="go('profile',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Firm Profile</div>
   </nav>
   <div class="sb-foot">
     <div class="ua">LW</div>
@@ -323,61 +416,117 @@ tr:hover td{background:#FAFAF8}
 <div id="s-send" class="scr">
   <div class="tb">
     <div class="tbl"><span class="pt">Send Disclosures</span><span class="ps">Select documents · compose · deliver</span></div>
-    <div class="tbr"><button class="btn btn-g" onclick="openM('m-confirmsend')">Send to 247 clients →</button></div>
+    <div class="tbr">
+      <button class="btn btn-sm" onclick="saveDraft()">Save draft</button>
+      <button class="btn btn-sm btn-g" onclick="openM('m-confirmsend')">Send to <span id="send-count-label">247</span> clients →</button>
+    </div>
   </div>
   <div class="con" style="padding-bottom:0">
     <div class="cl">
+
+      <!-- LEFT: DOC SELECTOR -->
       <div class="dp">
-        <div class="ch" style="background:var(--cream)"><div class="ct">Documents</div><span class="pill pb">4 selected</span></div>
-        <div style="padding:7px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px"><input type="checkbox" checked/><span style="font-size:11px;font-weight:500">Select all</span></div>
-        <div style="flex:1;overflow-y:auto">
-          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">ADV Part 2A – Firm Brochure</div><div class="dcm">28 pg · <span style="color:var(--red)">IAPD outdated</span></div></div></div>
-          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">ADV Part 2B – Supplement</div><div class="dcm">18 pg · Current</div></div></div>
-          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">Form CRS</div><div class="dcm">2 pg · Current</div></div></div>
-          <div class="dci"><input type="checkbox" checked/><div><div class="dcn">Privacy Policy (Reg S-P)</div><div class="dcm">12 pg · Current</div></div></div>
-          <div class="dci"><input type="checkbox"/><div><div class="dcn">Fee Disclosure – Quarterly</div><div class="dcm">6 pg · Internal</div></div></div>
-          <div class="dci"><input type="checkbox"/><div><div class="dcn">Wrap Fee Brochure</div><div class="dcm">24 pg · <span style="color:var(--amber)">IAPD outdated</span></div></div></div>
+        <div class="ch" style="background:var(--cream)"><div class="ct">Documents</div><span class="pill pb" id="doc-sel-count">4 selected</span></div>
+        <div style="padding:7px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px">
+          <input type="checkbox" id="sel-all-docs" checked onchange="toggleAllDocs(this.checked)"/>
+          <span style="font-size:11px;font-weight:500">Select all</span>
         </div>
-        <div style="padding:8px 11px;border-top:1px solid var(--border);background:var(--cream);font-size:10px;color:var(--text-muted)">4 docs · 1.46 MB · 247 recipients</div>
+        <div style="flex:1;overflow-y:auto" id="doc-checklist"></div>
+        <div style="padding:8px 11px;border-top:1px solid var(--border);background:var(--cream);font-size:10px;color:var(--text-muted)" id="doc-size-label">4 docs · 1.46 MB · 247 recipients</div>
       </div>
+
+      <!-- RIGHT: COMPOSER -->
       <div class="cp">
         <div class="ctabs">
           <div class="ctab active" onclick="ctab('compose',this)">Compose</div>
           <div class="ctab" onclick="ctab('preview',this)">Preview</div>
-          <div class="ctab" onclick="ctab('recipients',this)">Recipients (247)</div>
+          <div class="ctab" onclick="ctab('recipients',this)">Recipients (<span id="recip-count">247</span>)</div>
           <div class="ctab" onclick="ctab('checklist',this)">Pre-send ✓</div>
         </div>
-        <div class="ctb active" id="ctb-compose">
-          <div class="fg"><label class="lbl">From address</label><input type="text" value="compliance@horizonwealth.com" style="width:100%"/></div>
-          <div class="fg"><label class="lbl">Subject</label><input type="text" value="Important: Your annual regulatory disclosure documents — Horizon Wealth Advisors" style="width:100%"/></div>
-          <div class="fg"><label class="lbl">Message</label><textarea style="width:100%;height:100px;resize:vertical">Dear [Client Name],
 
-Horizon Wealth Advisors, LLC is providing your annual regulatory disclosures as required by the SEC. Please review them via the secure link below.
+        <!-- COMPOSE TAB -->
+        <div class="ctb active" id="ctb-compose" style="overflow-y:auto">
 
-[SECURE PORTAL LINK]
+          <!-- FROM / SUBJECT -->
+          <div style="background:var(--cream);border-radius:7px;padding:11px 13px;margin-bottom:12px">
+            <div style="font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Delivery settings</div>
+            <div class="fg"><label class="lbl">From address</label><input type="text" id="from-addr" value="compliance@horizonwealth.com" style="width:100%"/></div>
+            <div class="fg"><label class="lbl">Reply-to</label><input type="text" id="reply-to" value="luke.wright@horizonwealth.com" style="width:100%"/></div>
+            <div class="fg" style="margin-bottom:0"><label class="lbl">Subject line</label><input type="text" id="email-subject" value="Important: Your annual regulatory disclosure documents — Horizon Wealth Advisors" style="width:100%"/></div>
+          </div>
 
-Questions? Call us at (714) 555-0100.
+          <!-- PERSONALIZATION -->
+          <div style="background:var(--gold-pale);border:1px solid rgba(201,168,76,.25);border-radius:7px;padding:11px 13px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <div style="font-size:10px;font-weight:500;color:#7A5E1A;text-transform:uppercase;letter-spacing:.06em">Personalized message</div>
+              <div style="display:flex;gap:5px;flex-wrap:wrap">
+                <button class="merge-btn" onclick="insertMerge('[Client Name]')">Client Name</button>
+                <button class="merge-btn" onclick="insertMerge('[Account #]')">Account #</button>
+                <button class="merge-btn" onclick="insertMerge('[Advisor Name]')">Advisor Name</button>
+                <button class="merge-btn" onclick="insertMerge('[Date]')">Date</button>
+                <button class="merge-btn" onclick="insertMerge('[Firm Name]')">Firm Name</button>
+              </div>
+            </div>
+            <textarea id="email-body" style="width:100%;height:140px;resize:vertical;font-size:12px;line-height:1.7;border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:9px 11px;background:var(--white)" oninput="syncPreview()">Dear [Client Name],
+
+Horizon Wealth Advisors, LLC is providing you with your annual regulatory disclosure documents as required by the SEC. Please take a moment to review these documents at your earliest convenience using the secure link below.
+
+If you have any questions about the enclosed disclosures, please don't hesitate to reach out to [Advisor Name] directly or contact our compliance team at (714) 555-0100.
+
+We appreciate your continued trust in [Firm Name].
 
 Sincerely,
-Luke Wright · Compliance Officer</textarea></div>
-          <div class="fr"><div><label class="lbl">Delivery method</label><select style="width:100%"><option>Email + Secure portal link</option><option>Physical mail only</option><option>Email with PDF attachment</option></select></div><div><label class="lbl">Acknowledgement</label><select style="width:100%"><option>Required — gate before view</option><option>Prompted — can skip</option><option>None</option></select></div></div>
-          <div class="al al-a"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>ADV Part 2A is outdated vs IAPD — consider uploading the current version before sending. <span style="text-decoration:underline;cursor:pointer;margin-left:4px" onclick="go('iapd',document.querySelectorAll('.ni')[4])">Resolve →</span></div>
-        </div>
-        <div class="ctb" id="ctb-preview">
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Email preview — what clients receive</div>
-          <div style="border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;line-height:1.7;margin-bottom:12px">
-            <div style="font-size:10px;color:var(--text-muted);margin-bottom:7px"><strong>From:</strong> compliance@horizonwealth.com &nbsp;·&nbsp; <strong>To:</strong> [Client Email]</div>
-            <div style="font-size:10px;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:7px;margin-bottom:10px"><strong>Subject:</strong> Important: Your annual regulatory disclosure documents</div>
-            <div style="height:3px;background:var(--navy);border-radius:2px;margin-bottom:10px"></div>
-            <p style="margin-bottom:8px">Dear James & Patricia Whitmore,</p>
-            <p style="margin-bottom:8px;color:var(--text-mid)">Horizon Wealth Advisors, LLC is providing your annual regulatory disclosures as required by the SEC.</p>
-            <div style="background:var(--navy);border-radius:6px;padding:11px;text-align:center;margin:12px 0">
-              <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px">Your secure document portal</div>
-              <div style="font-size:12px;font-weight:500;color:var(--white)">View & acknowledge your documents →</div>
-              <div style="font-size:9px;color:var(--gold);margin-top:3px">disclosures.horizonwealth.com/c/WH-4421</div>
-            </div>
-            <div style="font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:8px">Horizon Wealth Advisors, LLC · CRD #317245 · 2100 Main St Suite 500 · Huntington Beach, CA 92648</div>
+[Advisor Name]
+Horizon Wealth Advisors, LLC</textarea>
+            <div style="font-size:10px;color:#7A5E1A;margin-top:6px;opacity:.7">Merge fields are replaced with each client's actual data on send. Click a field above to insert it at the cursor.</div>
           </div>
+
+          <!-- COMPLIANCE FOOTER -->
+          <div style="background:var(--cream);border-radius:7px;padding:11px 13px;margin-bottom:12px">
+            <div style="font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Compliance footer</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" checked/> SEC registration notice</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" checked/> Confidentiality notice</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" checked/> Not investment advice disclaimer</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox"/> Unsubscribe link</label>
+            </div>
+          </div>
+
+          <!-- DELIVERY SETTINGS -->
+          <div class="fr">
+            <div><label class="lbl">Delivery method</label><select style="width:100%"><option>Email + Secure portal link</option><option>Physical mail only</option><option>Email with PDF attachment</option></select></div>
+            <div><label class="lbl">Acknowledgement gate</label><select style="width:100%"><option>Required — sign before viewing</option><option>Prompted — can skip</option><option>None</option></select></div>
+          </div>
+
+          <div class="al al-a" style="margin-top:4px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>ADV Part 2A is outdated vs IAPD. <span style="text-decoration:underline;cursor:pointer" onclick="go('iapd',document.querySelectorAll('.ni')[4])">Resolve on IAPD sync screen →</span></div>
+        </div>
+
+        <!-- PREVIEW TAB -->
+        <div class="ctb" id="ctb-preview" style="overflow-y:auto">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Live preview — updates as you type in Compose tab</div>
+
+          <!-- EMAIL MOCK -->
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;font-size:12px">
+            <div style="background:var(--cream);padding:10px 14px;border-bottom:1px solid var(--border)">
+              <div style="color:var(--text-muted);margin-bottom:3px"><strong>From:</strong> <span id="prev-from"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4625292b362a2f27282523062e29342f3c29283123272a322e6825292b">[email&#160;protected]</a></span></div>
+              <div style="color:var(--text-muted);margin-bottom:3px"><strong>To:</strong> James & Patricia Whitmore &lt;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fa90d48d92938e9795889fba9f979b9396d4999597">[email&#160;protected]</a>&gt;</div>
+              <div style="color:var(--text-muted)"><strong>Subject:</strong> <span id="prev-subject">Important: Your annual regulatory disclosure documents</span></div>
+            </div>
+            <div style="padding:16px">
+              <div style="height:3px;background:var(--navy);border-radius:2px;margin-bottom:12px"></div>
+              <div id="prev-body" style="line-height:1.7;color:var(--text-mid);white-space:pre-wrap;font-size:12px"></div>
+              <div style="background:var(--navy);border-radius:6px;padding:11px;text-align:center;margin:14px 0">
+                <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px">Your secure document portal</div>
+                <div style="font-size:12px;font-weight:500;color:var(--white)">View & acknowledge your documents →</div>
+                <div style="font-size:9px;color:var(--gold);margin-top:3px">disclosures.horizonwealth.com/c/WH-4421</div>
+              </div>
+              <div id="prev-footer" style="font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:10px;line-height:1.6">
+                Horizon Wealth Advisors, LLC is registered as an investment adviser with the SEC (CRD #317245). This communication and any attached documents are intended solely for the named recipient and are confidential. This is not investment advice.
+              </div>
+            </div>
+          </div>
+
+          <!-- PORTAL PREVIEW -->
           <div style="font-size:11px;font-weight:500;margin-bottom:8px">Client portal preview</div>
           <div class="pp">
             <div class="ppb"><div class="ppd" style="background:#FF5F57"></div><div class="ppd" style="background:#FFBD2E"></div><div class="ppd" style="background:#28C840"></div><span class="ppu">disclosures.horizonwealth.com/c/WH-4421</span></div>
@@ -391,31 +540,39 @@ Luke Wright · Compliance Officer</textarea></div>
             </div>
           </div>
         </div>
-        <div class="ctb" id="ctb-recipients">
-          <div style="display:flex;gap:7px;margin-bottom:10px"><input type="text" placeholder="Search clients..." style="flex:1"/><select style="width:120px"><option>All clients</option><option>Email valid</option><option>Needs mail</option></select></div>
-          <table><thead><tr><th>Client</th><th>Account</th><th>Email</th><th>Status</th></tr></thead><tbody>
-            <tr><td style="font-weight:500">James & Patricia Whitmore</td><td>WH-4421</td><td>j.whitmore@email.com</td><td><span class="pill pg">Valid</span></td></tr>
-            <tr><td style="font-weight:500">Margaret O'Sullivan</td><td>OS-8834</td><td style="color:var(--red)">Email bounced</td><td><span class="pill pa">Mail queue</span></td></tr>
-            <tr><td style="font-weight:500">David & Sandra Park</td><td>PK-1109</td><td>d.park@email.com</td><td><span class="pill pg">Valid</span></td></tr>
-            <tr><td style="font-weight:500">Yuki Tanaka</td><td>TN-5523</td><td>y.tanaka@email.com</td><td><span class="pill pg">Valid</span></td></tr>
-            <tr><td style="font-weight:500">Thomas Ellsworth III</td><td>EL-0042</td><td style="color:var(--red)">Email bounced</td><td><span class="pill pa">Mail queue</span></td></tr>
-            <tr><td colspan="4" style="color:var(--text-muted);font-size:11px">+ 242 more clients</td></tr>
-          </tbody></table>
-        </div>
-        <div class="ctb" id="ctb-checklist">
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">All required items must be resolved before sending.</div>
-          <div style="display:flex;flex-direction:column;gap:7px">
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>247 recipients loaded from Redtail sync</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>4 documents selected · 1.46 MB total</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>SMTP configured · compliance@horizonwealth.com</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green)">✓</span>Compliance footer enabled</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber)">⚠</span><span style="flex:1"><strong>ADV Part 2A outdated vs IAPD</strong> — upload current version before send</span><button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload</button></div>
-            <div style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber)">⚠</span>2 clients have bounced emails — will auto-queue for Lob mail</div>
+
+        <!-- RECIPIENTS TAB -->
+        <div class="ctb" id="ctb-recipients" style="overflow-y:auto">
+          <div style="display:flex;gap:7px;margin-bottom:10px">
+            <input type="text" placeholder="Search clients..." style="flex:1" oninput="filterRecipients(this.value)"/>
+            <select style="width:130px" onchange="filterRecipientStatus(this.value)">
+              <option value="all">All clients</option>
+              <option value="valid">Email valid</option>
+              <option value="bounce">Bounced</option>
+              <option value="mail">Mail queue</option>
+            </select>
           </div>
-          <button class="btn btn-g" style="width:100%;margin-top:12px;padding:11px" onclick="openM('m-confirmsend')">Proceed to send →</button>
+          <table><thead><tr><th><input type="checkbox" checked onchange="toggleAllRecipients(this.checked)"/></th><th>Client</th><th>Account</th><th>Email</th><th>Status</th></tr></thead>
+          <tbody id="recipients-tbody"></tbody></table>
         </div>
-      </div>
-    </div>
+
+        <!-- PRE-SEND CHECKLIST TAB -->
+        <div class="ctb" id="ctb-checklist" style="overflow-y:auto">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">All required items must be resolved before sending.</div>
+          <div style="display:flex;flex-direction:column;gap:7px" id="checklist-items">
+            <div class="check-item check-ok"><span class="ci-icon">✓</span><span class="ci-text">247 recipients loaded from Redtail sync</span></div>
+            <div class="check-item check-ok"><span class="ci-icon">✓</span><span class="ci-text">4 documents selected · 1.46 MB total</span></div>
+            <div class="check-item check-ok"><span class="ci-icon">✓</span><span class="ci-text">SMTP configured · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="51323e3c213d38303f323411393e23382b3e3f2634303d25397f323e3c">[email&#160;protected]</a></span></div>
+            <div class="check-item check-ok"><span class="ci-icon">✓</span><span class="ci-text">Compliance footer enabled</span></div>
+            <div class="check-item check-ok"><span class="ci-icon">✓</span><span class="ci-text">Personalized message body present</span></div>
+            <div class="check-item check-warn"><span class="ci-icon">⚠</span><span class="ci-text" style="flex:1"><strong>ADV Part 2A outdated vs IAPD</strong> — upload current version before send</span><button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload</button></div>
+            <div class="check-item check-warn"><span class="ci-icon">⚠</span><span class="ci-text">5 clients have bounced emails — will auto-queue for Lob mail</span></div>
+          </div>
+          <button class="btn btn-g" style="width:100%;margin-top:14px;padding:11px" onclick="openM('m-confirmsend')">Proceed to send →</button>
+        </div>
+
+      </div><!-- end .cp -->
+    </div><!-- end .cl -->
   </div>
 </div>
 
@@ -445,124 +602,447 @@ Luke Wright · Compliance Officer</textarea></div>
 <!-- ═══════════════════════ IAPD ═══════════════════════ -->
 <div id="s-iapd" class="scr">
   <div class="tb">
-    <div class="tbl"><span class="pt">SEC IAPD Sync</span><span class="ps">2 mismatches detected</span></div>
-    <div class="tbr"><button class="btn btn-sm btn-p" onclick="openM('m-upload')">Upload new version</button></div>
+    <div class="tbl"><span class="pt">SEC IAPD Sync</span><span class="ps" id="iapd-sub">Enter a CRD to look up filings</span></div>
+    <div class="tbr"><button class="btn btn-sm btn-p" onclick="openM('m-upload')">Upload document</button></div>
   </div>
   <div class="con">
-    <div class="iapd-link-box">
-      <h3>Look up your filings on SEC IAPD</h3>
-      <p>The SEC's Investment Adviser Public Disclosure database is public and free. Search your firm by name or CRD number to see your current filed documents, then download the latest PDF and upload it here.</p>
-      <a href="https://adviserinfo.sec.gov" target="_blank" class="iapd-btn">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M7 3H3v10h10V9M9 2h5v5M14 2L8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Open SEC IAPD (adviserinfo.sec.gov)
-      </a>
-      <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.35)">Search for "Horizon Wealth Advisors" or enter CRD #317245 · Download PDFs from the Brochures tab · Upload below</div>
+
+    <!-- CRD SEARCH BOX -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch"><div class="ct">Search by CRD number</div></div>
+      <div class="cb">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">
+          Enter any RIA's CRD number to look up their current IAPD filings. We'll open their public IAPD profile in a new tab — download the latest PDF from the <strong>Brochures</strong> section, then upload it below.
+        </div>
+        <div style="display:flex;gap:9px;margin-bottom:10px">
+          <input type="text" id="crd-input" placeholder="Enter CRD number (e.g. 317245)" style="flex:1;font-size:14px;padding:9px 13px" onkeydown="if(event.key==='Enter')lookupCRD()"/>
+          <button class="btn btn-p" onclick="lookupCRD()" style="padding:9px 20px;font-size:13px">Look up on IAPD →</button>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:11px;color:var(--text-muted)">Quick:</span>
+          <button class="qcrd-btn" onclick="setCRD('317245','Ameritas Investment Corp')">Ameritas (317245)</button>
+          <button class="qcrd-btn" onclick="setCRD('108523','Vanguard')">Vanguard (108523)</button>
+          <button class="qcrd-btn" onclick="setCRD('361','Goldman Sachs')">Goldman Sachs (361)</button>
+          <button class="qcrd-btn" onclick="setCRD('149777','Morgan Stanley')">Morgan Stanley (149777)</button>
+          <button class="qcrd-btn" onclick="setCRD('361','Raymond James')">Raymond James (705681)</button>
+        </div>
+      </div>
     </div>
 
-    <div class="g2" style="align-items:start">
-      <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Document version status</div></div>
-          <div style="padding:0">
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your file: Mar 1, 2025 · IAPD shows: Mar 28, 2025</div></div>
-              <span class="pill pr">27 days behind</span>
-              <button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2B – Supplement</div><div style="font-size:11px;color:var(--text-muted)">Your file: Apr 2, 2024 · IAPD shows: Apr 2, 2024</div></div>
-              <span class="pill pg">Match</span>
-              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:12px;font-weight:500">Form CRS</div><div style="font-size:11px;color:var(--text-muted)">Your file: Jan 15, 2026 · IAPD shows: Jan 15, 2026</div></div>
-              <span class="pill pg">Match</span>
-              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:12px;font-weight:500">Privacy Policy (Reg S-P)</div><div style="font-size:11px;color:var(--text-muted)">Your file: Mar 5, 2026 · IAPD shows: Mar 5, 2026</div></div>
-              <span class="pill pg">Match</span>
-              <button class="btn btn-xs" onclick="toast('Preview coming soon')">Preview</button>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:12px;font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your file: Jan 15, 2026 · IAPD shows: Feb 28, 2026</div></div>
-              <span class="pill pa">44 days behind</span>
-              <button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>
-            </div>
-          </div>
+    <!-- RESULT PANEL — shown after lookup -->
+    <div id="iapd-result" style="display:none">
+
+      <!-- FIRM HEADER -->
+      <div id="iapd-firm-header" style="background:var(--navy);border-radius:10px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">IAPD firm lookup</div>
+          <div id="iapd-firm-name" style="font-family:'Playfair Display',serif;font-size:20px;color:var(--white);margin-bottom:5px"></div>
+          <div id="iapd-firm-meta" style="font-size:11px;color:rgba(255,255,255,.45);display:flex;gap:14px;flex-wrap:wrap"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;align-items:flex-end;flex-shrink:0">
+          <a id="iapd-direct-link" href="#" target="_blank" class="btn btn-g" style="text-decoration:none;white-space:nowrap">
+            Open firm on IAPD ↗
+          </a>
+          <a id="iapd-brochure-link" href="#" target="_blank" style="font-size:11px;color:rgba(255,255,255,.45);text-decoration:none;white-space:nowrap">
+            Go to Brochures tab ↗
+          </a>
         </div>
       </div>
-      <div>
-        <div class="card">
-          <div class="ch"><div class="ct">Upload updated document</div></div>
-          <div class="cb">
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">Download the latest version from IAPD, then upload it here. DisclosureIQ will update your library and flag which clients need to receive the new version.</div>
-            <div class="upload-zone" id="main-upload-zone" onclick="openM('m-upload')" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event,'main-upload-zone')">
-              <div class="uz-icon">📄</div>
-              <div class="uz-title">Drop PDF here or click to browse</div>
-              <div class="uz-sub">Accepts PDF · Max 50 MB · Will auto-match to existing documents</div>
+
+      <div class="g2" style="align-items:start">
+
+        <!-- LEFT: STEPS + UPLOAD -->
+        <div>
+          <div class="card">
+            <div class="ch"><div class="ct">How to get the latest brochures</div></div>
+            <div class="cb" style="padding:12px 14px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div id="step1" class="iapd-step active-step">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">Open the IAPD firm page</div>
+                    <div class="step-desc">Click <strong>"Open firm on IAPD"</strong> above — it opens adviserinfo.sec.gov directly to this firm's public profile.</div>
+                    <a id="step1-link" href="#" target="_blank" class="btn btn-sm btn-p" style="text-decoration:none;margin-top:6px;display:inline-block">Open on IAPD ↗</a>
+                  </div>
+                </div>
+                <div id="step2" class="iapd-step">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">Click the "Brochures" tab</div>
+                    <div class="step-desc">On the IAPD firm page, click the <strong>Part 2 Brochures</strong> tab to see all filed ADV Part 2A, 2B, and CRS documents with their filed dates.</div>
+                  </div>
+                </div>
+                <div id="step3" class="iapd-step">
+                  <div class="step-num">3</div>
+                  <div class="step-body">
+                    <div class="step-title">Download the latest PDF</div>
+                    <div class="step-desc">Click the PDF link next to the most recent filing. Save it to your computer — note the filing date shown on IAPD.</div>
+                  </div>
+                </div>
+                <div id="step4" class="iapd-step">
+                  <div class="step-num">4</div>
+                  <div class="step-body">
+                    <div class="step-title">Upload it here</div>
+                    <div class="step-desc">Drop the PDF into the upload zone to the right. DisclosureIQ will update your library and flag clients who need the new version.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MANUAL DATE ENTRY -->
+          <div class="card">
+            <div class="ch"><div class="ct">Record IAPD filing date</div><span class="pill pgr">Optional</span></div>
+            <div class="cb">
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.5">If you found a newer filing date on IAPD, enter it here to update the mismatch status — even before uploading the PDF.</div>
+              <div class="fg">
+                <label class="lbl">Document</label>
+                <select style="width:100%" id="iapd-doc-select">
+                  <option>ADV Part 2A – Firm Brochure</option>
+                  <option>ADV Part 2B – Supplement</option>
+                  <option>Form CRS</option>
+                  <option>Privacy Policy (Reg S-P)</option>
+                  <option>Wrap Fee Program Brochure</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="lbl">IAPD filed date (from the Brochures tab)</label>
+                <input type="text" id="iapd-date-input" placeholder="e.g. Mar 28, 2025" style="width:100%"/>
+              </div>
+              <button class="btn btn-sm btn-p" onclick="recordIAPDDate()" style="margin-top:2px">Save IAPD date</button>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="ch"><div class="ct">How to get the latest from IAPD</div></div>
-          <div class="cb" style="padding:12px 14px">
-            <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
-              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">1</div><span style="color:var(--text-mid)">Click <strong>Open SEC IAPD</strong> above to go to adviserinfo.sec.gov</span></div>
-              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">2</div><span style="color:var(--text-mid)">Search your firm name or enter CRD #317245</span></div>
-              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">3</div><span style="color:var(--text-mid)">Click your firm → go to the <strong>Brochures</strong> tab</span></div>
-              <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">4</div><span style="color:var(--text-mid)">Download the latest PDF and upload it above</span></div>
+
+        <!-- RIGHT: VERSION STATUS + UPLOAD ZONE -->
+        <div>
+          <div class="card">
+            <div class="ch"><div class="ct">Your document vs IAPD</div></div>
+            <div id="iapd-doc-rows" style="padding:0"></div>
+          </div>
+
+          <div class="card">
+            <div class="ch"><div class="ct">Upload new version</div></div>
+            <div class="cb">
+              <div class="upload-zone" id="iapd-upload-zone"
+                ondragover="event.preventDefault();this.classList.add('drag')"
+                ondragleave="this.classList.remove('drag')"
+                ondrop="handleDrop(event,'iapd-upload-zone')"
+                onclick="document.getElementById('iapd-file-input').click()">
+                <div class="uz-icon">📄</div>
+                <div class="uz-title">Drop downloaded PDF here</div>
+                <div class="uz-sub">Or click to browse · PDF only · Max 50 MB</div>
+              </div>
+              <input type="file" id="iapd-file-input" accept=".pdf" style="display:none" onchange="handleIAPDFile(this)"/>
+              <div id="iapd-upload-queue" class="upload-queue"></div>
+              <div class="fg" style="margin-top:10px">
+                <label class="lbl">Document type</label>
+                <select style="width:100%" id="iapd-upload-type">
+                  <option>ADV Part 2A – Firm Brochure</option>
+                  <option>ADV Part 2B – Supplement</option>
+                  <option>Form CRS</option>
+                  <option>Privacy Policy (Reg S-P)</option>
+                  <option>Wrap Fee Program Brochure</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <button class="btn btn-p" style="width:100%;padding:10px;margin-top:4px" onclick="submitIAPDUpload()">Upload & update library</button>
             </div>
           </div>
         </div>
+
       </div>
     </div>
+
+    <!-- EMPTY STATE — before search -->
+    <div id="iapd-empty" style="text-align:center;padding:48px 20px">
+      <div style="font-size:36px;margin-bottom:12px;opacity:.35">🏛</div>
+      <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:7px">Enter a CRD number above</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.7;max-width:420px;margin:0 auto">
+        We'll generate a direct link to that firm's IAPD public page so you can review their latest filings, download updated PDFs, and upload them into your document library.
+      </div>
+      <div style="margin-top:18px;display:inline-flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid #B5D4F4;border-radius:7px;padding:10px 14px;font-size:12px;color:var(--blue)">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Your CRD is <strong style="margin:0 3px">317245</strong> — try it above, or use the Ameritas quick button
+      </div>
+    </div>
+
   </div>
 </div>
 
 <!-- ═══════════════════════ SCHEDULE ═══════════════════════ -->
 <div id="s-schedule" class="scr">
-  <div class="tb"><div class="tbl"><span class="pt">Delivery Schedules</span></div><div class="tbr"><button class="btn btn-sm btn-p" onclick="toast('Opening schedule editor...')">Add schedule</button></div></div>
+  <div class="tb">
+    <div class="tbl"><span class="pt">Delivery Schedules</span></div>
+    <div class="tbr">
+      <button class="btn btn-sm" onclick="openM('m-addsched')">+ Add schedule</button>
+      <button class="btn btn-sm btn-p" onclick="saveAllSchedules()">Save all changes</button>
+    </div>
+  </div>
   <div class="con">
-    <div class="card">
-      <div class="ch"><div class="ct">Active schedules</div></div>
-      <table>
-        <thead><tr><th>Document</th><th>Frequency</th><th>Next send</th><th>Recipients</th><th>IAPD trigger</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:500">ADV Part 2A</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
-          <tr><td style="font-weight:500">Privacy Policy</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
-          <tr><td style="font-weight:500">Form CRS</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Onboarding</span></td><td>Next new client</td><td>New accounts only</td><td><span class="pill pgr" style="font-size:9px">N/A</span></td><td><span class="pill pg">Active</span></td></tr>
-          <tr><td style="font-weight:500">Fee Disclosure</td><td><span class="fp" style="background:#EEEDFE;color:#534AB7">Quarterly</span></td><td>Apr 15, 2026</td><td>All clients (247)</td><td><span class="pill pgr" style="font-size:9px">Off</span></td><td><span class="pill pg">Active</span></td></tr>
-          <tr><td style="font-weight:500">ADV Part 2B</td><td><span class="fp" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td>Apr 1, 2026</td><td>All clients (247)</td><td><span class="pill pg" style="font-size:9px">On</span></td><td><span class="pill pg">Active</span></td></tr>
-        </tbody>
-      </table>
+
+    <div class="al al-b" id="sched-saved-banner" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      All schedule changes saved successfully.
+    </div>
+
+    <!-- SCHEDULE ROWS -->
+    <div id="sched-list" style="display:flex;flex-direction:column;gap:10px"></div>
+
+  </div>
+</div>
+
+<!-- ADD SCHEDULE MODAL -->
+<div class="mbg" id="m-addsched">
+  <div class="mo">
+    <div class="moh"><div class="mot">Add new schedule</div><button class="moc" onclick="closeM('m-addsched')">×</button></div>
+    <div class="mob">
+      <div class="fg"><label class="lbl">Document</label>
+        <select style="width:100%" id="ns-doc">
+          <option>ADV Part 2A – Firm Brochure</option>
+          <option>ADV Part 2B – Supplement</option>
+          <option>Form CRS</option>
+          <option>Privacy Policy (Reg S-P)</option>
+          <option>Fee Disclosure – Quarterly</option>
+          <option>Wrap Fee Program Brochure</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Frequency</label>
+        <select style="width:100%" id="ns-freq" onchange="updateNewSchedFields()">
+          <option value="annual">Annual</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="monthly">Monthly</option>
+          <option value="onboarding">Onboarding (new clients only)</option>
+          <option value="off">Off (manual only)</option>
+        </select>
+      </div>
+      <div id="ns-date-fields">
+        <div class="fr">
+          <div><label class="lbl">Send month</label>
+            <select style="width:100%" id="ns-month">
+              <option>January</option><option>February</option><option>March</option>
+              <option selected>April</option><option>May</option><option>June</option>
+              <option>July</option><option>August</option><option>September</option>
+              <option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+          <div><label class="lbl">Send day</label>
+            <input type="number" id="ns-day" min="1" max="28" value="1" style="width:100%"/>
+          </div>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl">Recipients</label>
+        <select style="width:100%" id="ns-recipients">
+          <option>All clients (247)</option>
+          <option>New clients only</option>
+          <option>Clients with wrap accounts</option>
+          <option>Clients with AUM over $1M</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--cream);border-radius:6px;font-size:12px">
+        <input type="checkbox" id="ns-iapd" checked/>
+        <label for="ns-iapd" style="cursor:pointer">Also send when a new version is detected on IAPD</label>
+      </div>
+    </div>
+    <div class="mof">
+      <button class="btn" onclick="closeM('m-addsched')">Cancel</button>
+      <button class="btn btn-p" onclick="addSchedule()">Add schedule</button>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════ CLIENTS ═══════════════════════ -->
 <div id="s-clients" class="scr">
-  <div class="tb"><div class="tbl"><span class="pt">Clients</span><span class="ps">247 total · synced from Redtail</span></div><div class="tbr"><button class="btn btn-sm" onclick="toast('Syncing Redtail CRM...')">Sync Redtail</button><button class="btn btn-sm" onclick="toast('Import CSV dialog')">Import CSV</button></div></div>
+  <div class="tb">
+    <div class="tbl"><span class="pt">Clients</span><span class="ps" id="client-count-label">7 total</span></div>
+    <div class="tbr">
+      <button class="btn btn-sm" onclick="toast('Syncing Redtail CRM...')">Sync Redtail</button>
+      <button class="btn btn-sm" onclick="openM('m-import-csv')">Import CSV</button>
+      <button class="btn btn-sm btn-p" onclick="openAddClient()">+ Add client</button>
+    </div>
+  </div>
   <div class="con">
+
+    <!-- SEARCH + FILTER BAR -->
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <input type="text" id="cl-search" placeholder="Search name, account, email..." style="flex:1;min-width:180px" oninput="renderClients()"/>
+      <select id="cl-filter-status" style="width:150px" onchange="renderClients()">
+        <option value="all">All clients</option>
+        <option value="signed">Acknowledged</option>
+        <option value="pending">Pending ack</option>
+        <option value="bounce">Email bounced</option>
+        <option value="mail">Mail only</option>
+      </select>
+      <select id="cl-filter-custodian" style="width:150px" onchange="renderClients()">
+        <option value="all">All custodians</option>
+        <option value="Schwab">Schwab</option>
+        <option value="Fidelity">Fidelity</option>
+        <option value="Pershing">Pershing</option>
+        <option value="TD Ameritrade">TD Ameritrade</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
     <div class="card">
-      <div class="ch"><div class="ct">All clients</div><div style="display:flex;gap:7px"><input type="text" placeholder="Search..." style="width:160px"/><select style="width:130px"><option>All clients</option><option>Missing email</option><option>Not acknowledged</option></select></div></div>
-      <table>
-        <thead><tr><th>Client name</th><th>Account #</th><th>Email</th><th>Last delivery</th><th>Ack status</th><th>Actions</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:500">James & Patricia Whitmore</td><td>WH-4421</td><td>j.whitmore@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
-          <tr><td style="font-weight:500">Margaret O'Sullivan</td><td>OS-8834</td><td style="color:var(--red)">Bounced</td><td>Mar 13, 2026</td><td><span class="pill pr">Not signed</span></td><td><button class="btn btn-xs btn-p" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
-          <tr><td style="font-weight:500">David & Sandra Park</td><td>PK-1109</td><td>d.park@email.com</td><td>Mar 13, 2026</td><td><span class="pill pa">Opened — pending</span></td><td><button class="btn btn-xs" onclick="toast('Reminder sent')">Remind</button></td></tr>
-          <tr><td style="font-weight:500">Yuki Tanaka</td><td>TN-5523</td><td>y.tanaka@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
-          <tr><td style="font-weight:500">Thomas Ellsworth III</td><td>EL-0042</td><td style="color:var(--red)">Bounced</td><td>Mar 13, 2026</td><td><span class="pill pr">Not signed</span></td><td><button class="btn btn-xs btn-p" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
-          <tr><td style="font-weight:500">Dorothy & Frank Nguyen</td><td>NG-3318</td><td>d.nguyen@email.com</td><td>Mar 13, 2026</td><td><span class="pill pg">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
-          <tr><td colspan="6" style="color:var(--text-muted);font-size:11px">+ 241 more clients — use search to filter</td></tr>
-        </tbody>
-      </table>
+      <div class="ch">
+        <div class="ct">All clients</div>
+        <div style="display:flex;gap:7px;align-items:center">
+          <span id="cl-selected-label" style="font-size:11px;color:var(--text-muted)"></span>
+          <button class="btn btn-xs" id="cl-bulk-send" style="display:none" onclick="toast('Opening send for selected clients...')">Send disclosures to selected</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="cl-select-all" onchange="toggleAllClients(this.checked)"/></th>
+              <th>Client name</th>
+              <th>Account ID</th>
+              <th>Custodian</th>
+              <th>Client ID</th>
+              <th>Email</th>
+              <th>Last delivery</th>
+              <th>Ack status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clients-tbody"></tbody>
+        </table>
+      </div>
+      <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--cream);display:flex;align-items:center;justify-content:space-between">
+        <span id="cl-footer-label" style="font-size:11px;color:var(--text-muted)"></span>
+        <button class="btn btn-xs" onclick="openAddClient()">+ Add client</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT CLIENT MODAL -->
+<div class="mbg" id="m-client">
+  <div class="mo" style="width:560px">
+    <div class="moh">
+      <div class="mot" id="m-client-title">Add client</div>
+      <button class="moc" onclick="closeM('m-client')">×</button>
+    </div>
+    <div class="mob">
+
+      <!-- TABS -->
+      <div style="display:flex;border-bottom:1px solid var(--border);margin:-15px -17px 14px">
+        <div class="cl-modal-tab active" onclick="clientTab('identity',this)">Identity</div>
+        <div class="cl-modal-tab" onclick="clientTab('account',this)">Account & custodian</div>
+        <div class="cl-modal-tab" onclick="clientTab('contact',this)">Contact & delivery</div>
+      </div>
+
+      <!-- IDENTITY TAB -->
+      <div id="clt-identity" class="cl-tab-body active">
+        <div class="fr">
+          <div><label class="lbl">First name</label><input type="text" id="cl-fname" placeholder="James" style="width:100%"/></div>
+          <div><label class="lbl">Last name</label><input type="text" id="cl-lname" placeholder="Whitmore" style="width:100%"/></div>
+        </div>
+        <div class="fg"><label class="lbl">Display name (leave blank to auto-combine)</label><input type="text" id="cl-display" placeholder="e.g. James & Patricia Whitmore" style="width:100%"/></div>
+        <div class="fr">
+          <div><label class="lbl">Date of birth</label><input type="text" id="cl-dob" placeholder="MM/DD/YYYY" style="width:100%"/></div>
+          <div><label class="lbl">SSN (last 4 only)</label><input type="text" id="cl-ssn" placeholder="XXXX" maxlength="4" style="width:100%"/></div>
+        </div>
+        <div class="fg"><label class="lbl">Client type</label>
+          <select id="cl-type" style="width:100%">
+            <option>Individual</option>
+            <option>Joint (married)</option>
+            <option>Joint (other)</option>
+            <option>Trust</option>
+            <option>Entity / Business</option>
+            <option>IRA</option>
+            <option>Retirement plan</option>
+          </select>
+        </div>
+        <div class="fg"><label class="lbl">Assigned advisor</label>
+          <select id="cl-advisor" style="width:100%">
+            <option>Luke Wright</option>
+            <option>Sarah Chen</option>
+            <option>Brian Boone</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ACCOUNT & CUSTODIAN TAB -->
+      <div id="clt-account" class="cl-tab-body">
+        <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>You can add multiple accounts per client. Each account can have its own custodian and client ID.</div>
+        <div id="account-rows"></div>
+        <button class="btn btn-sm" onclick="addAccountRow()" style="margin-top:8px;width:100%">+ Add account</button>
+      </div>
+
+      <!-- CONTACT & DELIVERY TAB -->
+      <div id="clt-contact" class="cl-tab-body">
+        <div class="fg"><label class="lbl">Email address</label><input type="email" id="cl-email" placeholder="client@email.com" style="width:100%"/></div>
+        <div class="fg"><label class="lbl">Phone</label><input type="text" id="cl-phone" placeholder="(714) 555-0000" style="width:100%"/></div>
+        <div class="fg"><label class="lbl">Mailing address line 1</label><input type="text" id="cl-addr1" placeholder="123 Main Street" style="width:100%"/></div>
+        <div class="fg"><label class="lbl">Address line 2 (apt, suite)</label><input type="text" id="cl-addr2" placeholder="Optional" style="width:100%"/></div>
+        <div class="fr">
+          <div><label class="lbl">City</label><input type="text" id="cl-city" placeholder="Huntington Beach" style="width:100%"/></div>
+          <div><label class="lbl">State</label><select id="cl-state" style="width:100%"><option>CA</option><option>TX</option><option>NY</option><option>FL</option><option>WA</option><option>CO</option><option>AZ</option><option>NV</option><option>OR</option><option>Other</option></select></div>
+        </div>
+        <div class="fr">
+          <div><label class="lbl">ZIP code</label><input type="text" id="cl-zip" placeholder="92648" style="width:100%"/></div>
+          <div><label class="lbl">Delivery preference</label>
+            <select id="cl-delivery" style="width:100%">
+              <option>Email (default)</option>
+              <option>Physical mail only</option>
+              <option>Email + physical mail</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--cream);border-radius:6px;font-size:12px;margin-top:4px">
+          <input type="checkbox" id="cl-donotsend"/>
+          <label for="cl-donotsend" style="cursor:pointer">Do not send disclosures (mark as inactive)</label>
+        </div>
+      </div>
+
+    </div>
+    <div class="mof">
+      <button class="btn" onclick="closeM('m-client')">Cancel</button>
+      <button class="btn btn-p" onclick="saveClient()">Save client</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT CSV MODAL -->
+<div class="mbg" id="m-import-csv">
+  <div class="mo">
+    <div class="moh"><div class="mot">Import clients from CSV</div><button class="moc" onclick="closeM('m-import-csv')">×</button></div>
+    <div class="mob">
+      <div class="al al-b" style="margin-bottom:12px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>CSV must include headers. Required: <strong>name</strong> or <strong>first_name + last_name</strong>. Optional: account_id, custodian, client_id, email, phone, address.</div>
+      <div class="upload-zone" onclick="toast('File picker: select CSV file')" style="margin-bottom:12px">
+        <div class="uz-icon">📊</div>
+        <div class="uz-title">Drop CSV here or click to browse</div>
+        <div class="uz-sub">.csv files only · Max 5 MB</div>
+      </div>
+      <div style="font-size:11px;font-weight:500;color:var(--text-muted);margin-bottom:6px">Expected columns</div>
+      <div style="background:var(--cream);border-radius:6px;padding:10px 12px;font-size:11px;font-family:monospace;color:var(--text-mid);line-height:1.8">
+        first_name, last_name, account_id, custodian, client_id, email, phone, address, city, state, zip, delivery_preference
+      </div>
+      <a href="#" onclick="toast('Downloading sample CSV template...');return false" style="font-size:11px;color:var(--blue);display:block;margin-top:8px;text-decoration:none">↓ Download sample CSV template</a>
+    </div>
+    <div class="mof">
+      <button class="btn" onclick="closeM('m-import-csv')">Cancel</button>
+      <button class="btn btn-p" onclick="closeM('m-import-csv');toast('3 clients imported successfully')">Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW CLIENT MODAL -->
+<div class="mbg" id="m-view-client">
+  <div class="mo" style="width:540px">
+    <div class="moh">
+      <div class="mot" id="vc-title">Client record</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-xs" onclick="editCurrentClient()">Edit</button>
+        <button class="moc" onclick="closeM('m-view-client')">×</button>
+      </div>
+    </div>
+    <div class="mob" id="vc-body"></div>
+    <div class="mof">
+      <button class="btn" onclick="closeM('m-view-client')">Close</button>
+      <button class="btn btn-g" onclick="closeM('m-view-client');toast('Opening send composer for this client...')">Send disclosures</button>
     </div>
   </div>
 </div>
@@ -592,11 +1072,209 @@ Luke Wright · Compliance Officer</textarea></div>
   </div>
 </div>
 
+<!-- ═══════════════════════ PROFILE ═══════════════════════ -->
+<div id="s-profile" class="scr">
+  <div class="tb">
+    <div class="tbl"><span class="pt">Firm Profile</span><span class="ps">Your firm details, branding & compliance info</span></div>
+    <div class="tbr"><button class="btn btn-sm btn-p" onclick="saveProfile()">Save all changes</button></div>
+  </div>
+  <div class="con">
+
+    <!-- SUCCESS BANNER -->
+    <div class="al al-g" id="profile-saved" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Profile saved successfully. These details will appear in all outgoing disclosure emails and the client portal.
+    </div>
+
+    <div class="g2" style="align-items:start">
+
+      <!-- LEFT COLUMN -->
+      <div>
+        <!-- FIRM IDENTITY -->
+        <div class="card">
+          <div class="ch"><div class="ct">Firm identity</div></div>
+          <div class="cb">
+            <div class="fg"><label class="lbl">Legal firm name</label><input type="text" id="p-firm-name" value="Horizon Wealth Advisors, LLC" style="width:100%"/></div>
+            <div class="fr">
+              <div><label class="lbl">CRD number</label><input type="text" id="p-crd" value="317245" style="width:100%"/></div>
+              <div><label class="lbl">SEC file number</label><input type="text" id="p-secnum" value="801-XXXXX" style="width:100%"/></div>
+            </div>
+            <div class="fg"><label class="lbl">Registration type</label>
+              <select style="width:100%" id="p-regtype">
+                <option selected>SEC-registered RIA</option>
+                <option>State-registered RIA</option>
+                <option>Dual registrant (RIA + Broker-Dealer)</option>
+                <option>Broker-Dealer only</option>
+              </select>
+            </div>
+            <div class="fr">
+              <div><label class="lbl">Custodian</label><input type="text" id="p-custodian" value="Schwab Advisor Services" style="width:100%"/></div>
+              <div><label class="lbl">Fiscal year end</label><select style="width:100%"><option>December 31</option><option>March 31</option><option>June 30</option><option>September 30</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="card">
+          <div class="ch"><div class="ct">Contact information</div></div>
+          <div class="cb">
+            <div class="fg"><label class="lbl">Main office address</label><input type="text" id="p-addr" value="2100 Main Street, Suite 500" style="width:100%"/></div>
+            <div class="fr">
+              <div><label class="lbl">City</label><input type="text" value="Huntington Beach" style="width:100%"/></div>
+              <div><label class="lbl">State</label><select style="width:100%"><option>CA</option><option>TX</option><option>NY</option><option>FL</option></select></div>
+            </div>
+            <div class="fr">
+              <div><label class="lbl">ZIP code</label><input type="text" value="92648" style="width:100%"/></div>
+              <div><label class="lbl">Phone</label><input type="text" id="p-phone" value="(714) 555-0100" style="width:100%"/></div>
+            </div>
+            <div class="fr">
+              <div><label class="lbl">Compliance email</label><input type="text" id="p-comp-email" value="compliance@horizonwealth.com" style="width:100%"/></div>
+              <div><label class="lbl">Website</label><input type="text" value="www.horizonwealth.com" style="width:100%"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPLIANCE CONTACTS -->
+        <div class="card">
+          <div class="ch"><div class="ct">Compliance team</div><button class="btn btn-xs" onclick="addComplianceContact()">+ Add contact</button></div>
+          <div class="cb" style="padding:0">
+            <div id="compliance-contacts">
+              <div class="contact-row" style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border)">
+                <div style="flex:1">
+                  <div style="font-size:12px;font-weight:500">Luke Wright</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Chief Compliance Officer · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d312a2f343a35291d35322f342732332a383c312935733e3230">[email&#160;protected]</a></div>
+                </div>
+                <span class="pill pb" style="font-size:9px">Primary CCO</span>
+                <button class="btn btn-xs" onclick="openM('m-editcontact')">Edit</button>
+              </div>
+              <div class="contact-row" style="display:flex;align-items:center;gap:10px;padding:11px 14px">
+                <div style="flex:1">
+                  <div style="font-size:12px;font-weight:500">Sarah Chen</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Operations · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dba8b8b3beb59bb3b4a9b2a1b4b5acbebab7afb3f5b8b4b6">[email&#160;protected]</a></div>
+                </div>
+                <span class="pill pgr" style="font-size:9px">Secondary</span>
+                <button class="btn btn-xs" onclick="openM('m-editcontact')">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+        <!-- BRANDING -->
+        <div class="card">
+          <div class="ch"><div class="ct">Email & portal branding</div></div>
+          <div class="cb">
+            <div class="fg">
+              <label class="lbl">Firm logo</label>
+              <div style="border:2px dashed var(--border);border-radius:7px;padding:16px;text-align:center;cursor:pointer;background:var(--cream);margin-bottom:4px" onclick="toast('File picker: upload PNG or SVG · Max 2 MB')" id="logo-upload-zone">
+                <div style="width:120px;height:36px;background:var(--navy);border-radius:5px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
+                  <span style="font-family:'Playfair Display',serif;font-size:12px;color:var(--white)">Horizon Wealth <span style="color:var(--gold)">Advisors</span></span>
+                </div>
+                <div style="font-size:11px;color:var(--text-muted)">Click to upload new logo · PNG or SVG · Recommended 300×80px</div>
+              </div>
+            </div>
+            <div class="fr">
+              <div>
+                <label class="lbl">Brand color</label>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <input type="color" id="p-brand-color" value="#0B1E38" style="width:40px;height:32px;padding:2px;border:1px solid var(--border);border-radius:5px;cursor:pointer"/>
+                  <input type="text" id="p-brand-hex" value="#0B1E38" style="flex:1" oninput="document.getElementById('p-brand-color').value=this.value"/>
+                </div>
+              </div>
+              <div>
+                <label class="lbl">Accent color</label>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <input type="color" id="p-accent-color" value="#C9A84C" style="width:40px;height:32px;padding:2px;border:1px solid var(--border);border-radius:5px;cursor:pointer"/>
+                  <input type="text" value="#C9A84C" style="flex:1"/>
+                </div>
+              </div>
+            </div>
+            <div class="fg"><label class="lbl">Client portal subdomain</label>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+                <span style="padding:7px 10px;background:var(--cream);font-size:12px;color:var(--text-muted);border-right:1px solid var(--border);white-space:nowrap">disclosures.</span>
+                <input type="text" value="horizonwealth" style="border:none;border-radius:0;flex:1"/>
+                <span style="padding:7px 10px;background:var(--cream);font-size:12px;color:var(--text-muted);border-left:1px solid var(--border);white-space:nowrap">.com</span>
+              </div>
+            </div>
+            <!-- LIVE PREVIEW MINI -->
+            <div style="margin-top:4px">
+              <div class="lbl" style="margin-bottom:6px">Portal preview</div>
+              <div style="background:var(--navy);border-radius:7px;padding:12px;font-size:11px">
+                <div style="font-family:'Playfair Display',serif;font-size:13px;color:var(--white);margin-bottom:6px">Horizon Wealth <span style="color:var(--gold)">Advisors</span></div>
+                <div style="font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px">Secure disclosure portal</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.7)">James & Patricia Whitmore</div>
+                <div style="margin-top:8px;background:rgba(255,255,255,.07);border-radius:4px;padding:6px 9px;display:flex;align-items:center;gap:7px;font-size:10px;color:rgba(255,255,255,.6)">
+                  <span style="width:22px;height:26px;background:var(--navy-light);border-radius:2px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;font-size:6px;color:var(--gold)">PDF</span>
+                  ADV Part 2A — Firm Brochure
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEFAULT EMAIL SIGNATURE -->
+        <div class="card">
+          <div class="ch"><div class="ct">Default email signature</div></div>
+          <div class="cb">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.5">Appended to all outgoing disclosure emails below the message body.</div>
+            <textarea id="p-signature" style="width:100%;height:90px;resize:vertical;font-size:12px;line-height:1.7">Sincerely,
+[Advisor Name]
+Horizon Wealth Advisors, LLC
+(714) 555-0100 · compliance@horizonwealth.com
+CRD #317245 · SEC-Registered Investment Adviser</textarea>
+          </div>
+        </div>
+
+        <!-- COMPLIANCE DEFAULTS -->
+        <div class="card">
+          <div class="ch"><div class="ct">Compliance defaults</div></div>
+          <div class="cb">
+            <div class="fg"><label class="lbl">Bounce alert — notify compliance after</label>
+              <select style="width:100%"><option>24 hours</option><option selected>48 hours</option><option>72 hours</option><option>Immediately</option></select>
+            </div>
+            <div class="fg"><label class="lbl">Physical mail fallback</label>
+              <select style="width:100%"><option selected>Auto-queue for Lob when email bounces</option><option>Ask me each time</option><option>Never — email only</option></select>
+            </div>
+            <div class="fg"><label class="lbl">Data retention period</label>
+              <select style="width:100%"><option>3 years</option><option>5 years</option><option selected>7 years</option><option>10 years</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--cream);border-radius:6px;font-size:12px;margin-top:4px">
+              <input type="checkbox" id="p-dpa" checked/>
+              <label for="p-dpa" style="cursor:pointer">Include signed DPA addendum in all new client contracts</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT CONTACT MODAL -->
+<div class="mbg" id="m-editcontact">
+  <div class="mo" style="width:420px">
+    <div class="moh"><div class="mot">Edit compliance contact</div><button class="moc" onclick="closeM('m-editcontact')">×</button></div>
+    <div class="mob">
+      <div class="fr"><div><label class="lbl">First name</label><input type="text" value="Luke" style="width:100%"/></div><div><label class="lbl">Last name</label><input type="text" value="Wright" style="width:100%"/></div></div>
+      <div class="fg"><label class="lbl">Title / role</label><input type="text" value="Chief Compliance Officer" style="width:100%"/></div>
+      <div class="fg"><label class="lbl">Email</label><input type="text" value="lwright@horizonwealth.com" style="width:100%"/></div>
+      <div class="fg"><label class="lbl">Phone</label><input type="text" value="(714) 555-0100" style="width:100%"/></div>
+      <div class="fg"><label class="lbl">Role in DisclosureIQ</label>
+        <select style="width:100%"><option selected>Primary CCO — receives all alerts</option><option>Secondary — CC on bounce alerts</option><option>View only</option></select>
+      </div>
+    </div>
+    <div class="mof"><button class="btn" onclick="closeM('m-editcontact')">Cancel</button><button class="btn btn-p" onclick="closeM('m-editcontact');toast('Contact saved')">Save contact</button></div>
+  </div>
+</div>
+
 <!-- ═══════════════════════ INTEGRATIONS ═══════════════════════ -->
 <div id="s-integrations" class="scr">
   <div class="tb"><div class="tbl"><span class="pt">Integrations</span></div></div>
   <div class="con">
     <div class="g2">
+      <div class="card" style="margin-bottom:14px">  <div class="ch"><div class="ct">Email delivery system</div><span class="pill pgo">Configure once</span></div>  <div class="cb">    <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">Choose how DisclosureIQ sends disclosure emails. Pick the system that matches your firm's existing email infrastructure.</div>    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px" id="email-options">      <div class="email-option-card selected" onclick="selectEmailSystem('m365',this)">        <div class="email-option-name">Microsoft 365</div>        <div class="email-option-desc">Send via your firm's existing M365 / Outlook account using Microsoft Graph API. Emails appear from your actual domain.</div>        <div class="email-option-tags"><span class="pill pb" style="font-size:9px">Recommended</span><span class="pill pgr" style="font-size:9px">OAuth login</span></div>      </div>      <div class="email-option-card" onclick="selectEmailSystem('gmail',this)">        <div class="email-option-name">Gmail / Google Workspace</div>        <div class="email-option-desc">Connect your firm's Gmail via Google OAuth. Sends from your @yourfirm.com address using Gmail infrastructure.</div>        <div class="email-option-tags"><span class="pill pgr" style="font-size:9px">OAuth login</span></div>      </div>      <div class="email-option-card" onclick="selectEmailSystem('sendgrid',this)">        <div class="email-option-name">SendGrid</div>        <div class="email-option-desc">Transactional email API. Best deliverability at scale. Requires domain verification (SPF/DKIM). ~$20/mo for up to 50K emails.</div>        <div class="email-option-tags"><span class="pill pgr" style="font-size:9px">API key</span><span class="pill pg" style="font-size:9px">Best deliverability</span></div>      </div>      <div class="email-option-card" onclick="selectEmailSystem('smtp',this)">        <div class="email-option-name">Custom SMTP</div>        <div class="email-option-desc">Use any SMTP server — your own mail server, Mailgun, Postmark, or another provider. Full control over settings.</div>        <div class="email-option-tags"><span class="pill pgr" style="font-size:9px">Manual config</span></div>      </div>    </div>    <div id="email-config-area">      <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Microsoft 365 configuration</div>      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px">        <div><label class="lbl">Tenant ID</label><input type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style="width:100%"/></div>        <div><label class="lbl">Client ID (App ID)</label><input type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style="width:100%"/></div>      </div>      <div style="margin-bottom:9px"><label class="lbl">Client secret</label><input type="password" placeholder="Your Azure app client secret" style="width:100%"/></div>      <div style="margin-bottom:9px"><label class="lbl">Send-from address</label><input type="text" value="compliance@horizonwealth.com" style="width:100%"/></div>      <div style="display:flex;gap:7px;margin-top:4px">        <button class="btn btn-sm btn-p" onclick="toast('Sending test email to lwright@horizonwealth.com...')">Send test email</button>        <button class="btn btn-sm" onclick="toast('Connected — compliance@horizonwealth.com via M365')">Save & connect</button>      </div>    </div>  </div></div><div style="grid-column:1/-1"></div>
       <div class="card"><div class="ch"><div class="ct">Redtail CRM</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Syncs client names, emails, and mailing addresses. Triggers automatic disclosure sends on new account creation.</div><div class="fg"><label class="lbl">API key</label><input type="password" value="rtk_•••••••••••••" style="width:100%"/></div><div class="fg"><label class="lbl">Username</label><input type="text" value="lwright@horizonwealth.com" style="width:100%"/></div><div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Syncing Redtail...')">Sync now</button><button class="btn btn-sm" onclick="toast('Last sync: Mar 13 9:00 AM · 247 clients')">View log</button></div></div></div>
       <div class="card"><div class="ch"><div class="ct">Orion Portfolio</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Syncs account types and AUM tiers. Confirms account status before each disclosure send.</div><div class="fg"><label class="lbl">Client ID</label><input type="text" value="orion_hwm_317245" style="width:100%"/></div><div class="fg"><label class="lbl">OAuth secret</label><input type="password" value="osk_•••••••••••••" style="width:100%"/></div><div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Connection OK')">Test connection</button></div></div></div>
       <div class="card"><div class="ch"><div class="ct">Lob — Physical Mail</div><span class="pill pg"><span class="dot"></span>Connected</span></div><div class="cb"><div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Handles print, stuff, and USPS delivery for clients needing physical mail. Automatic tracking included.</div><div class="fg"><label class="lbl">API key</label><input type="password" value="live_•••••••••••••" style="width:100%"/></div><div class="fr"><div><label class="lbl">Default mail type</label><select style="width:100%"><option>USPS First Class</option><option>USPS Certified</option></select></div><div><label class="lbl">Color</label><select style="width:100%"><option>Black & white</option><option>Color</option></select></div></div></div></div>
@@ -667,69 +1345,848 @@ Luke Wright · Compliance Officer</textarea></div>
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+// ── IAPD LOOKUP ──────────────────────────────────────────────────────────────
+const DOCS_DATA = [
+  {name:'ADV Part 2A – Firm Brochure', yourDate:'Mar 1, 2025', iapd:'Mar 28, 2025', match:false, color:'var(--red)'},
+  {name:'ADV Part 2B – Supplement',    yourDate:'Apr 2, 2024',  iapd:'Apr 2, 2024',  match:true,  color:'var(--green)'},
+  {name:'Form CRS',                    yourDate:'Jan 15, 2026', iapd:'Jan 15, 2026', match:true,  color:'var(--green)'},
+  {name:'Privacy Policy (Reg S-P)',    yourDate:'Mar 5, 2026',  iapd:'Mar 5, 2026',  match:true,  color:'var(--green)'},
+  {name:'Wrap Fee Program Brochure',   yourDate:'Jan 15, 2026', iapd:'Feb 28, 2026', match:false, color:'var(--amber)'},
+];
+
+const FIRM_NAMES = {
+  '317245':'Ameritas Investment Corp',
+  '108523':'Vanguard Advisers, Inc.',
+  '361':   'Goldman Sachs & Co. LLC',
+  '149777':'Morgan Stanley Smith Barney',
+  '705681':'Raymond James & Associates',
+};
+
+function setCRD(crd, name) {
+  document.getElementById('crd-input').value = crd;
+  lookupCRD();
+}
+
+function lookupCRD() {
+  const raw = document.getElementById('crd-input').value.trim();
+  const crd = raw.replace(/\D/g,'');
+  if (!crd) { toast('Enter a CRD number first'); return; }
+
+  // Build the real IAPD URLs
+  const firmUrl      = `https://adviserinfo.sec.gov/firm/summary/${crd}`;
+  const brochureUrl  = `https://adviserinfo.sec.gov/firm/brochures/${crd}`;
+
+  // Firm name — use known lookup or generic
+  const firmName = FIRM_NAMES[crd] || `Firm CRD #${crd}`;
+
+  // Show result panel
+  document.getElementById('iapd-empty').style.display  = 'none';
+  document.getElementById('iapd-result').style.display = 'block';
+  document.getElementById('iapd-sub').textContent       = `CRD #${crd} · adviserinfo.sec.gov`;
+
+  // Update firm header
+  document.getElementById('iapd-firm-name').textContent = firmName;
+  document.getElementById('iapd-firm-meta').innerHTML =
+    `<span>CRD #${crd}</span><span>·</span><span>SEC-registered RIA</span><span>·</span><span>Data: adviserinfo.sec.gov</span>`;
+  document.getElementById('iapd-direct-link').href  = firmUrl;
+  document.getElementById('iapd-brochure-link').href = brochureUrl;
+  document.getElementById('step1-link').href         = firmUrl;
+
+  // Populate doc rows (use dummy data for own firm, generic for others)
+  const isOwnFirm = (crd === '317245');
+  const rows = isOwnFirm ? DOCS_DATA : [
+    {name:'ADV Part 2A – Firm Brochure', yourDate:'—', iapd:'Check IAPD', match:null, color:'var(--text-muted)'},
+    {name:'ADV Part 2B – Supplement',    yourDate:'—', iapd:'Check IAPD', match:null, color:'var(--text-muted)'},
+    {name:'Form CRS',                    yourDate:'—', iapd:'Check IAPD', match:null, color:'var(--text-muted)'},
+  ];
+
+  document.getElementById('iapd-doc-rows').innerHTML = rows.map(d => {
+    const dotColor = d.match === null ? 'var(--border)' : d.match ? 'var(--green)' : d.color;
+    const badge    = d.match === null
+      ? `<span class="pill pgr">Unknown</span>`
+      : d.match
+        ? `<span class="pill pg"><span class="dot"></span>Match</span>`
+        : `<span class="pill ${d.color === 'var(--red)' ? 'pr' : 'pa'}"><span class="dot"></span>Outdated</span>`;
+    return `<div class="iapd-doc-row">
+      <div class="iapd-status-dot" style="background:${dotColor}"></div>
+      <div style="flex:1">
+        <div style="font-weight:500">${d.name}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:2px">
+          Your library: ${d.yourDate} &nbsp;·&nbsp; IAPD filed: ${d.iapd}
+        </div>
+      </div>
+      ${badge}
+      ${d.match === false ? `<button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>` : ''}
+    </div>`;
+  }).join('');
+
+  toast(`Loaded CRD ${crd} — click "Open firm on IAPD" to view live filings`);
+}
+
+function recordIAPDDate() {
+  const doc  = document.getElementById('iapd-doc-select').value;
+  const date = document.getElementById('iapd-date-input').value.trim();
+  if (!date) { toast('Enter the IAPD filed date first'); return; }
+  toast(`✓ IAPD date recorded: ${doc} — ${date}`);
+  document.getElementById('iapd-date-input').value = '';
+}
+
+function handleIAPDFile(input) {
+  if (input.files.length) addToIAPDQueue(input.files[0]);
+}
+
+function addToIAPDQueue(file) {
+  if (file.type !== 'application/pdf') { toast('Please use a PDF file'); return; }
+  const q   = document.getElementById('iapd-upload-queue');
+  const kb  = (file.size/1024).toFixed(0);
+  q.innerHTML = `<div class="uq-item">
+    <div class="uq-icon"><div class="uq-fold"></div>PDF</div>
+    <div style="flex:1">
+      <div style="font-size:12px;font-weight:500">${file.name}</div>
+      <div style="font-size:10px;color:var(--text-muted)">${kb} KB · Ready to upload</div>
+    </div>
+    <span class="pill pg">Ready</span>
+  </div>`;
+  // advance step highlight
+  document.querySelectorAll('.iapd-step').forEach((s,i) => s.classList.toggle('active-step', i===3));
+  toast('PDF ready — select document type and click Upload');
+}
+
+function submitIAPDUpload() {
+  const q = document.getElementById('iapd-upload-queue');
+  if (!q.children.length) { toast('Drop a PDF first'); return; }
+  q.innerHTML = '';
+  document.querySelectorAll('.iapd-step').forEach(s => s.classList.remove('active-step'));
+  toast('✓ Document uploaded — library updated, clients flagged for redistribution');
+}
+
+// also handle drop on iapd zone
+document.addEventListener('DOMContentLoaded', () => {
+  const z = document.getElementById('iapd-upload-zone');
+  if (z) {
+    z.addEventListener('drop', e => {
+      e.preventDefault();
+      z.classList.remove('drag');
+      const f = e.dataTransfer.files[0];
+      if (f) addToIAPDQueue(f);
+    });
+  }
+});
+
+
+// ── SCHEDULES ─────────────────────────────────────────────────────────────────
+let SCHEDULES = [
+  {id:1, doc:'ADV Part 2A – Firm Brochure',    freq:'annual',     month:'April',   day:1,  recipients:'All clients (247)', iapd:true,  status:true,  customDates:[]},
+  {id:2, doc:'Privacy Policy (Reg S-P)',        freq:'annual',     month:'April',   day:1,  recipients:'All clients (247)', iapd:true,  status:true,  customDates:[]},
+  {id:3, doc:'Form CRS',                        freq:'onboarding', month:'',        day:'', recipients:'New clients only',  iapd:false, status:true,  customDates:[]},
+  {id:4, doc:'Fee Disclosure – Quarterly',      freq:'quarterly',  month:'January', day:15, recipients:'All clients (247)', iapd:false, status:true,  customDates:[]},
+  {id:5, doc:'ADV Part 2B – Supplement',        freq:'annual',     month:'April',   day:1,  recipients:'All clients (247)', iapd:true,  status:true,  customDates:[]},
+];
+
+const FREQ_LABELS = {annual:'Annual',quarterly:'Quarterly',monthly:'Monthly',onboarding:'Onboarding',off:'Off'};
+const FREQ_COLORS = {annual:'var(--blue-light),var(--blue)',quarterly:'#EEEDFE,#534AB7',monthly:'#E1F5EE,#085041',onboarding:'var(--green-light),var(--green)',off:'var(--cream-dark),var(--text-muted)'};
+
+function freqPill(freq){
+  const [bg,col]=FREQ_COLORS[freq].split(',');
+  return `<span style="padding:2px 9px;border-radius:99px;font-size:9px;font-weight:500;background:${bg};color:${col}">${FREQ_LABELS[freq]||freq}</span>`;
+}
+
+function nextSendText(s){
+  if(s.freq==='off') return {date:'Disabled',sub:'Manual sends only'};
+  if(s.freq==='onboarding') return {date:'Next new client',sub:'Triggered on account creation'};
+  if(s.freq==='quarterly') return {date:`${s.month||'Jan'} ${s.day||'15'}, 2026`,sub:'Then Apr · Jul · Oct'};
+  if(s.freq==='monthly') return {date:`Apr ${s.day||'1'}, 2026`,sub:'Then monthly on day '+s.day};
+  return {date:`${s.month||'Apr'} ${s.day||'1'}, 2026`,sub:'Annual send'};
+}
+
+function renderSchedules(){
+  const el=document.getElementById('sched-list');
+  if(!el) return;
+  el.innerHTML = SCHEDULES.map(s=>{
+    const ns=nextSendText(s);
+    const expanded = s._expanded;
+    const showDateFields = s.freq!=='onboarding'&&s.freq!=='off';
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return `<div class="sched-card${expanded?' expanded':''}" id="scard-${s.id}">
+      <div class="sched-header" onclick="toggleSched(${s.id})">
+        <div class="sched-doc-icon"><div class="sched-doc-fold"></div>PDF</div>
+        <div class="sched-info">
+          <div class="sched-name">${s.doc}</div>
+          <div class="sched-summary">${FREQ_LABELS[s.freq]||s.freq}${s.freq!=='onboarding'&&s.freq!=='off'?` · ${ns.date}`:''} · ${s.recipients}</div>
+        </div>
+        <div class="sched-badges">
+          ${freqPill(s.freq)}
+          ${s.iapd?`<span class="pill pg" style="font-size:9px">IAPD trigger on</span>`:''}
+          ${s.status?`<span class="pill pg" style="font-size:9px"><span class="dot"></span>Active</span>`:`<span class="pill pgr" style="font-size:9px">Off</span>`}
+        </div>
+        <div class="sched-chevron">▾</div>
+      </div>
+      <div class="sched-expand">
+        <div class="sched-expand-grid">
+
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Frequency</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedFreq(${s.id},this.value)">
+              <option value="annual"     ${s.freq==='annual'    ?'selected':''}>Annual</option>
+              <option value="quarterly"  ${s.freq==='quarterly' ?'selected':''}>Quarterly</option>
+              <option value="monthly"    ${s.freq==='monthly'   ?'selected':''}>Monthly</option>
+              <option value="onboarding" ${s.freq==='onboarding'?'selected':''}>Onboarding (new clients)</option>
+              <option value="off"        ${s.freq==='off'       ?'selected':''}>Off — manual only</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Recipients</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedProp(${s.id},'recipients',this.value)">
+              <option ${s.recipients==='All clients (247)'?'selected':''}>All clients (247)</option>
+              <option ${s.recipients==='New clients only'?'selected':''}>New clients only</option>
+              <option ${s.recipients==='Clients with wrap accounts'?'selected':''}>Clients with wrap accounts</option>
+              <option ${s.recipients==='Clients with AUM over $1M'?'selected':''}>Clients with AUM over $1M</option>
+            </select>
+          </div>
+
+          ${showDateFields?`
+          <div>
+            <div class="lbl" style="margin-bottom:6px">${s.freq==='quarterly'?'First send month':'Send month'}</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedProp(${s.id},'month',this.value)">
+              ${months.map(m=>`<option ${s.month===m?'selected':''}>${m}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Day of month</div>
+            <input type="number" min="1" max="28" value="${s.day||1}" style="width:100%;padding:5px 9px;border:1px solid var(--border);border-radius:5px;font-size:12px" onchange="updateSchedProp(${s.id},'day',this.value)"/>
+          </div>`:''}
+
+        </div>
+
+        <!-- TOGGLES ROW -->
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px">
+          <div class="sched-toggle" onclick="toggleSchedProp(${s.id},'iapd')">
+            <div class="toggle-switch ${s.iapd?'on':''}" id="tog-iapd-${s.id}"></div>
+            <span>Also send when IAPD version changes</span>
+          </div>
+          <div class="sched-toggle" onclick="toggleSchedProp(${s.id},'status')">
+            <div class="toggle-switch ${s.status?'on':''}" id="tog-status-${s.id}"></div>
+            <span>Schedule active</span>
+          </div>
+        </div>
+
+        <!-- NEXT SEND PREVIEW -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="next-send-preview">
+            <div class="nsp-label">Next scheduled send</div>
+            <div class="nsp-date" id="nsp-date-${s.id}">${ns.date}</div>
+            <div class="nsp-sub" id="nsp-sub-${s.id}">${ns.sub}</div>
+          </div>
+          <div class="next-send-preview">
+            <div class="nsp-label">Custom one-off dates</div>
+            <div class="custom-dates" id="custom-dates-${s.id}">
+              ${(s.customDates||[]).length===0
+                ?`<span style="font-size:11px;color:var(--text-muted)">No custom dates added</span>`
+                :(s.customDates||[]).map((cd,ci)=>`
+                  <div class="custom-date-row">
+                    <span style="flex:1">${cd}</span>
+                    <button class="delete-btn" onclick="removeCustomDate(${s.id},${ci});event.stopPropagation()">×</button>
+                  </div>`).join('')}
+            </div>
+            <div style="display:flex;gap:5px;margin-top:7px">
+              <input type="text" id="cd-input-${s.id}" placeholder="e.g. Jun 15, 2026" style="flex:1;font-size:11px;padding:4px 8px"/>
+              <button class="btn btn-xs" onclick="addCustomDate(${s.id});event.stopPropagation()">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div style="display:flex;gap:7px;padding-top:10px;border-top:1px solid var(--border)">
+          <button class="btn btn-sm btn-p" onclick="saveSchedule(${s.id});event.stopPropagation()">Save changes</button>
+          <button class="btn btn-sm" onclick="toast('Sending ${s.doc} now to ${s.recipients}...');event.stopPropagation()">Send now</button>
+          <button class="btn btn-sm" style="margin-left:auto;color:var(--red);border-color:var(--red-light)" onclick="deleteSchedule(${s.id});event.stopPropagation()">Delete schedule</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSched(id){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s._expanded=!s._expanded;
+  renderSchedules();
+}
+
+function updateSchedFreq(id,val){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s.freq=val;
+  s._expanded=true;
+  // set sensible defaults for new freq
+  if(val==='quarterly'&&!s.month) s.month='January';
+  if(val==='annual'&&!s.month) s.month='April';
+  if(!s.day) s.day=1;
+  renderSchedules();
+}
+
+function updateSchedProp(id,prop,val){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s[prop]=val;
+  // live-update next send preview
+  const ns=nextSendText(s);
+  const dd=document.getElementById('nsp-date-'+id);
+  const ds=document.getElementById('nsp-sub-'+id);
+  if(dd) dd.textContent=ns.date;
+  if(ds) ds.textContent=ns.sub;
+}
+
+function toggleSchedProp(id,prop){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s[prop]=!s[prop];
+  const tog=document.getElementById('tog-'+prop+'-'+id);
+  if(tog) tog.classList.toggle('on',s[prop]);
+}
+
+function addCustomDate(id){
+  const input=document.getElementById('cd-input-'+id);
+  const val=(input?.value||'').trim();
+  if(!val){toast('Enter a date first');return;}
+  const s=SCHEDULES.find(x=>x.id===id);
+  if(!s.customDates) s.customDates=[];
+  s.customDates.push(val);
+  input.value='';
+  renderSchedules();
+  // re-expand
+  s._expanded=true;
+  renderSchedules();
+}
+
+function removeCustomDate(id,idx){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s.customDates.splice(idx,1);
+  s._expanded=true;
+  renderSchedules();
+}
+
+function saveSchedule(id){
+  const s=SCHEDULES.find(x=>x.id===id);
+  s._saved=true;
+  toast('✓ Schedule saved — '+s.doc);
+}
+
+function saveAllSchedules(){
+  SCHEDULES.forEach(s=>s._saved=true);
+  const b=document.getElementById('sched-saved-banner');
+  if(b){b.style.display='flex';setTimeout(()=>b.style.display='none',3000);}
+  toast('✓ All schedules saved');
+}
+
+function deleteSchedule(id){
+  SCHEDULES=SCHEDULES.filter(x=>x.id!==id);
+  renderSchedules();
+  toast('Schedule deleted');
+}
+
+function addSchedule(){
+  const doc=document.getElementById('ns-doc').value;
+  const freq=document.getElementById('ns-freq').value;
+  const month=document.getElementById('ns-month')?.value||'April';
+  const day=document.getElementById('ns-day')?.value||1;
+  const recipients=document.getElementById('ns-recipients').value;
+  const iapd=document.getElementById('ns-iapd').checked;
+  const newId=Math.max(...SCHEDULES.map(s=>s.id),0)+1;
+  SCHEDULES.push({id:newId,doc,freq,month,day,recipients,iapd,status:true,customDates:[],_expanded:true});
+  closeM('m-addsched');
+  renderSchedules();
+  toast('✓ Schedule added — '+doc);
+}
+
+function updateNewSchedFields(){
+  const freq=document.getElementById('ns-freq').value;
+  const fields=document.getElementById('ns-date-fields');
+  if(fields) fields.style.display=(freq==='onboarding'||freq==='off')?'none':'block';
+}
+
+// init schedules on load
+document.addEventListener('DOMContentLoaded', renderSchedules);
+// also render now in case DOM already ready
+if(document.readyState!=='loading') renderSchedules();
+
+
+// ── SEND COMPOSER ─────────────────────────────────────────────────────────────
+const DOCS_LIST = [
+  {id:'adv2a', name:'ADV Part 2A – Firm Brochure',   meta:'28 pg · IAPD outdated', size:0.847, selected:true,  warn:true},
+  {id:'adv2b', name:'ADV Part 2B – Supplement',       meta:'18 pg · Current',       size:0.312, selected:true,  warn:false},
+  {id:'crs',   name:'Form CRS',                        meta:'2 pg · Current',        size:0.098, selected:true,  warn:false},
+  {id:'priv',  name:'Privacy Policy (Reg S-P)',        meta:'12 pg · Current',       size:0.204, selected:true,  warn:false},
+  {id:'fee',   name:'Fee Disclosure – Quarterly',      meta:'6 pg · Internal',       size:0.156, selected:false, warn:false},
+  {id:'wrap',  name:'Wrap Fee Program Brochure',       meta:'24 pg · IAPD outdated', size:0.421, selected:false, warn:true},
+];
+
+const RECIP_LIST = [
+  {name:'James & Patricia Whitmore', acct:'WH-4421', email:'j.whitmore@email.com', status:'valid', selected:true},
+  {name:"Margaret O'Sullivan",       acct:'OS-8834', email:'Bounced',               status:'bounce',selected:true},
+  {name:'David & Sandra Park',       acct:'PK-1109', email:'d.park@email.com',      status:'valid', selected:true},
+  {name:'Yuki Tanaka',               acct:'TN-5523', email:'y.tanaka@email.com',    status:'valid', selected:true},
+  {name:'Thomas Ellsworth III',      acct:'EL-0042', email:'Bounced',               status:'bounce',selected:true},
+  {name:'Dorothy & Frank Nguyen',    acct:'NG-3318', email:'d.nguyen@email.com',    status:'valid', selected:true},
+  {name:'Carol Steinberg',           acct:'ST-7751', email:'No email on file',      status:'mail',  selected:true},
+];
+
+function renderDocChecklist(){
+  const el = document.getElementById('doc-checklist');
+  if(!el) return;
+  el.innerHTML = DOCS_LIST.map(d=>`
+    <div class="dci">
+      <input type="checkbox" ${d.selected?'checked':''} onchange="toggleDoc('${d.id}',this.checked)"/>
+      <div style="flex:1;min-width:0">
+        <div class="dcn">${d.name}</div>
+        <div class="dcm">${d.warn?`<span style="color:var(--red)">${d.meta}</span>`:d.meta}</div>
+      </div>
+    </div>`).join('');
+  updateDocCounts();
+}
+
+function toggleDoc(id, checked){
+  const d = DOCS_LIST.find(x=>x.id===id);
+  if(d) d.selected = checked;
+  updateDocCounts();
+}
+
+function toggleAllDocs(checked){
+  DOCS_LIST.forEach(d=>d.selected=checked);
+  renderDocChecklist();
+}
+
+function updateDocCounts(){
+  const sel = DOCS_LIST.filter(d=>d.selected);
+  const mb  = sel.reduce((a,d)=>a+d.size,0).toFixed(2);
+  const el  = document.getElementById('doc-sel-count');
+  const sl  = document.getElementById('doc-size-label');
+  if(el) el.textContent = sel.length+' selected';
+  if(sl) sl.textContent = `${sel.length} docs · ${mb} MB · 247 recipients`;
+}
+
+function renderRecipients(filter='all', search=''){
+  const tbody = document.getElementById('recipients-tbody');
+  if(!tbody) return;
+  const filtered = RECIP_LIST.filter(r=>{
+    const matchStatus = filter==='all'||r.status===filter;
+    const matchSearch = !search||r.name.toLowerCase().includes(search.toLowerCase())||r.acct.toLowerCase().includes(search.toLowerCase());
+    return matchStatus && matchSearch;
+  });
+  tbody.innerHTML = filtered.map(r=>`
+    <tr>
+      <td><input type="checkbox" ${r.selected?'checked':''} onchange="toggleRecipient('${r.acct}',this.checked)" style="accent-color:var(--navy)"/></td>
+      <td style="font-weight:500">${r.name}</td>
+      <td>${r.acct}</td>
+      <td style="color:${r.status==='valid'?'var(--text)':'var(--red)'}">${r.email}</td>
+      <td>${r.status==='valid'?'<span class="pill pg">Valid</span>':r.status==='bounce'?'<span class="pill pa">Mail queue</span>':'<span class="pill pgr">Mail only</span>'}</td>
+    </tr>`).join('');
+  if(filtered.length<RECIP_LIST.length)
+    tbody.innerHTML += `<tr><td colspan="5" style="color:var(--text-muted);font-size:11px">Showing ${filtered.length} of ${RECIP_LIST.length} — clear filter to see all</td></tr>`;
+}
+
+function toggleRecipient(acct, checked){
+  const r = RECIP_LIST.find(x=>x.acct===acct);
+  if(r) r.selected = checked;
+}
+
+function toggleAllRecipients(checked){
+  RECIP_LIST.forEach(r=>r.selected=checked);
+  renderRecipients();
+}
+
+function filterRecipients(val){ renderRecipients(document.querySelector('#ctb-recipients select')?.value||'all', val); }
+function filterRecipientStatus(val){ renderRecipients(val, document.querySelector('#ctb-recipients input')?.value||''); }
+
+// Insert merge field at cursor in the textarea
+function insertMerge(tag){
+  const ta = document.getElementById('email-body');
+  if(!ta) return;
+  const s=ta.selectionStart, e=ta.selectionEnd;
+  ta.value = ta.value.slice(0,s)+tag+ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s+tag.length;
+  ta.focus();
+  syncPreview();
+}
+
+// Live preview sync
+function syncPreview(){
+  const body   = document.getElementById('email-body')?.value||'';
+  const subj   = document.getElementById('email-subject')?.value||'';
+  const from   = document.getElementById('from-addr')?.value||'';
+  const sample = {
+    '[Client Name]':'James & Patricia Whitmore',
+    '[Account #]':'WH-4421',
+    '[Advisor Name]':'Luke Wright',
+    '[Date]':new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
+    '[Firm Name]':'Horizon Wealth Advisors, LLC',
+  };
+  let rendered = body;
+  Object.entries(sample).forEach(([k,v])=>{ rendered = rendered.replaceAll(k,`<strong>${v}</strong>`); });
+  const pb = document.getElementById('prev-body');
+  const ps = document.getElementById('prev-subject');
+  const pf = document.getElementById('prev-from');
+  if(pb) pb.innerHTML = rendered.replace(/\n/g,'<br>');
+  if(ps) ps.textContent = subj;
+  if(pf) pf.textContent = from;
+}
+
+function saveDraft(){ toast('Draft saved'); }
+
+// ── PROFILE ────────────────────────────────────────────────────────────────────
+function saveProfile(){
+  const banner = document.getElementById('profile-saved');
+  if(banner){ banner.style.display='flex'; setTimeout(()=>banner.style.display='none',4000); }
+  toast('✓ Profile saved');
+}
+
+function addComplianceContact(){
+  openM('m-editcontact');
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────────
+function initSend(){
+  renderDocChecklist();
+  renderRecipients();
+  syncPreview();
+}
+
+document.addEventListener('DOMContentLoaded', initSend);
+if(document.readyState!=='loading') initSend();
+
+
+// ── CLIENTS ───────────────────────────────────────────────────────────────────
+let CLIENTS = [
+  {id:1, fname:'James', lname:'Whitmore', display:'James & Patricia Whitmore', type:'Joint (married)', advisor:'Luke Wright',
+   accounts:[{acctId:'WH-4421',custodian:'Schwab',clientId:'SWB-1193847'}],
+   email:'j.whitmore@email.com', phone:'(714) 555-1001', addr1:'88 Shoreline Dr', city:'Newport Beach', state:'CA', zip:'92660', delivery:'Email (default)',
+   lastDelivery:'Mar 13, 2026', ackStatus:'signed', selected:false},
+  {id:2, fname:'Margaret', lname:"O'Sullivan", display:"Margaret O'Sullivan", type:'Individual', advisor:'Luke Wright',
+   accounts:[{acctId:'OS-8834',custodian:'Fidelity',clientId:'FID-0093421'}],
+   email:'', phone:'(714) 555-1002', addr1:'55 Harbor Ln', city:'Irvine', state:'CA', zip:'92612', delivery:'Physical mail only',
+   lastDelivery:'Mar 13, 2026', ackStatus:'bounce', selected:false},
+  {id:3, fname:'David', lname:'Park', display:'David & Sandra Park', type:'Joint (married)', advisor:'Luke Wright',
+   accounts:[{acctId:'PK-1109',custodian:'Schwab',clientId:'SWB-2204481'}],
+   email:'d.park@email.com', phone:'(714) 555-1003', addr1:'55 Pine Ave', city:'Laguna Niguel', state:'CA', zip:'92677', delivery:'Email (default)',
+   lastDelivery:'Mar 13, 2026', ackStatus:'pending', selected:false},
+  {id:4, fname:'Yuki', lname:'Tanaka', display:'Yuki Tanaka', type:'Individual', advisor:'Sarah Chen',
+   accounts:[{acctId:'TN-5523',custodian:'Pershing',clientId:'PSH-3312209'}],
+   email:'y.tanaka@email.com', phone:'(714) 555-1004', addr1:'102 Ocean View Blvd', city:'Laguna Beach', state:'CA', zip:'92651', delivery:'Email (default)',
+   lastDelivery:'Mar 13, 2026', ackStatus:'signed', selected:false},
+  {id:5, fname:'Thomas', lname:'Ellsworth', display:'Thomas Ellsworth III', type:'Individual', advisor:'Luke Wright',
+   accounts:[{acctId:'EL-0042',custodian:'TD Ameritrade',clientId:'TDA-9920014'}],
+   email:'', phone:'(949) 555-1005', addr1:'18 Sycamore Ct', city:'Dana Point', state:'CA', zip:'92629', delivery:'Physical mail only',
+   lastDelivery:'Mar 13, 2026', ackStatus:'bounce', selected:false},
+  {id:6, fname:'Dorothy', lname:'Nguyen', display:'Dorothy & Frank Nguyen', type:'Joint (married)', advisor:'Sarah Chen',
+   accounts:[{acctId:'NG-3318',custodian:'Schwab',clientId:'SWB-7743301'}],
+   email:'d.nguyen@email.com', phone:'(714) 555-1006', addr1:'402 Magnolia Dr', city:'Anaheim', state:'CA', zip:'92801', delivery:'Email (default)',
+   lastDelivery:'Mar 13, 2026', ackStatus:'signed', selected:false},
+  {id:7, fname:'Carol', lname:'Steinberg', display:'Carol Steinberg', type:'Individual', advisor:'Luke Wright',
+   accounts:[{acctId:'ST-7751',custodian:'Fidelity',clientId:'FID-4481203'}],
+   email:'', phone:'(949) 555-1007', addr1:'220 Birch Ln', city:'Newport Beach', state:'CA', zip:'92660', delivery:'Physical mail only',
+   lastDelivery:'Mar 13, 2026', ackStatus:'mail', selected:false},
+];
+
+let nextClientId = 8;
+let accountRowCount = 1;
+let editingClientId = null;
+
+const ACK_PILL = {
+  signed: '<span class="pill pg">Signed</span>',
+  pending: '<span class="pill pa">Opened — pending</span>',
+  bounce:  '<span class="pill pr">Email bounced</span>',
+  mail:    '<span class="pill pgr">Mail only</span>',
+  none:    '<span class="pill pgr">Not sent</span>',
+};
+
+const CUSTODIAN_COLORS = {
+  'Schwab':'#185FA5','Fidelity':'#2D6A4F','Pershing':'#854F0B','TD Ameritrade':'#534AB7','Other':'#777'
+};
+
+function renderClients(){
+  const search  = (document.getElementById('cl-search')?.value||'').toLowerCase();
+  const status  = document.getElementById('cl-filter-status')?.value||'all';
+  const cust    = document.getElementById('cl-filter-custodian')?.value||'all';
+
+  const filtered = CLIENTS.filter(c=>{
+    const matchS = !search||c.display.toLowerCase().includes(search)||
+      c.accounts.some(a=>a.acctId.toLowerCase().includes(search)||a.clientId.toLowerCase().includes(search));
+    const matchSt = status==='all'||c.ackStatus===status;
+    const matchC  = cust==='all'||c.accounts.some(a=>a.custodian===cust);
+    return matchS && matchSt && matchC;
+  });
+
+  const sel = CLIENTS.filter(c=>c.selected).length;
+  const selLabel = document.getElementById('cl-selected-label');
+  const bulkBtn  = document.getElementById('cl-bulk-send');
+  if(selLabel) selLabel.textContent = sel>0?`${sel} selected`:'';
+  if(bulkBtn)  bulkBtn.style.display = sel>0?'block':'none';
+
+  const tbody = document.getElementById('clients-tbody');
+  if(!tbody) return;
+
+  tbody.innerHTML = filtered.map(c=>{
+    const acct0 = c.accounts[0]||{};
+    const custColor = CUSTODIAN_COLORS[acct0.custodian]||'#777';
+    return `<tr>
+      <td><input type="checkbox" ${c.selected?'checked':''} onchange="toggleClient(${c.id},this.checked)" style="accent-color:var(--navy)"/></td>
+      <td>
+        <div style="font-weight:500">${c.display}</div>
+        <div style="font-size:10px;color:var(--text-muted)">${c.type} · ${c.advisor}</div>
+      </td>
+      <td>
+        <div style="font-size:12px;font-weight:500">${acct0.acctId||'—'}</div>
+        ${c.accounts.length>1?`<div style="font-size:10px;color:var(--text-muted)">+${c.accounts.length-1} more</div>`:''}
+      </td>
+      <td>
+        <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500;background:${custColor}18;color:${custColor}">
+          ${acct0.custodian||'—'}
+        </span>
+      </td>
+      <td style="font-size:11px;color:var(--text-muted);font-family:monospace">${acct0.clientId||'—'}</td>
+      <td style="font-size:12px;color:${c.email?'var(--text)':'var(--red)'}">${c.email||'No email'}</td>
+      <td style="font-size:11px;color:var(--text-muted)">${c.lastDelivery||'Never'}</td>
+      <td>${ACK_PILL[c.ackStatus]||ACK_PILL.none}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-xs" onclick="viewClient(${c.id})">View</button>
+          <button class="btn btn-xs" onclick="openEditClient(${c.id})">Edit</button>
+          <button class="btn btn-xs" onclick="deleteClient(${c.id})" style="color:var(--red)">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  const footer = document.getElementById('cl-footer-label');
+  if(footer) footer.textContent = `${filtered.length} of ${CLIENTS.length} clients shown`;
+  const countLabel = document.getElementById('client-count-label');
+  if(countLabel) countLabel.textContent = `${CLIENTS.length} total`;
+}
+
+function toggleClient(id, checked){
+  const c=CLIENTS.find(x=>x.id===id);
+  if(c) c.selected=checked;
+  renderClients();
+}
+function toggleAllClients(checked){
+  CLIENTS.forEach(c=>c.selected=checked);
+  renderClients();
+}
+function deleteClient(id){
+  if(!confirm('Delete this client?')) return;
+  CLIENTS = CLIENTS.filter(c=>c.id!==id);
+  renderClients();
+  toast('Client deleted');
+}
+
+// ── ADD / EDIT CLIENT ──────────────────────────────────────────────────────────
+function openAddClient(){
+  editingClientId = null;
+  document.getElementById('m-client-title').textContent = 'Add client';
+  // Clear fields
+  ['cl-fname','cl-lname','cl-display','cl-dob','cl-ssn','cl-email','cl-phone',
+   'cl-addr1','cl-addr2','cl-city','cl-zip'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  accountRowCount = 1;
+  renderAccountRows([{acctId:'',custodian:'Schwab',clientId:''}]);
+  clientTab('identity', document.querySelector('.cl-modal-tab'));
+  openM('m-client');
+}
+
+function openEditClient(id){
+  editingClientId = id;
+  const c = CLIENTS.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('m-client-title').textContent = 'Edit — '+c.display;
+  document.getElementById('cl-fname').value   = c.fname||'';
+  document.getElementById('cl-lname').value   = c.lname||'';
+  document.getElementById('cl-display').value = c.display||'';
+  document.getElementById('cl-email').value   = c.email||'';
+  document.getElementById('cl-phone').value   = c.phone||'';
+  document.getElementById('cl-addr1').value   = c.addr1||'';
+  document.getElementById('cl-city').value    = c.city||'';
+  document.getElementById('cl-zip').value     = c.zip||'';
+  accountRowCount = c.accounts.length;
+  renderAccountRows(c.accounts);
+  clientTab('identity', document.querySelector('.cl-modal-tab'));
+  openM('m-client');
+}
+
+function renderAccountRows(accounts){
+  const container = document.getElementById('account-rows');
+  if(!container) return;
+  container.innerHTML = accounts.map((a,i)=>`
+    <div class="acct-row" id="acct-row-${i}">
+      <div class="acct-row-head">
+        <span class="acct-row-label">Account ${i+1}</span>
+        ${i>0?`<button class="acct-del-btn" onclick="removeAccountRow(${i})">×</button>`:''}
+      </div>
+      <div class="fr" style="margin-bottom:8px">
+        <div><label class="lbl">Account ID / Number</label><input type="text" id="acct-id-${i}" value="${a.acctId||''}" placeholder="e.g. WH-4421" style="width:100%"/></div>
+        <div><label class="lbl">Custodian</label>
+          <select id="acct-cust-${i}" style="width:100%">
+            ${['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'].map(c=>`<option ${a.custodian===c?'selected':''}>${c}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID (CID / household ID)</label><input type="text" id="acct-cid-${i}" value="${a.clientId||''}" placeholder="e.g. SWB-1193847" style="width:100%"/></div>
+    </div>`).join('');
+}
+
+function addAccountRow(){
+  const rows = document.querySelectorAll('.acct-row').length;
+  const container = document.getElementById('account-rows');
+  const div = document.createElement('div');
+  div.className='acct-row';
+  div.id='acct-row-'+rows;
+  div.innerHTML=`
+    <div class="acct-row-head">
+      <span class="acct-row-label">Account ${rows+1}</span>
+      <button class="acct-del-btn" onclick="removeAccountRow(${rows})">×</button>
+    </div>
+    <div class="fr" style="margin-bottom:8px">
+      <div><label class="lbl">Account ID / Number</label><input type="text" id="acct-id-${rows}" placeholder="e.g. WH-4422" style="width:100%"/></div>
+      <div><label class="lbl">Custodian</label>
+        <select id="acct-cust-${rows}" style="width:100%">
+          ${['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'].map(c=>`<option>${c}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acct-cid-${rows}" placeholder="e.g. SWB-XXXXXXX" style="width:100%"/></div>`;
+  container.appendChild(div);
+}
+
+function removeAccountRow(i){
+  const el=document.getElementById('acct-row-'+i);
+  if(el) el.remove();
+}
+
+function saveClient(){
+  const fname   = document.getElementById('cl-fname')?.value.trim()||'';
+  const lname   = document.getElementById('cl-lname')?.value.trim()||'';
+  const display = document.getElementById('cl-display')?.value.trim()||(fname+' '+lname).trim();
+  const email   = document.getElementById('cl-email')?.value.trim()||'';
+  const phone   = document.getElementById('cl-phone')?.value.trim()||'';
+  const addr1   = document.getElementById('cl-addr1')?.value.trim()||'';
+  const city    = document.getElementById('cl-city')?.value.trim()||'';
+  const state   = document.getElementById('cl-state')?.value||'CA';
+  const zip     = document.getElementById('cl-zip')?.value.trim()||'';
+  const delivery= document.getElementById('cl-delivery')?.value||'Email (default)';
+  const type    = document.getElementById('cl-type')?.value||'Individual';
+  const advisor = document.getElementById('cl-advisor')?.value||'Luke Wright';
+
+  if(!fname&&!lname){ toast('Enter at least a first or last name'); return; }
+
+  // Collect accounts
+  const accounts = [];
+  let i=0;
+  while(document.getElementById('acct-id-'+i)){
+    accounts.push({
+      acctId:    document.getElementById('acct-id-'+i)?.value.trim()||'',
+      custodian: document.getElementById('acct-cust-'+i)?.value||'Schwab',
+      clientId:  document.getElementById('acct-cid-'+i)?.value.trim()||'',
+    });
+    i++;
+  }
+  if(!accounts.length) accounts.push({acctId:'',custodian:'Schwab',clientId:''});
+
+  if(editingClientId){
+    const idx = CLIENTS.findIndex(c=>c.id===editingClientId);
+    if(idx>=0) CLIENTS[idx] = {...CLIENTS[idx], fname,lname,display,email,phone,addr1,city,state,zip,delivery,type,advisor,accounts};
+    toast('✓ Client updated — '+display);
+  } else {
+    CLIENTS.push({id:nextClientId++,fname,lname,display,type,advisor,accounts,
+      email,phone,addr1,city,state,zip,delivery,lastDelivery:'—',ackStatus:'none',selected:false});
+    toast('✓ Client added — '+display);
+  }
+
+  closeM('m-client');
+  renderClients();
+}
+
+function viewClient(id){
+  const c = CLIENTS.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('vc-title').textContent = c.display;
+  document.getElementById('vc-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Identity</div>
+        <div style="font-size:12px;line-height:2;color:var(--text-mid)">
+          <div><strong>Type:</strong> ${c.type}</div>
+          <div><strong>Advisor:</strong> ${c.advisor}</div>
+          <div><strong>Email:</strong> ${c.email||'<span style="color:var(--red)">No email on file</span>'}</div>
+          <div><strong>Phone:</strong> ${c.phone||'—'}</div>
+          <div><strong>Address:</strong> ${c.addr1?c.addr1+', '+c.city+' '+c.state+' '+c.zip:'—'}</div>
+          <div><strong>Delivery:</strong> ${c.delivery}</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Accounts</div>
+        ${c.accounts.map(a=>`
+          <div style="background:var(--cream);border-radius:7px;padding:10px 12px;margin-bottom:7px;font-size:12px">
+            <div style="font-weight:500;margin-bottom:4px">${a.acctId||'No account ID'}</div>
+            <div style="color:var(--text-muted)">Custodian: <strong style="color:${CUSTODIAN_COLORS[a.custodian]||'#777'}">${a.custodian}</strong></div>
+            <div style="color:var(--text-muted);font-family:monospace;font-size:11px;margin-top:2px">Client ID: ${a.clientId||'—'}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px">
+      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Disclosure history</div>
+      <div style="font-size:12px;color:var(--text-mid);display:flex;gap:16px">
+        <span><strong>Last delivery:</strong> ${c.lastDelivery||'Never'}</span>
+        <span><strong>Status:</strong> ${ACK_PILL[c.ackStatus]||ACK_PILL.none}</span>
+      </div>
+    </div>`;
+  editingClientId = id;
+  openM('m-view-client');
+}
+
+function editCurrentClient(){
+  closeM('m-view-client');
+  openEditClient(editingClientId);
+}
+
+function clientTab(id, el){
+  document.querySelectorAll('.cl-tab-body').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cl-modal-tab').forEach(t=>t.classList.remove('active'));
+  const tb = document.getElementById('clt-'+id);
+  if(tb) tb.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// init clients
+document.addEventListener('DOMContentLoaded', renderClients);
+if(document.readyState!=='loading') renderClients();
+
+
+const EMAIL_CONFIGS = {
+  m365:   {label:'Microsoft 365 configuration', fields:[{l:'Tenant ID',p:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'},{l:'Client ID (App ID)',p:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'},{l:'Client secret',p:'Your Azure app client secret',pw:true},{l:'Send-from address',v:'compliance@horizonwealth.com'}]},
+  gmail:  {label:'Gmail / Google Workspace configuration', fields:[{l:'Google OAuth Client ID',p:'XXXXXXXX.apps.googleusercontent.com'},{l:'Client secret',p:'GOCSPX-...',pw:true},{l:'Send-from address',p:'compliance@yourfirm.com'}]},
+  sendgrid:{label:'SendGrid configuration', fields:[{l:'API key',p:'SG.XXXXXXXXXXXXXXXX',pw:true},{l:'From address',v:'compliance@horizonwealth.com'},{l:'From name',v:'Horizon Wealth Advisors Compliance'}]},
+  smtp:   {label:'Custom SMTP configuration', fields:[{l:'SMTP host',p:'smtp.yourprovider.com'},{l:'Port',p:'587'},{l:'Username',p:'compliance@horizonwealth.com'},{l:'Password',p:'...',pw:true},{l:'From address',v:'compliance@horizonwealth.com'}]},
+};
+
+function selectEmailSystem(key, card){
+  document.querySelectorAll('.email-option-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  const cfg = EMAIL_CONFIGS[key];
+  if(!cfg) return;
+  document.getElementById('email-config-area').innerHTML = `
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${cfg.label}</div>
+    ${cfg.fields.map((f,i)=>`
+      <div style="margin-bottom:9px">
+        <label class="lbl">${f.l}</label>
+        <input type="${f.pw?'password':'text'}" placeholder="${f.p||''}" value="${f.v||''}" style="width:100%"/>
+      </div>`).join('')}
+    <div style="display:flex;gap:7px;margin-top:4px">
+      <button class="btn btn-sm btn-p" onclick="toast('Sending test email...')">Send test email</button>
+      <button class="btn btn-sm" onclick="toast('Connected successfully')">Save & connect</button>
+    </div>`;
+}
+
+</script><script>
 // NAV
 function go(id, el){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  document.getElementById('s-'+id).classList.add('active');
-  if(el) el.classList.add('active');
-}
-
-// COMPOSE TABS
-function ctab(id, el){
-  document.querySelectorAll('.ctb').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('ctb-'+id).classList.add('active');
-  if(el) el.classList.add('active');
-}
-
-// MODALS
-function openM(id){ document.getElementById(id).classList.add('open'); }
-function closeM(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m) m.classList.remove('open')}));
-
-// TOAST
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.opacity='1';
-  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',3000);
-}
-
-// FILE UPLOAD
-function handleFileInput(input){
-  if(input.files.length) addToQueue(input.files[0]);
-}
-
-function handleDrop(event, zoneId){
-  event.preventDefault();
-  document.getElementById(zoneId).classList.remove('drag');
-  const file = event.dataTransfer.files[0];
-  if(file && file.type==='application/pdf') addToQueue(file);
-  else toast('Please drop a PDF file');
-}
-
-function addToQueue(file){
-  const q = document.getElementById('upload-queue');
-  const kb = (file.size/1024).toFixed(0);
-  const item = document.createElement('div');
-  item.className = 'uq-item';
-  item.innerHTML = `
-    <div class="uq-icon"><div class="uq-fold"></div>PDF</div>
-    <div style="flex:1">
-      <div class="uq-name">${file.name}</div>
-      <div class="uq-meta">${kb} KB · Ready to upload</div>
-    </div>
-    <span class="pill pg">Ready</span>`;
-  q.appendChild(item);
-  toast('File ready — select document type and click Upload');
-}
-
-function submitUpload(){
-  closeM('m-upload');
-  document.getElementById('upload-queue').innerHTML='';
-  toast('✓ Document uploaded and saved to library');
-}
-</script>
-</body>
-</html>
+  document.getElementByI
