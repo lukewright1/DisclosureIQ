@@ -2184,9 +2184,682 @@ function selectEmailSystem(key, card){
     </div>`;
 }
 
-</script><script>
-// NAV
+</script>
+<script>
+// ── CORE UI ───────────────────────────────────────────────────────────────────
 function go(id, el){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  document.getElementByI
+  document.getElementById('s-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+function ctab(id, el){
+  document.querySelectorAll('.ctb').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ctb-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+function openM(id){ document.getElementById(id).classList.add('open'); }
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+
+document.addEventListener('click', e=>{
+  if(e.target.classList.contains('mbg')) e.target.classList.remove('open');
+});
+
+function toast(msg, dur){
+  dur = dur||3000;
+  const t=document.getElementById('toast');
+  if(!t) return;
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._tid); t._tid=setTimeout(()=>t.style.opacity='0', dur);
+}
+
+// ── FILE UPLOAD HANDLERS ──────────────────────────────────────────────────────
+function handleDrop(event, zoneId){
+  event.preventDefault();
+  const zone = document.getElementById(zoneId);
+  if(zone) zone.classList.remove('drag');
+  const file = event.dataTransfer?.files?.[0];
+  if(!file){ toast('No file detected'); return; }
+  if(file.type !== 'application/pdf'){ toast('Please drop a PDF file'); return; }
+  addToUploadQueue(file, zoneId);
+}
+
+function addToUploadQueue(file, zoneId){
+  const qId = zoneId==='modal-upload-zone' ? 'upload-queue' :
+              zoneId==='iapd-upload-zone'  ? 'iapd-upload-queue' : 'upload-queue';
+  const q = document.getElementById(qId);
+  if(!q) return;
+  const kb = (file.size/1024).toFixed(0);
+  q.innerHTML = `<div class="uq-item">
+    <div class="uq-icon"><div class="uq-fold"></div>PDF</div>
+    <div style="flex:1">
+      <div style="font-size:12px;font-weight:500">${file.name}</div>
+      <div style="font-size:10px;color:var(--text-muted)">${kb} KB · Ready to upload</div>
+    </div>
+    <span class="pill pg">Ready</span>
+  </div>`;
+  toast('PDF queued — select document type and click Upload');
+}
+
+function handleFileInput(input){
+  if(input.files.length) addToUploadQueue(input.files[0], 'modal-upload-zone');
+}
+
+function submitUpload(){
+  const q=document.getElementById('upload-queue');
+  if(!q || !q.children.length){ toast('No file selected'); return; }
+  q.innerHTML='';
+  closeM('m-upload');
+  toast('✓ Document uploaded and saved to library');
+}
+
+// ── SEND COMPOSER ─────────────────────────────────────────────────────────────
+const DOCS_LIST = [
+  {id:'adv2a', name:'ADV Part 2A – Firm Brochure',   meta:'28 pg · IAPD outdated', size:0.847, selected:true,  warn:true},
+  {id:'adv2b', name:'ADV Part 2B – Supplement',       meta:'18 pg · Current',       size:0.312, selected:true,  warn:false},
+  {id:'crs',   name:'Form CRS',                        meta:'2 pg · Current',        size:0.098, selected:true,  warn:false},
+  {id:'priv',  name:'Privacy Policy (Reg S-P)',        meta:'12 pg · Current',       size:0.204, selected:true,  warn:false},
+  {id:'fee',   name:'Fee Disclosure – Quarterly',      meta:'6 pg · Internal',       size:0.156, selected:false, warn:false},
+  {id:'wrap',  name:'Wrap Fee Program Brochure',       meta:'24 pg · IAPD outdated', size:0.421, selected:false, warn:true},
+];
+
+const RECIP_LIST = [
+  {name:'James & Patricia Whitmore', acct:'WH-4421', email:'j.whitmore@email.com', status:'valid', selected:true},
+  {name:"Margaret O'Sullivan",       acct:'OS-8834', email:'Bounced',              status:'bounce',selected:true},
+  {name:'David & Sandra Park',       acct:'PK-1109', email:'d.park@email.com',     status:'valid', selected:true},
+  {name:'Yuki Tanaka',               acct:'TN-5523', email:'y.tanaka@email.com',   status:'valid', selected:true},
+  {name:'Thomas Ellsworth III',      acct:'EL-0042', email:'Bounced',              status:'bounce',selected:true},
+  {name:'Dorothy & Frank Nguyen',    acct:'NG-3318', email:'d.nguyen@email.com',   status:'valid', selected:true},
+  {name:'Carol Steinberg',           acct:'ST-7751', email:'No email on file',     status:'mail',  selected:true},
+];
+
+function renderDocChecklist(){
+  const el=document.getElementById('doc-checklist');
+  if(!el) return;
+  el.innerHTML=DOCS_LIST.map(d=>`
+    <div class="dci">
+      <input type="checkbox" ${d.selected?'checked':''} onchange="toggleDoc('${d.id}',this.checked)"/>
+      <div style="flex:1;min-width:0">
+        <div class="dcn">${d.name}</div>
+        <div class="dcm">${d.warn?'<span style="color:var(--red)">'+d.meta+'</span>':d.meta}</div>
+      </div>
+    </div>`).join('');
+  updateDocCounts();
+}
+
+function toggleDoc(id, checked){
+  const d=DOCS_LIST.find(x=>x.id===id);
+  if(d) d.selected=checked;
+  updateDocCounts();
+}
+
+function toggleAllDocs(checked){
+  DOCS_LIST.forEach(d=>d.selected=checked);
+  renderDocChecklist();
+}
+
+function updateDocCounts(){
+  const sel=DOCS_LIST.filter(d=>d.selected);
+  const mb=sel.reduce((a,d)=>a+d.size,0).toFixed(2);
+  const el=document.getElementById('doc-sel-count');
+  const sl=document.getElementById('doc-size-label');
+  if(el) el.textContent=sel.length+' selected';
+  if(sl) sl.textContent=`${sel.length} docs · ${mb} MB · 247 recipients`;
+}
+
+function renderRecipients(filter, search){
+  filter=filter||document.getElementById('cl-r-filter')?.value||'all';
+  search=search||document.getElementById('cl-r-search')?.value||'';
+  const tbody=document.getElementById('recipients-tbody');
+  if(!tbody) return;
+  const filtered=RECIP_LIST.filter(r=>{
+    const ms=filter==='all'||r.status===filter;
+    const mq=!search||r.name.toLowerCase().includes(search.toLowerCase());
+    return ms&&mq;
+  });
+  tbody.innerHTML=filtered.map(r=>`
+    <tr>
+      <td><input type="checkbox" ${r.selected?'checked':''} onchange="toggleRecipient('${r.acct}',this.checked)" style="accent-color:var(--navy)"/></td>
+      <td style="font-weight:500">${r.name}</td>
+      <td>${r.acct}</td>
+      <td style="color:${r.status==='valid'?'var(--text)':'var(--red)'}">${r.email}</td>
+      <td>${r.status==='valid'?'<span class="pill pg">Valid</span>':r.status==='bounce'?'<span class="pill pa">Mail queue</span>':'<span class="pill pgr">Mail only</span>'}</td>
+    </tr>`).join('');
+}
+
+function toggleRecipient(acct,checked){ const r=RECIP_LIST.find(x=>x.acct===acct); if(r) r.selected=checked; }
+function toggleAllRecipients(checked){ RECIP_LIST.forEach(r=>r.selected=checked); renderRecipients(); }
+function filterRecipients(val){ renderRecipients(null, val); }
+function filterRecipientStatus(val){ renderRecipients(val, null); }
+function saveDraft(){ toast('Draft saved'); }
+
+function insertMerge(tag){
+  const ta=document.getElementById('email-body');
+  if(!ta) return;
+  const s=ta.selectionStart, e=ta.selectionEnd;
+  ta.value=ta.value.slice(0,s)+tag+ta.value.slice(e);
+  ta.selectionStart=ta.selectionEnd=s+tag.length;
+  ta.focus(); syncPreview();
+}
+
+function syncPreview(){
+  const body=document.getElementById('email-body')?.value||'';
+  const subj=document.getElementById('email-subject')?.value||'';
+  const from=document.getElementById('from-addr')?.value||'';
+  const sample={
+    '[Client Name]':'James & Patricia Whitmore',
+    '[Account #]':'WH-4421',
+    '[Advisor Name]':'Luke Wright',
+    '[Date]':new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
+    '[Firm Name]':'Horizon Wealth Advisors, LLC',
+  };
+  let rendered=body;
+  Object.entries(sample).forEach(([k,v])=>{ rendered=rendered.replaceAll(k,'<strong>'+v+'</strong>'); });
+  const pb=document.getElementById('prev-body');
+  const ps=document.getElementById('prev-subject');
+  const pf=document.getElementById('prev-from');
+  if(pb) pb.innerHTML=rendered.replace(/
+/g,'<br>');
+  if(ps) ps.textContent=subj;
+  if(pf) pf.textContent=from;
+}
+
+function initSend(){
+  renderDocChecklist();
+  renderRecipients();
+  syncPreview();
+}
+
+// ── SCHEDULES ─────────────────────────────────────────────────────────────────
+let SCHEDULES=[
+  {id:1,doc:'ADV Part 2A – Firm Brochure',freq:'annual',month:'April',day:1,recipients:'All clients (247)',iapd:true,status:true,customDates:[]},
+  {id:2,doc:'Privacy Policy (Reg S-P)',freq:'annual',month:'April',day:1,recipients:'All clients (247)',iapd:true,status:true,customDates:[]},
+  {id:3,doc:'Form CRS',freq:'onboarding',month:'',day:'',recipients:'New clients only',iapd:false,status:true,customDates:[]},
+  {id:4,doc:'Fee Disclosure – Quarterly',freq:'quarterly',month:'January',day:15,recipients:'All clients (247)',iapd:false,status:true,customDates:[]},
+  {id:5,doc:'ADV Part 2B – Supplement',freq:'annual',month:'April',day:1,recipients:'All clients (247)',iapd:true,status:true,customDates:[]},
+];
+let nextSchedId=6;
+
+const FREQ_LABELS={annual:'Annual',quarterly:'Quarterly',monthly:'Monthly',onboarding:'Onboarding',off:'Off'};
+const FREQ_COLORS={
+  annual:'var(--blue-light),var(--blue)',
+  quarterly:'#EEEDFE,#534AB7',
+  monthly:'#E1F5EE,#085041',
+  onboarding:'var(--green-light),var(--green)',
+  off:'var(--cream-dark),var(--text-muted)'
+};
+
+function freqPill(freq){
+  const [bg,col]=(FREQ_COLORS[freq]||FREQ_COLORS.off).split(',');
+  return `<span style="padding:2px 9px;border-radius:99px;font-size:9px;font-weight:500;background:${bg};color:${col}">${FREQ_LABELS[freq]||freq}</span>`;
+}
+
+function nextSendText(s){
+  if(s.freq==='off')        return {date:'Disabled',sub:'Manual sends only'};
+  if(s.freq==='onboarding') return {date:'Next new client',sub:'Triggered on account creation'};
+  if(s.freq==='quarterly')  return {date:`${s.month||'Jan'} ${s.day||15}, 2026`,sub:'Then Apr · Jul · Oct'};
+  if(s.freq==='monthly')    return {date:`Apr ${s.day||1}, 2026`,sub:'Monthly on day '+s.day};
+  return {date:`${s.month||'Apr'} ${s.day||1}, 2026`,sub:'Annual send'};
+}
+
+function renderSchedules(){
+  const el=document.getElementById('sched-list');
+  if(!el) return;
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  el.innerHTML=SCHEDULES.map(s=>{
+    const ns=nextSendText(s);
+    const exp=s._expanded;
+    const showDate=s.freq!=='onboarding'&&s.freq!=='off';
+    return `<div class="sched-card${exp?' expanded':''}" id="scard-${s.id}">
+      <div class="sched-header" onclick="toggleSched(${s.id})">
+        <div class="sched-doc-icon"><div class="sched-doc-fold"></div>PDF</div>
+        <div class="sched-info">
+          <div class="sched-name">${s.doc}</div>
+          <div class="sched-summary">${FREQ_LABELS[s.freq]||s.freq}${showDate?' · '+ns.date:''} · ${s.recipients}</div>
+        </div>
+        <div class="sched-badges">
+          ${freqPill(s.freq)}
+          ${s.iapd?'<span class="pill pg" style="font-size:9px">IAPD trigger on</span>':''}
+          ${s.status?'<span class="pill pg" style="font-size:9px"><span class="dot"></span>Active</span>':'<span class="pill pgr" style="font-size:9px">Off</span>'}
+        </div>
+        <div class="sched-chevron">▾</div>
+      </div>
+      <div class="sched-expand">
+        <div class="sched-expand-grid">
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Frequency</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedFreq(${s.id},this.value)">
+              <option value="annual" ${s.freq==='annual'?'selected':''}>Annual</option>
+              <option value="quarterly" ${s.freq==='quarterly'?'selected':''}>Quarterly</option>
+              <option value="monthly" ${s.freq==='monthly'?'selected':''}>Monthly</option>
+              <option value="onboarding" ${s.freq==='onboarding'?'selected':''}>Onboarding</option>
+              <option value="off" ${s.freq==='off'?'selected':''}>Off — manual only</option>
+            </select>
+          </div>
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Recipients</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedProp(${s.id},'recipients',this.value)">
+              <option ${s.recipients==='All clients (247)'?'selected':''}>All clients (247)</option>
+              <option ${s.recipients==='New clients only'?'selected':''}>New clients only</option>
+              <option ${s.recipients==='Clients with wrap accounts'?'selected':''}>Clients with wrap accounts</option>
+              <option ${s.recipients==='Clients with AUM over $1M'?'selected':''}>Clients with AUM over $1M</option>
+            </select>
+          </div>
+          ${showDate?`
+          <div>
+            <div class="lbl" style="margin-bottom:6px">${s.freq==='quarterly'?'First send month':'Send month'}</div>
+            <select class="freq-select" style="width:100%" onchange="updateSchedProp(${s.id},'month',this.value)">
+              ${months.map(m=>`<option ${s.month===m?'selected':''}>${m}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <div class="lbl" style="margin-bottom:6px">Day of month</div>
+            <input type="number" min="1" max="28" value="${s.day||1}" style="width:100%;padding:5px 9px;border:1px solid var(--border);border-radius:5px;font-size:12px" onchange="updateSchedProp(${s.id},'day',this.value)"/>
+          </div>`:''}
+        </div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px">
+          <div class="sched-toggle" onclick="toggleSchedProp(${s.id},'iapd')">
+            <div class="toggle-switch ${s.iapd?'on':''}" id="tog-iapd-${s.id}"></div>
+            <span>Send when IAPD version changes</span>
+          </div>
+          <div class="sched-toggle" onclick="toggleSchedProp(${s.id},'status')">
+            <div class="toggle-switch ${s.status?'on':''}" id="tog-status-${s.id}"></div>
+            <span>Schedule active</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="next-send-preview">
+            <div class="nsp-label">Next send</div>
+            <div class="nsp-date" id="nsp-date-${s.id}">${ns.date}</div>
+            <div class="nsp-sub" id="nsp-sub-${s.id}">${ns.sub}</div>
+          </div>
+          <div class="next-send-preview">
+            <div class="nsp-label">Custom one-off dates</div>
+            <div class="custom-dates" id="custom-dates-${s.id}">
+              ${(s.customDates||[]).length===0
+                ?'<span style="font-size:11px;color:var(--text-muted)">No custom dates</span>'
+                :(s.customDates||[]).map((cd,ci)=>`<div class="custom-date-row"><span style="flex:1">${cd}</span><button class="delete-btn" onclick="removeCustomDate(${s.id},${ci});event.stopPropagation()">×</button></div>`).join('')}
+            </div>
+            <div style="display:flex;gap:5px;margin-top:7px">
+              <input type="text" id="cd-input-${s.id}" placeholder="e.g. Jun 15, 2026" style="flex:1;font-size:11px;padding:4px 8px"/>
+              <button class="btn btn-xs" onclick="addCustomDate(${s.id});event.stopPropagation()">Add</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:7px;padding-top:10px;border-top:1px solid var(--border)">
+          <button class="btn btn-sm btn-p" onclick="saveSchedule(${s.id});event.stopPropagation()">Save changes</button>
+          <button class="btn btn-sm" onclick="toast('Sending now...');event.stopPropagation()">Send now</button>
+          <button class="btn btn-sm" style="margin-left:auto;color:var(--red);border-color:var(--red-light)" onclick="deleteSchedule(${s.id});event.stopPropagation()">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSched(id){ const s=SCHEDULES.find(x=>x.id===id); if(s){s._expanded=!s._expanded;renderSchedules();} }
+function updateSchedFreq(id,val){ const s=SCHEDULES.find(x=>x.id===id); if(s){s.freq=val;s._expanded=true;if(!s.month)s.month='April';if(!s.day)s.day=1;renderSchedules();} }
+function updateSchedProp(id,prop,val){ const s=SCHEDULES.find(x=>x.id===id); if(s){s[prop]=val;const ns=nextSendText(s);const dd=document.getElementById('nsp-date-'+id);const ds=document.getElementById('nsp-sub-'+id);if(dd)dd.textContent=ns.date;if(ds)ds.textContent=ns.sub;} }
+function toggleSchedProp(id,prop){ const s=SCHEDULES.find(x=>x.id===id); if(s){s[prop]=!s[prop];const tog=document.getElementById('tog-'+prop+'-'+id);if(tog)tog.classList.toggle('on',s[prop]);} }
+function addCustomDate(id){ const inp=document.getElementById('cd-input-'+id); if(!inp||!inp.value.trim()){toast('Enter a date');return;} const s=SCHEDULES.find(x=>x.id===id); if(s){if(!s.customDates)s.customDates=[];s.customDates.push(inp.value.trim());inp.value='';s._expanded=true;renderSchedules();} }
+function removeCustomDate(id,idx){ const s=SCHEDULES.find(x=>x.id===id); if(s){s.customDates.splice(idx,1);s._expanded=true;renderSchedules();} }
+function saveSchedule(id){ toast('✓ Schedule saved — '+SCHEDULES.find(x=>x.id===id)?.doc); }
+function deleteSchedule(id){ SCHEDULES=SCHEDULES.filter(x=>x.id!==id);renderSchedules();toast('Schedule deleted'); }
+function saveAllSchedules(){
+  const b=document.getElementById('sched-saved-banner');
+  if(b){b.style.display='flex';setTimeout(()=>b.style.display='none',3500);}
+  toast('✓ All schedules saved');
+}
+function addSchedule(){
+  const doc=document.getElementById('ns-doc')?.value;
+  const freq=document.getElementById('ns-freq')?.value||'annual';
+  const month=document.getElementById('ns-month')?.value||'April';
+  const day=parseInt(document.getElementById('ns-day')?.value)||1;
+  const recipients=document.getElementById('ns-recipients')?.value||'All clients (247)';
+  const iapd=document.getElementById('ns-iapd')?.checked||false;
+  if(!doc){toast('Select a document');return;}
+  SCHEDULES.push({id:nextSchedId++,doc,freq,month,day,recipients,iapd,status:true,customDates:[],_expanded:true});
+  closeM('m-addsched');
+  renderSchedules();
+  toast('✓ Schedule added — '+doc);
+}
+function updateNewSchedFields(){
+  const freq=document.getElementById('ns-freq')?.value;
+  const fields=document.getElementById('ns-date-fields');
+  if(fields) fields.style.display=(freq==='onboarding'||freq==='off')?'none':'block';
+}
+
+// ── CLIENTS ────────────────────────────────────────────────────────────────────
+let CLIENTS=[
+  {id:1,fname:'James',lname:'Whitmore',display:'James & Patricia Whitmore',type:'Joint (married)',advisor:'Luke Wright',accounts:[{acctId:'WH-4421',custodian:'Schwab',clientId:'SWB-1193847'}],email:'j.whitmore@email.com',phone:'(714) 555-1001',addr1:'88 Shoreline Dr',city:'Newport Beach',state:'CA',zip:'92660',delivery:'Email (default)',lastDelivery:'Mar 13, 2026',ackStatus:'signed',selected:false},
+  {id:2,fname:'Margaret',lname:"O'Sullivan",display:"Margaret O'Sullivan",type:'Individual',advisor:'Luke Wright',accounts:[{acctId:'OS-8834',custodian:'Fidelity',clientId:'FID-0093421'}],email:'',phone:'(714) 555-1002',addr1:'55 Harbor Ln',city:'Irvine',state:'CA',zip:'92612',delivery:'Physical mail only',lastDelivery:'Mar 13, 2026',ackStatus:'bounce',selected:false},
+  {id:3,fname:'David',lname:'Park',display:'David & Sandra Park',type:'Joint (married)',advisor:'Luke Wright',accounts:[{acctId:'PK-1109',custodian:'Schwab',clientId:'SWB-2204481'}],email:'d.park@email.com',phone:'(714) 555-1003',addr1:'55 Pine Ave',city:'Laguna Niguel',state:'CA',zip:'92677',delivery:'Email (default)',lastDelivery:'Mar 13, 2026',ackStatus:'pending',selected:false},
+  {id:4,fname:'Yuki',lname:'Tanaka',display:'Yuki Tanaka',type:'Individual',advisor:'Sarah Chen',accounts:[{acctId:'TN-5523',custodian:'Pershing',clientId:'PSH-3312209'}],email:'y.tanaka@email.com',phone:'(714) 555-1004',addr1:'102 Ocean View Blvd',city:'Laguna Beach',state:'CA',zip:'92651',delivery:'Email (default)',lastDelivery:'Mar 13, 2026',ackStatus:'signed',selected:false},
+  {id:5,fname:'Thomas',lname:'Ellsworth',display:'Thomas Ellsworth III',type:'Individual',advisor:'Luke Wright',accounts:[{acctId:'EL-0042',custodian:'TD Ameritrade',clientId:'TDA-9920014'}],email:'',phone:'(949) 555-1005',addr1:'18 Sycamore Ct',city:'Dana Point',state:'CA',zip:'92629',delivery:'Physical mail only',lastDelivery:'Mar 13, 2026',ackStatus:'bounce',selected:false},
+  {id:6,fname:'Dorothy',lname:'Nguyen',display:'Dorothy & Frank Nguyen',type:'Joint (married)',advisor:'Sarah Chen',accounts:[{acctId:'NG-3318',custodian:'Schwab',clientId:'SWB-7743301'}],email:'d.nguyen@email.com',phone:'(714) 555-1006',addr1:'402 Magnolia Dr',city:'Anaheim',state:'CA',zip:'92801',delivery:'Email (default)',lastDelivery:'Mar 13, 2026',ackStatus:'signed',selected:false},
+  {id:7,fname:'Carol',lname:'Steinberg',display:'Carol Steinberg',type:'Individual',advisor:'Luke Wright',accounts:[{acctId:'ST-7751',custodian:'Fidelity',clientId:'FID-4481203'}],email:'',phone:'(949) 555-1007',addr1:'220 Birch Ln',city:'Newport Beach',state:'CA',zip:'92660',delivery:'Physical mail only',lastDelivery:'Mar 13, 2026',ackStatus:'mail',selected:false},
+];
+let nextClientId=8;
+let editingClientId=null;
+
+const ACK_PILL={
+  signed:'<span class="pill pg">Signed</span>',
+  pending:'<span class="pill pa">Opened — pending</span>',
+  bounce:'<span class="pill pr">Email bounced</span>',
+  mail:'<span class="pill pgr">Mail only</span>',
+  none:'<span class="pill pgr">Not sent</span>',
+};
+const CUST_COLORS={'Schwab':'#185FA5','Fidelity':'#2D6A4F','Pershing':'#854F0B','TD Ameritrade':'#534AB7','Vanguard':'#0F6E56','Raymond James':'#993556','LPL Financial':'#854F0B','Other':'#777'};
+
+function renderClients(){
+  const search=(document.getElementById('cl-search')?.value||'').toLowerCase();
+  const status=document.getElementById('cl-filter-status')?.value||'all';
+  const cust=document.getElementById('cl-filter-custodian')?.value||'all';
+  const filtered=CLIENTS.filter(c=>{
+    const ms=!search||c.display.toLowerCase().includes(search)||c.accounts.some(a=>a.acctId.toLowerCase().includes(search)||a.clientId.toLowerCase().includes(search));
+    const mst=status==='all'||c.ackStatus===status;
+    const mc=cust==='all'||c.accounts.some(a=>a.custodian===cust);
+    return ms&&mst&&mc;
+  });
+  const sel=CLIENTS.filter(c=>c.selected).length;
+  const selLabel=document.getElementById('cl-selected-label');
+  const bulkBtn=document.getElementById('cl-bulk-send');
+  if(selLabel) selLabel.textContent=sel>0?sel+' selected':'';
+  if(bulkBtn) bulkBtn.style.display=sel>0?'block':'none';
+  const tbody=document.getElementById('clients-tbody');
+  if(!tbody) return;
+  tbody.innerHTML=filtered.map(c=>{
+    const a0=c.accounts[0]||{};
+    const cc=CUST_COLORS[a0.custodian]||'#777';
+    return `<tr>
+      <td><input type="checkbox" ${c.selected?'checked':''} onchange="toggleClient(${c.id},this.checked)" style="accent-color:var(--navy)"/></td>
+      <td><div style="font-weight:500">${c.display}</div><div style="font-size:10px;color:var(--text-muted)">${c.type} · ${c.advisor}</div></td>
+      <td><div style="font-size:12px;font-weight:500">${a0.acctId||'—'}</div>${c.accounts.length>1?'<div style="font-size:10px;color:var(--text-muted)">+'+( c.accounts.length-1)+' more</div>':''}</td>
+      <td><span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500;background:${cc}18;color:${cc}">${a0.custodian||'—'}</span></td>
+      <td style="font-size:11px;color:var(--text-muted);font-family:monospace">${a0.clientId||'—'}</td>
+      <td style="font-size:12px;color:${c.email?'var(--text)':'var(--red)'}">${c.email||'No email'}</td>
+      <td style="font-size:11px;color:var(--text-muted)">${c.lastDelivery||'Never'}</td>
+      <td>${ACK_PILL[c.ackStatus]||ACK_PILL.none}</td>
+      <td><div style="display:flex;gap:4px">
+        <button class="btn btn-xs" onclick="viewClient(${c.id})">View</button>
+        <button class="btn btn-xs" onclick="openEditClient(${c.id})">Edit</button>
+        <button class="btn btn-xs" onclick="deleteClient(${c.id})" style="color:var(--red)">✕</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  const footer=document.getElementById('cl-footer-label');
+  if(footer) footer.textContent=filtered.length+' of '+CLIENTS.length+' clients shown';
+  const countLabel=document.getElementById('client-count-label');
+  if(countLabel) countLabel.textContent=CLIENTS.length+' total';
+}
+
+function toggleClient(id,checked){ const c=CLIENTS.find(x=>x.id===id); if(c){c.selected=checked;renderClients();} }
+function toggleAllClients(checked){ CLIENTS.forEach(c=>c.selected=checked); renderClients(); }
+function deleteClient(id){ if(!confirm('Delete this client?')) return; CLIENTS=CLIENTS.filter(c=>c.id!==id); renderClients(); toast('Client deleted'); }
+
+function openAddClient(){
+  editingClientId=null;
+  document.getElementById('m-client-title').textContent='Add client';
+  ['cl-fname','cl-lname','cl-display','cl-dob','cl-ssn','cl-email','cl-phone','cl-addr1','cl-addr2','cl-city','cl-zip'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderAccountRows([{acctId:'',custodian:'Schwab',clientId:''}]);
+  clientTab('identity',document.querySelector('.cl-modal-tab'));
+  openM('m-client');
+}
+
+function openEditClient(id){
+  editingClientId=id;
+  const c=CLIENTS.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('m-client-title').textContent='Edit — '+c.display;
+  document.getElementById('cl-fname').value=c.fname||'';
+  document.getElementById('cl-lname').value=c.lname||'';
+  document.getElementById('cl-display').value=c.display||'';
+  document.getElementById('cl-email').value=c.email||'';
+  document.getElementById('cl-phone').value=c.phone||'';
+  document.getElementById('cl-addr1').value=c.addr1||'';
+  document.getElementById('cl-city').value=c.city||'';
+  document.getElementById('cl-zip').value=c.zip||'';
+  renderAccountRows(c.accounts);
+  clientTab('identity',document.querySelector('.cl-modal-tab'));
+  openM('m-client');
+}
+
+function renderAccountRows(accounts){
+  const container=document.getElementById('account-rows');
+  if(!container) return;
+  const custodians=['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'];
+  container.innerHTML=accounts.map((a,i)=>`
+    <div class="acct-row" id="acct-row-${i}">
+      <div class="acct-row-head">
+        <span class="acct-row-label">Account ${i+1}</span>
+        ${i>0?'<button class="acct-del-btn" onclick="removeAccountRow('+i+')">×</button>':''}
+      </div>
+      <div class="fr" style="margin-bottom:8px">
+        <div><label class="lbl">Account ID / Number</label><input type="text" id="acct-id-${i}" value="${a.acctId||''}" placeholder="e.g. WH-4421" style="width:100%"/></div>
+        <div><label class="lbl">Custodian</label>
+          <select id="acct-cust-${i}" style="width:100%">
+            ${custodians.map(cu=>'<option '+(a.custodian===cu?'selected':'')+'>'+cu+'</option>').join('')}
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acct-cid-${i}" value="${a.clientId||''}" placeholder="e.g. SWB-1193847" style="width:100%"/></div>
+    </div>`).join('');
+}
+
+function addAccountRow(){
+  const rows=document.querySelectorAll('.acct-row').length;
+  const container=document.getElementById('account-rows');
+  if(!container) return;
+  const custodians=['Schwab','Fidelity','Pershing','TD Ameritrade','Vanguard','Raymond James','LPL Financial','Other'];
+  const div=document.createElement('div');
+  div.className='acct-row'; div.id='acct-row-'+rows;
+  div.innerHTML=`
+    <div class="acct-row-head">
+      <span class="acct-row-label">Account ${rows+1}</span>
+      <button class="acct-del-btn" onclick="removeAccountRow(${rows})">×</button>
+    </div>
+    <div class="fr" style="margin-bottom:8px">
+      <div><label class="lbl">Account ID / Number</label><input type="text" id="acct-id-${rows}" placeholder="e.g. WH-4422" style="width:100%"/></div>
+      <div><label class="lbl">Custodian</label><select id="acct-cust-${rows}" style="width:100%">${custodians.map(cu=>'<option>'+cu+'</option>').join('')}</select></div>
+    </div>
+    <div class="fg" style="margin-bottom:0"><label class="lbl">Custodian Client ID</label><input type="text" id="acct-cid-${rows}" placeholder="e.g. SWB-XXXXXXX" style="width:100%"/></div>`;
+  container.appendChild(div);
+}
+
+function removeAccountRow(i){ const el=document.getElementById('acct-row-'+i); if(el) el.remove(); }
+
+function saveClient(){
+  const fname=document.getElementById('cl-fname')?.value.trim()||'';
+  const lname=document.getElementById('cl-lname')?.value.trim()||'';
+  const display=document.getElementById('cl-display')?.value.trim()||(fname+' '+lname).trim();
+  const email=document.getElementById('cl-email')?.value.trim()||'';
+  const phone=document.getElementById('cl-phone')?.value.trim()||'';
+  const addr1=document.getElementById('cl-addr1')?.value.trim()||'';
+  const city=document.getElementById('cl-city')?.value.trim()||'';
+  const state=document.getElementById('cl-state')?.value||'CA';
+  const zip=document.getElementById('cl-zip')?.value.trim()||'';
+  const delivery=document.getElementById('cl-delivery')?.value||'Email (default)';
+  const type=document.getElementById('cl-type')?.value||'Individual';
+  const advisor=document.getElementById('cl-advisor')?.value||'Luke Wright';
+  if(!fname&&!lname){ toast('Enter at least a first or last name'); return; }
+  const accounts=[];
+  let i=0;
+  while(document.getElementById('acct-id-'+i)){
+    accounts.push({acctId:document.getElementById('acct-id-'+i)?.value.trim()||'',custodian:document.getElementById('acct-cust-'+i)?.value||'Schwab',clientId:document.getElementById('acct-cid-'+i)?.value.trim()||''});
+    i++;
+  }
+  if(!accounts.length) accounts.push({acctId:'',custodian:'Schwab',clientId:''});
+  if(editingClientId){
+    const idx=CLIENTS.findIndex(c=>c.id===editingClientId);
+    if(idx>=0) CLIENTS[idx]={...CLIENTS[idx],fname,lname,display,email,phone,addr1,city,state,zip,delivery,type,advisor,accounts};
+    toast('✓ Client updated — '+display);
+  } else {
+    CLIENTS.push({id:nextClientId++,fname,lname,display,type,advisor,accounts,email,phone,addr1,city,state,zip,delivery,lastDelivery:'—',ackStatus:'none',selected:false});
+    toast('✓ Client added — '+display);
+  }
+  closeM('m-client'); renderClients();
+}
+
+function viewClient(id){
+  const c=CLIENTS.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('vc-title').textContent=c.display;
+  document.getElementById('vc-body').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Identity</div>
+        <div style="font-size:12px;line-height:2;color:var(--text-mid)">
+          <div><strong>Type:</strong> ${c.type}</div>
+          <div><strong>Advisor:</strong> ${c.advisor}</div>
+          <div><strong>Email:</strong> ${c.email||'<span style="color:var(--red)">No email on file</span>'}</div>
+          <div><strong>Phone:</strong> ${c.phone||'—'}</div>
+          <div><strong>Address:</strong> ${c.addr1?c.addr1+', '+c.city+' '+c.state+' '+c.zip:'—'}</div>
+          <div><strong>Delivery:</strong> ${c.delivery}</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Accounts</div>
+        ${c.accounts.map(a=>'<div style="background:var(--cream);border-radius:7px;padding:10px 12px;margin-bottom:7px;font-size:12px"><div style="font-weight:500;margin-bottom:4px">'+(a.acctId||'No account ID')+'</div><div style="color:var(--text-muted)">Custodian: <strong style="color:'+(CUST_COLORS[a.custodian]||'#777')+'">'+a.custodian+'</strong></div><div style="color:var(--text-muted);font-family:monospace;font-size:11px;margin-top:2px">Client ID: '+(a.clientId||'—')+'</div></div>').join('')}
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px">
+      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Disclosure history</div>
+      <div style="font-size:12px;color:var(--text-mid);display:flex;gap:16px">
+        <span><strong>Last delivery:</strong> ${c.lastDelivery||'Never'}</span>
+        <span><strong>Status:</strong> ${ACK_PILL[c.ackStatus]||ACK_PILL.none}</span>
+      </div>
+    </div>`;
+  editingClientId=id;
+  openM('m-view-client');
+}
+
+function editCurrentClient(){ closeM('m-view-client'); openEditClient(editingClientId); }
+
+function clientTab(id,el){
+  document.querySelectorAll('.cl-tab-body').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cl-modal-tab').forEach(t=>t.classList.remove('active'));
+  const tb=document.getElementById('clt-'+id);
+  if(tb) tb.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ── IAPD ──────────────────────────────────────────────────────────────────────
+const FIRM_NAMES={'317245':'Ameritas Investment Corp','108523':'Vanguard Advisers, Inc.','361':'Goldman Sachs & Co. LLC','149777':'Morgan Stanley Smith Barney','705681':'Raymond James & Associates'};
+const IAPD_DOCS=[
+  {name:'ADV Part 2A – Firm Brochure',yourDate:'Mar 1, 2025',iapd:'Mar 28, 2025',match:false,color:'var(--red)'},
+  {name:'ADV Part 2B – Supplement',yourDate:'Apr 2, 2024',iapd:'Apr 2, 2024',match:true,color:'var(--green)'},
+  {name:'Form CRS',yourDate:'Jan 15, 2026',iapd:'Jan 15, 2026',match:true,color:'var(--green)'},
+  {name:'Privacy Policy (Reg S-P)',yourDate:'Mar 5, 2026',iapd:'Mar 5, 2026',match:true,color:'var(--green)'},
+  {name:'Wrap Fee Program Brochure',yourDate:'Jan 15, 2026',iapd:'Feb 28, 2026',match:false,color:'var(--amber)'},
+];
+
+function setCRD(crd,name){ document.getElementById('crd-input').value=crd; lookupCRD(); }
+
+function lookupCRD(){
+  const raw=document.getElementById('crd-input')?.value.trim();
+  const crd=raw?.replace(/\D/g,'')||'';
+  if(!crd){ toast('Enter a CRD number first'); return; }
+  const firmUrl=`https://adviserinfo.sec.gov/firm/summary/${crd}`;
+  const brochureUrl=`https://adviserinfo.sec.gov/firm/brochures/${crd}`;
+  const firmName=FIRM_NAMES[crd]||`Firm CRD #${crd}`;
+  document.getElementById('iapd-empty').style.display='none';
+  document.getElementById('iapd-result').style.display='block';
+  document.getElementById('iapd-sub').textContent=`CRD #${crd} · adviserinfo.sec.gov`;
+  document.getElementById('iapd-firm-name').textContent=firmName;
+  document.getElementById('iapd-firm-meta').innerHTML=`<span>CRD #${crd}</span><span>·</span><span>SEC-registered RIA</span><span>·</span><span>Data: adviserinfo.sec.gov</span>`;
+  document.getElementById('iapd-direct-link').href=firmUrl;
+  document.getElementById('iapd-brochure-link').href=brochureUrl;
+  document.getElementById('step1-link').href=firmUrl;
+  const isOwn=crd==='317245';
+  const rows=isOwn?IAPD_DOCS:[
+    {name:'ADV Part 2A – Firm Brochure',yourDate:'—',iapd:'Check IAPD',match:null,color:'var(--text-muted)'},
+    {name:'ADV Part 2B – Supplement',yourDate:'—',iapd:'Check IAPD',match:null,color:'var(--text-muted)'},
+    {name:'Form CRS',yourDate:'—',iapd:'Check IAPD',match:null,color:'var(--text-muted)'},
+  ];
+  document.getElementById('iapd-doc-rows').innerHTML=rows.map(d=>{
+    const dotColor=d.match===null?'var(--border)':d.match?'var(--green)':d.color;
+    const badge=d.match===null?'<span class="pill pgr">Unknown</span>':d.match?'<span class="pill pg"><span class="dot"></span>Match</span>':`<span class="pill ${d.color==='var(--red)'?'pr':'pa'}"><span class="dot"></span>Outdated</span>`;
+    return `<div class="iapd-doc-row">
+      <div class="iapd-status-dot" style="background:${dotColor}"></div>
+      <div style="flex:1"><div style="font-weight:500">${d.name}</div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Your library: ${d.yourDate} · IAPD filed: ${d.iapd}</div></div>
+      ${badge}
+      ${d.match===false?'<button class="btn btn-xs btn-p" onclick="openM('m-upload')">Upload new</button>':''}
+    </div>`;
+  }).join('');
+  toast(`Loaded CRD ${crd} — click "Open firm on IAPD" to view live filings`);
+}
+
+function recordIAPDDate(){
+  const doc=document.getElementById('iapd-doc-select')?.value;
+  const date=document.getElementById('iapd-date-input')?.value.trim();
+  if(!date){ toast('Enter the IAPD filed date first'); return; }
+  toast('✓ IAPD date recorded: '+doc+' — '+date);
+  const el=document.getElementById('iapd-date-input'); if(el) el.value='';
+}
+
+function handleIAPDFile(input){ if(input.files.length) addToIAPDQueue(input.files[0]); }
+
+function addToIAPDQueue(file){
+  if(file.type!=='application/pdf'){ toast('Please use a PDF file'); return; }
+  const q=document.getElementById('iapd-upload-queue');
+  if(!q) return;
+  const kb=(file.size/1024).toFixed(0);
+  q.innerHTML=`<div class="uq-item"><div class="uq-icon"><div class="uq-fold"></div>PDF</div><div style="flex:1"><div style="font-size:12px;font-weight:500">${file.name}</div><div style="font-size:10px;color:var(--text-muted)">${kb} KB · Ready</div></div><span class="pill pg">Ready</span></div>`;
+  document.querySelectorAll('.iapd-step').forEach((s,i)=>s.classList.toggle('active-step',i===3));
+  toast('PDF ready — select document type and click Upload');
+}
+
+function submitIAPDUpload(){
+  const q=document.getElementById('iapd-upload-queue');
+  if(!q||!q.children.length){ toast('Drop a PDF first'); return; }
+  q.innerHTML='';
+  document.querySelectorAll('.iapd-step').forEach(s=>s.classList.remove('active-step'));
+  toast('✓ Document uploaded — library updated');
+}
+
+// ── PROFILE ────────────────────────────────────────────────────────────────────
+function saveProfile(){
+  const b=document.getElementById('profile-saved');
+  if(b){ b.style.display='flex'; setTimeout(()=>b.style.display='none',4000); }
+  toast('✓ Profile saved');
+}
+function addComplianceContact(){ openM('m-editcontact'); }
+
+// ── EMAIL SYSTEM ──────────────────────────────────────────────────────────────
+const EMAIL_CONFIGS={
+  m365:{label:'Microsoft 365 configuration',fields:[{l:'Tenant ID',p:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'},{l:'Client ID (App ID)',p:'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'},{l:'Client secret',p:'Your Azure app client secret',pw:true},{l:'Send-from address',v:'compliance@horizonwealth.com'}]},
+  gmail:{label:'Gmail / Google Workspace configuration',fields:[{l:'Google OAuth Client ID',p:'XXXXXXXX.apps.googleusercontent.com'},{l:'Client secret',p:'GOCSPX-...',pw:true},{l:'Send-from address',p:'compliance@yourfirm.com'}]},
+  sendgrid:{label:'SendGrid configuration',fields:[{l:'API key',p:'SG.XXXXXXXXXXXXXXXX',pw:true},{l:'From address',v:'compliance@horizonwealth.com'},{l:'From name',v:'Horizon Wealth Advisors Compliance'}]},
+  smtp:{label:'Custom SMTP configuration',fields:[{l:'SMTP host',p:'smtp.yourprovider.com'},{l:'Port',p:'587'},{l:'Username',p:'compliance@horizonwealth.com'},{l:'Password',p:'...',pw:true},{l:'From address',v:'compliance@horizonwealth.com'}]},
+};
+
+function selectEmailSystem(key,card){
+  document.querySelectorAll('.email-option-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  const cfg=EMAIL_CONFIGS[key];
+  if(!cfg) return;
+  document.getElementById('email-config-area').innerHTML=`
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${cfg.label}</div>
+    ${cfg.fields.map(f=>`<div style="margin-bottom:9px"><label class="lbl">${f.l}</label><input type="${f.pw?'password':'text'}" placeholder="${f.p||''}" value="${f.v||''}" style="width:100%"/></div>`).join('')}
+    <div style="display:flex;gap:7px;margin-top:4px">
+      <button class="btn btn-sm btn-p" onclick="toast('Test email sent')">Send test email</button>
+      <button class="btn btn-sm" onclick="toast('Connected successfully')">Save & connect</button>
+    </div>`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init(){
+  renderSchedules();
+  renderClients();
+  initSend();
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
