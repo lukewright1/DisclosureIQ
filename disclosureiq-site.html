@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DisclosureIQ — Compliance Disclosure Delivery for RIAs & Broker-Dealers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1E38;
+  --navy-mid:#132C50;
+  --navy-light:#1A3E6E;
+  --gold:#C9A84C;
+  --gold-light:#E8D5A3;
+  --gold-pale:#FBF6EA;
+  --cream:#F6F3ED;
+  --cream-dark:#EAE5DA;
+  --white:#FFFFFF;
+  --text:#1A1A1A;
+  --text-mid:#444;
+  --text-muted:#777;
+  --border:#DDD8CF;
+  --green:#2D6A4F;
+  --green-light:#D8EFE6;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:16px;color:var(--text);background:var(--white);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,30,56,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,.12)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:6px;display:flex;align-items:center;justify-content:center}
+.nav-logo-mark svg{width:16px;height:16px}
+.nav-logo-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);font-weight:500;letter-spacing:.01em}
+.nav-logo-name span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;font-weight:400}
+.nav-links a:hover{color:rgba(255,255,255,.9)}
+.nav-cta{padding:8px 20px;background:var(--gold);border-radius:5px;font-size:13px;font-weight:500;color:var(--navy);text-decoration:none;transition:all .15s}
+.nav-cta:hover{background:var(--gold-light);color:var(--navy)}
+
+/* HERO */
+.hero{background:var(--navy);padding:140px 32px 100px;position:relative;overflow:hidden;min-height:90vh;display:flex;align-items:center}
+.hero-geo{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-geo::before{content:'';position:absolute;right:-120px;top:-120px;width:600px;height:600px;border:1px solid rgba(201,168,76,.08);border-radius:50%}
+.hero-geo::after{content:'';position:absolute;right:80px;top:80px;width:380px;height:380px;border:1px solid rgba(201,168,76,.05);border-radius:50%}
+.hero-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-inner{max-width:1140px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);border-radius:99px;padding:5px 14px;font-size:12px;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:22px}
+.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.hero h1{font-family:'Playfair Display',serif;font-size:52px;line-height:1.1;color:var(--white);margin-bottom:22px;font-weight:500}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:34px;max-width:480px;font-weight:300}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.btn-primary{padding:14px 28px;background:var(--gold);border-radius:6px;font-size:14px;font-weight:500;color:var(--navy);text-decoration:none;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-ghost{padding:14px 28px;border:1px solid rgba(255,255,255,.2);border-radius:6px;font-size:14px;font-weight:400;color:rgba(255,255,255,.75);text-decoration:none;transition:all .15s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.4);color:var(--white)}
+.hero-trust{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px;color:rgba(255,255,255,.35)}
+.hero-trust-item{display:flex;align-items:center;gap:5px}
+.hero-trust-check{color:var(--gold);font-size:11px}
+
+/* DASHBOARD MOCKUP */
+.hero-mockup{position:relative}
+.mockup-shadow{position:absolute;bottom:-30px;left:10%;right:10%;height:80px;background:rgba(201,168,76,.15);border-radius:50%;filter:blur(30px)}
+.mockup-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;backdrop-filter:blur(20px)}
+.mockup-topbar{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.mockup-dot{width:8px;height:8px;border-radius:50%}
+.mockup-title{font-size:11px;color:rgba(255,255,255,.4);margin-left:6px;font-weight:400}
+.mockup-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.mm{background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px;border:1px solid rgba(255,255,255,.07)}
+.mm-label{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.mm-value{font-family:'Playfair Display',serif;font-size:20px;color:var(--white);font-weight:500}
+.mm-sub{font-size:9px;color:rgba(201,168,76,.7);margin-top:2px}
+.mockup-table{background:rgba(255,255,255,.04);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
+.mt-head{display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:0;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mt-head span{font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.06em}
+.mt-row{display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:0;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center}
+.mt-row:last-child{border-bottom:none}
+.mt-doc{font-size:11px;color:rgba(255,255,255,.75);font-weight:400}
+.mt-date{font-size:10px;color:rgba(255,255,255,.35)}
+.mt-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;font-size:9px;font-weight:500}
+.mb-green{background:rgba(45,106,79,.35);color:#9FD1B8}
+.mb-amber{background:rgba(133,79,11,.35);color:#FAC775}
+.mb-blue{background:rgba(24,95,165,.35);color:#85B7EB}
+
+/* SECTIONS */
+.section{padding:100px 32px}
+.section-inner{max-width:1140px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:500;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:42px;line-height:1.15;font-weight:500;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--text-muted);line-height:1.7;max-width:560px;font-weight:300}
+
+/* PROBLEM SECTION */
+.problem{background:var(--cream)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px}
+.pain-list{display:flex;flex-direction:column;gap:16px}
+.pain-item{display:flex;gap:14px;align-items:flex-start;padding:18px;background:var(--white);border-radius:10px;border:1px solid var(--border)}
+.pain-icon{width:36px;height:36px;border-radius:8px;background:#FCEBEB;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.pain-title{font-size:14px;font-weight:500;margin-bottom:4px}
+.pain-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+.solution-panel{background:var(--navy);border-radius:16px;padding:36px;color:var(--white)}
+.solution-label{font-size:11px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.solution-title{font-family:'Playfair Display',serif;font-size:28px;line-height:1.2;margin-bottom:20px;color:var(--white)}
+.solution-items{display:flex;flex-direction:column;gap:12px}
+.si{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.75)}
+.si-check{color:var(--gold);flex-shrink:0;margin-top:2px;font-size:13px}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.feature-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;transition:all .2s;cursor:default}
+.feature-card:hover{border-color:#BBC8DC;transform:translateY(-3px);box-shadow:0 12px 32px rgba(11,30,56,.08)}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px}
+.feature-title{font-size:16px;font-weight:500;margin-bottom:8px;font-family:'Playfair Display',serif}
+.feature-desc{font-size:14px;color:var(--text-muted);line-height:1.7}
+.feature-tag{display:inline-flex;margin-top:14px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:500;background:var(--cream);color:var(--text-muted)}
+
+/* HOW IT WORKS */
+.how{background:var(--navy);color:var(--white)}
+.how .section-title{color:var(--white)}
+.how .section-sub{color:rgba(255,255,255,.5)}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
+.how-steps::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),rgba(201,168,76,.3),transparent)}
+.how-step{padding:0 20px;text-align:center}
+.how-step-num{width:56px;height:56px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);position:relative;z-index:1}
+.how-step-title{font-size:15px;font-weight:500;color:var(--white);margin-bottom:8px}
+.how-step-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6}
+
+/* COMPLIANCE */
+.compliance{background:var(--cream)}
+.compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:60px}
+.compliance-items{display:flex;flex-direction:column;gap:12px}
+.ci{display:flex;gap:14px;padding:16px;background:var(--white);border-radius:9px;border:1px solid var(--border);align-items:flex-start}
+.ci-badge{flex-shrink:0;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:500}
+.ci-green{background:var(--green-light);color:var(--green)}
+.ci-blue{background:#E6F1FB;color:#0C447C}
+.ci-body{}
+.ci-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.ci-desc{font-size:12px;color:var(--text-muted);line-height:1.5}
+.trust-panel{background:var(--navy);border-radius:16px;padding:32px;color:var(--white);position:sticky;top:80px}
+.trust-title{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;color:var(--white)}
+.trust-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:22px;line-height:1.5}
+.trust-badges{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.tb{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center}
+.tb-icon{font-size:20px;margin-bottom:6px}
+.tb-label{font-size:11px;color:rgba(255,255,255,.6);line-height:1.4}
+.tb-sub{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.trust-quote{background:rgba(201,168,76,.08);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;padding:12px 14px;font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;font-style:italic}
+.trust-quote-attr{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;font-style:normal}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.pricing-card{border:1px solid var(--border);border-radius:14px;padding:32px;background:var(--white);position:relative;transition:all .2s}
+.pricing-card.featured{border-color:var(--navy);background:var(--navy);color:var(--white)}
+.pricing-card.featured .pricing-price{color:var(--white)}
+.pricing-card.featured .pricing-feature{color:rgba(255,255,255,.7)}
+.pricing-card.featured .pricing-feature-check{color:var(--gold)}
+.pricing-card.featured .pricing-name{color:rgba(255,255,255,.6)}
+.pricing-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:10px;font-weight:500;padding:3px 12px;border-radius:99px;white-space:nowrap}
+.pricing-name{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:500}
+.pricing-price{font-family:'Playfair Display',serif;font-size:42px;font-weight:500;color:var(--navy);line-height:1}
+.pricing-period{font-size:14px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:300}
+.pricing-desc{font-size:13px;color:var(--text-muted);margin:12px 0 22px;line-height:1.6}
+.pricing-card.featured .pricing-desc{color:rgba(255,255,255,.45)}
+.pricing-divider{height:1px;background:var(--border);margin-bottom:18px}
+.pricing-card.featured .pricing-divider{background:rgba(255,255,255,.1)}
+.pricing-features{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.pricing-feature{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-mid)}
+.pricing-feature-check{color:var(--green);flex-shrink:0;margin-top:2px;font-size:12px}
+.pricing-btn{display:block;text-align:center;padding:12px;border-radius:7px;font-size:14px;font-weight:500;text-decoration:none;transition:all .15s}
+.pricing-btn-outline{border:1px solid var(--border);color:var(--text);background:transparent}
+.pricing-btn-outline:hover{border-color:var(--navy);background:var(--cream)}
+.pricing-btn-gold{background:var(--gold);color:var(--navy)}
+.pricing-btn-gold:hover{background:var(--gold-light)}
+.pricing-btn-navy{border:1px solid rgba(255,255,255,.2);color:var(--white);background:transparent}
+.pricing-btn-navy:hover{border-color:rgba(255,255,255,.5)}
+
+/* CTA SECTION */
+.cta-section{background:var(--navy);padding:100px 32px;text-align:center;position:relative;overflow:hidden}
+.cta-geo{position:absolute;inset:0;pointer-events:none}
+.cta-geo::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:700px;height:700px;border:1px solid rgba(201,168,76,.06);border-radius:50%}
+.cta-geo::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:500px;height:500px;border:1px solid rgba(201,168,76,.04);border-radius:50%}
+.cta-inner{max-width:640px;margin:0 auto;position:relative}
+.cta-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);border-radius:99px;padding:4px 14px;font-size:11px;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:22px}
+.cta-title{font-family:'Playfair Display',serif;font-size:44px;color:var(--white);font-weight:500;line-height:1.15;margin-bottom:16px}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:34px;font-weight:300}
+.cta-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
+.cta-input{flex:1;padding:13px 16px;border-radius:7px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:var(--white);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.cta-input::placeholder{color:rgba(255,255,255,.3)}
+.cta-input:focus{border-color:rgba(201,168,76,.4)}
+.cta-submit{padding:13px 24px;background:var(--gold);border:none;border-radius:7px;font-size:14px;font-weight:500;color:var(--navy);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s}
+.cta-submit:hover{background:var(--gold-light)}
+.cta-fine{font-size:12px;color:rgba(255,255,255,.25);margin-top:14px}
+
+/* FOOTER */
+footer{background:#07121F;padding:60px 32px 32px;color:rgba(255,255,255,.4)}
+.footer-inner{max-width:1140px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand{}
+.footer-logo{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.footer-logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:5px;display:flex;align-items:center;justify-content:center}
+.footer-logo-mark svg{width:14px;height:14px}
+.footer-logo-name{font-family:'Playfair Display',serif;font-size:16px;color:rgba(255,255,255,.8);font-weight:500}
+.footer-logo-name span{color:var(--gold)}
+.footer-brand-desc{font-size:13px;line-height:1.7;max-width:260px;color:rgba(255,255,255,.3)}
+.footer-col-title{font-size:11px;font-weight:500;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .15s}
+.footer-links a:hover{color:rgba(255,255,255,.7)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06);padding-top:24px}
+.footer-copy{font-size:12px}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,.3);text-decoration:none}
+.footer-legal a:hover{color:rgba(255,255,255,.6)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-inner > *:nth-child(1){animation:fadeUp .7s ease both}
+.hero-inner > *:nth-child(2){animation:fadeUp .7s .15s ease both;opacity:0}
+
+/* STAT BAR */
+.stat-bar{background:var(--gold-pale);border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:20px 32px}
+.stat-bar-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0;divide-x:1px solid var(--border)}
+.stat-item{text-align:center;padding:0 20px;border-right:1px solid rgba(201,168,76,.2)}
+.stat-item:last-child{border-right:none}
+.stat-value{font-family:'Playfair Display',serif;font-size:32px;color:var(--navy);font-weight:500;line-height:1}
+.stat-label{font-size:12px;color:var(--text-muted);margin-top:4px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:var(--white);padding:11px 20px;border-radius:7px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;border-top:2px solid var(--gold);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
+      <div class="nav-logo-name">Disclosure<span>IQ</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#" class="nav-cta">Request demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-geo"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Built for RIAs & Broker-Dealers</div>
+      <h1>Disclosure delivery that <em>actually</em> gets recorded.</h1>
+      <p class="hero-sub">DisclosureIQ automates your ADV, CRS, and privacy notice delivery — with SEC-compliant audit trails, client acknowledgements, and physical mail fallback. Stop chasing signatures. Start closing compliance gaps.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">Start free trial <span>→</span></a>
+        <a href="#how" class="btn-ghost">See how it works</a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item"><span class="hero-trust-check">✓</span> No IT required</div>
+        <div class="hero-trust-item"><span class="hero-trust-check">✓</span> Reg S-P compliant</div>
+        <div class="hero-trust-item"><span class="hero-trust-check">✓</span> Setup in one day</div>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-shadow"></div>
+      <div class="mockup-card">
+        <div class="mockup-topbar">
+          <div class="mockup-dot" style="background:#FF5F57"></div>
+          <div class="mockup-dot" style="background:#FFBD2E"></div>
+          <div class="mockup-dot" style="background:#28C840"></div>
+          <span class="mockup-title">DisclosureIQ Dashboard</span>
+        </div>
+        <div class="mockup-metrics">
+          <div class="mm"><div class="mm-label">Delivered</div><div class="mm-value">247</div><div class="mm-sub">↑ 18 this week</div></div>
+          <div class="mm"><div class="mm-label">Acknowledged</div><div class="mm-value">231</div><div class="mm-sub">93.5% rate</div></div>
+          <div class="mm"><div class="mm-label">SEC Match</div><div class="mm-value">100%</div><div class="mm-sub">All docs current</div></div>
+        </div>
+        <div class="mockup-table">
+          <div class="mt-head"><span>Document</span><span>Sent</span><span>Status</span><span>Action</span></div>
+          <div class="mt-row">
+            <div class="mt-doc">ADV Part 2A</div>
+            <div class="mt-date">Mar 13</div>
+            <div><span class="mt-badge mb-green">✓ Signed</span></div>
+            <div class="mt-date">View</div>
+          </div>
+          <div class="mt-row">
+            <div class="mt-doc">Form CRS</div>
+            <div class="mt-date">Mar 13</div>
+            <div><span class="mt-badge mb-green">✓ Signed</span></div>
+            <div class="mt-date">View</div>
+          </div>
+          <div class="mt-row">
+            <div class="mt-doc">Privacy Policy</div>
+            <div class="mt-date">Mar 13</div>
+            <div><span class="mt-badge mb-amber">Pending</span></div>
+            <div class="mt-date">Remind</div>
+          </div>
+          <div class="mt-row">
+            <div class="mt-doc">ADV Part 2B</div>
+            <div class="mt-date">Mar 12</div>
+            <div><span class="mt-badge mb-blue">Mailed</span></div>
+            <div class="mt-date">Track</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">Audit trail coverage on every delivery</div></div>
+    <div class="stat-item"><div class="stat-value">3 min</div><div class="stat-label">Average time to send disclosures to all clients</div></div>
+    <div class="stat-item"><div class="stat-value">$0</div><div class="stat-label">IT infrastructure or servers to manage</div></div>
+    <div class="stat-item"><div class="stat-value">SEC</div><div class="stat-label">IAPD sync keeps your docs always current</div></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section problem" id="features">
+  <div class="section-inner">
+    <div class="section-eyebrow">The problem</div>
+    <h2 class="section-title">Disclosure delivery is broken<br>for most advisory firms.</h2>
+    <div class="problem-grid">
+      <div class="pain-list">
+        <div class="pain-item">
+          <div class="pain-icon">📧</div>
+          <div>
+            <div class="pain-title">Emails get ignored — and you can't prove delivery</div>
+            <div class="pain-desc">Sending ADV brochures as email attachments leaves no audit trail. If the SEC asks for proof of delivery, you have nothing.</div>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-icon">📋</div>
+          <div>
+            <div class="pain-title">Manual tracking in spreadsheets doesn't scale</div>
+            <div class="pain-desc">Tracking who received what, when, and whether they acknowledged it — manually — breaks down fast as your client base grows.</div>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-icon">🔄</div>
+          <div>
+            <div class="pain-title">SEC IAPD updates slip through the cracks</div>
+            <div class="pain-desc">When your ADV is updated on IAPD, there's no automatic trigger to redistribute it. Clients end up with stale versions — a real exam risk.</div>
+          </div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-icon">✉️</div>
+          <div>
+            <div class="pain-title">Physical mail is a manual nightmare</div>
+            <div class="pain-desc">Clients who need paper copies require printing, stuffing, and mailing — then tracking. Most firms either skip it or can't prove they did it.</div>
+          </div>
+        </div>
+      </div>
+      <div class="solution-panel">
+        <div class="solution-label">DisclosureIQ solves this</div>
+        <h3 class="solution-title">One platform. Every delivery. Every proof.</h3>
+        <div class="solution-items">
+          <div class="si"><span class="si-check">✓</span> Secure client portal with timestamped acknowledgement gate — clients sign before they can even view docs</div>
+          <div class="si"><span class="si-check">✓</span> Automatic SEC IAPD sync — get alerted when your filed version changes and redistribution triggers automatically</div>
+          <div class="si"><span class="si-check">✓</span> Physical mail via Lob API — print, stuff, and USPS-track letters without touching a printer</div>
+          <div class="si"><span class="si-check">✓</span> Immutable audit trail — every delivery, view, signature, and mail event is logged with timestamp and IP</div>
+          <div class="si"><span class="si-check">✓</span> Redtail & Orion integration — sync clients automatically, no manual imports</div>
+          <div class="si"><span class="si-check">✓</span> Per-document delivery scheduling — set annual, quarterly, or event-triggered sends per document type</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="background:var(--white)">
+  <div class="section-inner">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-title">Everything your compliance<br>program needs.</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#E6F1FB">📄</div>
+        <div class="feature-title">Document Library</div>
+        <div class="feature-desc">Store all your regulatory disclosures in one place. Version history, SEC IAPD match status, and one-click distribution — all from a single dashboard.</div>
+        <span class="feature-tag">ADV · CRS · Reg S-P · Fee Disclosure</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EAF3DE">🔗</div>
+        <div class="feature-title">SEC IAPD Sync</div>
+        <div class="feature-desc">Search any RIA by CRD number. Compare your filed version against IAPD. Import updated brochures with one click and auto-trigger redistribution.</div>
+        <span class="feature-tag">Live IAPD lookup · Version diff · Auto-alert</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FAEEDA">✍️</div>
+        <div class="feature-title">Acknowledgement Gate</div>
+        <div class="feature-desc">Clients are required to sign before viewing documents. Typed name, drawn signature, or initials — all timestamped and logged to your audit trail automatically.</div>
+        <span class="feature-tag">Typed · Drawn · Initials · Timestamped</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FCEBEB">📬</div>
+        <div class="feature-title">Physical Mail via Lob</div>
+        <div class="feature-desc">For clients who need paper. Choose between a full PDF print or a secure link letter. Lob handles printing, stuffing, and USPS delivery — tracked automatically.</div>
+        <span class="feature-tag">Link letter · Full print · USPS tracking</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EEEDFE">📅</div>
+        <div class="feature-title">Smart Scheduling</div>
+        <div class="feature-desc">Set annual, quarterly, monthly, or event-triggered delivery schedules per document. New client onboarding triggers automatic disclosure sends via Redtail or Orion.</div>
+        <span class="feature-tag">Annual · Quarterly · Onboarding trigger</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#E1F5EE">🔒</div>
+        <div class="feature-title">Compliance Audit Trail</div>
+        <div class="feature-desc">Every event — delivery, open, signature, mail scan, bounce — is immutably logged with timestamp, IP address, and method. Exam-ready export in one click.</div>
+        <span class="feature-tag">Immutable log · Timestamped · Exportable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="color:var(--gold)">How it works</div>
+    <h2 class="section-title">From upload to signed<br>in under 5 minutes.</h2>
+    <p class="section-sub">No IT setup. No complicated onboarding. Connect your CRM and start delivering on day one.</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div class="how-step-title">Upload or sync your docs</div>
+        <div class="how-step-desc">Upload PDFs directly or pull the latest version straight from SEC IAPD by CRD number.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div class="how-step-title">Choose your clients</div>
+        <div class="how-step-desc">Select recipients from your Redtail or Orion sync, or import a CSV. Segment by account type or advisor.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div class="how-step-title">Deliver via email or mail</div>
+        <div class="how-step-desc">Clients receive a branded secure link. Physical mail falls back automatically for bounced emails.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">4</div>
+        <div class="how-step-title">Acknowledgement recorded</div>
+        <div class="how-step-desc">Clients sign before viewing. Every event is logged. Your audit trail is always exam-ready.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section class="section compliance" id="compliance">
+  <div class="section-inner">
+    <div class="section-eyebrow">Compliance & security</div>
+    <h2 class="section-title">Built for the regulatory<br>environment you work in.</h2>
+    <div class="compliance-grid">
+      <div class="compliance-items">
+        <div class="ci">
+          <span class="ci-badge ci-green">Covered</span>
+          <div class="ci-body"><div class="ci-title">SEC Regulation S-P (2024 amendments)</div><div class="ci-desc">Encrypted client PII, breach notification within 72 hours, written Data Processing Agreement included with every subscription.</div></div>
+        </div>
+        <div class="ci">
+          <span class="ci-badge ci-green">Covered</span>
+          <div class="ci-body"><div class="ci-title">Immutable delivery audit trail</div><div class="ci-desc">Every send, open, signature, bounce, and mail event is permanently logged — satisfying SEC and FINRA exam documentation requests.</div></div>
+        </div>
+        <div class="ci">
+          <span class="ci-badge ci-green">Covered</span>
+          <div class="ci-body"><div class="ci-title">Signed acknowledgement as legal record</div><div class="ci-desc">Client signatures are timestamped with IP address, browser fingerprint, and method (typed, drawn, or initials). Stronger proof than a paper signature.</div></div>
+        </div>
+        <div class="ci">
+          <span class="ci-badge ci-green">Covered</span>
+          <div class="ci-body"><div class="ci-title">SEC IAPD version control</div><div class="ci-desc">DisclosureIQ alerts you when your IAPD-filed version differs from what clients received — and can auto-trigger redistribution.</div></div>
+        </div>
+        <div class="ci">
+          <span class="ci-badge ci-blue">Infrastructure</span>
+          <div class="ci-body"><div class="ci-title">SOC 2 Type II certified infrastructure</div><div class="ci-desc">All data hosted on SOC 2 Type II certified platforms — AES-256 encryption at rest, TLS 1.3 in transit, daily backups, and 99.9% uptime SLA.</div></div>
+        </div>
+        <div class="ci">
+          <span class="ci-badge ci-blue">Included</span>
+          <div class="ci-body"><div class="ci-title">Data Processing Agreement (DPA) included</div><div class="ci-desc">Every DisclosureIQ subscription includes a signed DPA — satisfying your firm's Reg S-P vendor agreement requirement out of the box.</div></div>
+        </div>
+      </div>
+      <div class="trust-panel">
+        <div class="trust-title">Your infrastructure,<br>already compliant.</div>
+        <div class="trust-sub">DisclosureIQ runs on platforms that are independently audited and certified — so your security review conversation is simple.</div>
+        <div class="trust-badges">
+          <div class="tb"><div class="tb-icon">🛡️</div><div class="tb-label">SOC 2 Type II</div><div class="tb-sub">All subprocessors</div></div>
+          <div class="tb"><div class="tb-icon">🔐</div><div class="tb-label">AES-256 Encryption</div><div class="tb-sub">At rest + in transit</div></div>
+          <div class="tb"><div class="tb-icon">📋</div><div class="tb-label">DPA Included</div><div class="tb-sub">Reg S-P compliant</div></div>
+          <div class="tb"><div class="tb-icon">🏦</div><div class="tb-label">Cyber Insurance</div><div class="tb-sub">$1M coverage</div></div>
+        </div>
+        <div class="trust-quote">"Having a timestamped acknowledgement log and a signed DPA from our vendor made our annual compliance review a non-event for the first time in years."
+          <div class="trust-quote-attr">— Chief Compliance Officer, independent RIA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" style="background:var(--white)" id="pricing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Simple, flat pricing.<br>No per-send fees.</h2>
+    <p class="section-sub">All plans include unlimited document sends, the client portal, and a signed DPA. No surprise charges.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">$79<span class="pricing-period">/mo</span></div>
+        <div class="pricing-desc">For solo advisors and small RIAs with a single office and up to 150 clients.</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Up to 150 clients</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Unlimited document sends</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Client portal + acknowledgement gate</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>SEC IAPD sync</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Full audit trail export</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Signed DPA included</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Email support</div>
+        </div>
+        <a href="#" class="pricing-btn pricing-btn-outline" onclick="toast('Redirecting to signup...');return false">Get started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most popular</div>
+        <div class="pricing-name">Growth</div>
+        <div class="pricing-price">$179<span class="pricing-period">/mo</span></div>
+        <div class="pricing-desc">For growing RIAs with multiple advisors and up to 500 clients.</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Up to 500 clients</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Everything in Starter</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Redtail & Orion CRM sync</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Physical mail via Lob (pay per letter)</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Per-document scheduling</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>White-labeled client portal</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Priority support</div>
+        </div>
+        <a href="#" class="pricing-btn pricing-btn-gold" onclick="toast('Redirecting to signup...');return false">Start free trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-price" style="font-size:32px;padding-top:6px">Custom</div>
+        <div class="pricing-desc">For broker-dealers, large RIAs, and multi-office firms with 500+ clients.</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Unlimited clients</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Everything in Growth</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>SSO / SAML login</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Custom CRM integrations</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Dedicated compliance review</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>SLA uptime guarantee</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span>Dedicated account manager</div>
+        </div>
+        <a href="#" class="pricing-btn pricing-btn-outline" onclick="toast('Opening contact form...');return false">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-geo"></div>
+  <div class="cta-inner">
+    <div class="cta-eyebrow"><span>🚀</span> Get started today</div>
+    <h2 class="cta-title">Your next SEC exam<br>starts now.</h2>
+    <p class="cta-sub">Join RIAs and advisory firms who've replaced manual disclosure tracking with a fully auditable, automated system. Free 14-day trial — no credit card required.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="Enter your work email" id="cta-email"/>
+      <button class="cta-submit" onclick="submitEmail()">Request access</button>
+    </div>
+    <p class="cta-fine">No credit card required · Setup in under a day · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
+          <div class="footer-logo-name">Disclosure<span>IQ</span></div>
+        </div>
+        <p class="footer-brand-desc">Compliance disclosure delivery for registered investment advisers and broker-dealers. Automated, auditable, and exam-ready.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <div class="footer-links">
+          <a href="#">Features</a>
+          <a href="#">How it works</a>
+          <a href="#">Pricing</a>
+          <a href="#">SEC IAPD Sync</a>
+          <a href="#">Client Portal</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Compliance</div>
+        <div class="footer-links">
+          <a href="#">Reg S-P overview</a>
+          <a href="#">Security & data</a>
+          <a href="#">DPA template</a>
+          <a href="#">Audit trail guide</a>
+          <a href="#">Trust center</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Request demo</a>
+          <a href="#">Partner program</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 DisclosureIQ. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Data Processing Agreement</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';
+  setTimeout(()=>t.style.opacity='0',2800);
+}
+function submitEmail(){
+  const v=document.getElementById('cta-email').value.trim();
+  if(!v||!v.includes('@')){toast('Please enter a valid email address');return;}
+  document.getElementById('cta-email').value='';
+  toast('Thanks! We\'ll be in touch within one business day.');
+}
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'})}
+  });
+});
+</script>
+</body>
+</html>
