@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DisclosureIQ — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1E38;--navy-mid:#132C50;--navy-light:#1A3E6E;
+  --gold:#C9A84C;--gold-light:#E8D5A3;--gold-pale:#FBF6EA;
+  --cream:#F6F3ED;--cream-dark:#EAE5DA;
+  --white:#fff;--text:#1A1A1A;--text-mid:#444;--text-muted:#777;
+  --border:#DDD8CF;--sidebar-w:220px;
+  --green:#2D6A4F;--green-light:#D8EFE6;--green-mid:#9FD1B8;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --red:#A32D2D;--red-light:#FCEBEB;
+  --blue:#185FA5;--blue-light:#E6F1FB;
+}
+body{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--cream);display:flex;min-height:100vh;overflow-x:hidden}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .2s}
+.sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}
+.logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark svg{width:15px;height:15px}
+.logo-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);font-weight:500}
+.logo-name span{color:var(--gold)}
+.sidebar-firm{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.firm-label{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.firm-name{font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.firm-crd{font-size:10px;color:rgba(255,255,255,.3)}
+.sidebar-nav{flex:1;padding:12px 10px;overflow-y:auto}
+.nav-section-label{font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;padding:10px 8px 5px;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;cursor:pointer;color:rgba(255,255,255,.5);font-size:13px;font-weight:400;transition:all .15s;margin-bottom:1px;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.nav-item.active{background:rgba(201,168,76,.12);color:var(--white)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:25%;bottom:25%;width:2px;background:var(--gold);border-radius:0 2px 2px 0}
+.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-item.active .nav-icon{opacity:1}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:500;padding:1px 6px;border-radius:99px}
+.nav-badge-amber{background:rgba(133,79,11,.5);color:#FAC775}
+.sidebar-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-user{display:flex;align-items:center;gap:8px}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--navy);flex-shrink:0}
+.user-name{font-size:12px;color:rgba(255,255,255,.65);font-weight:500}
+.user-role{font-size:10px;color:rgba(255,255,255,.3)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.page-title{font-size:15px;font-weight:500;color:var(--text)}
+.page-sub{font-size:11px;color:var(--text-muted)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tb-btn{padding:6px 14px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .1s}
+.tb-btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-mid)}
+.tb-btn-ghost:hover{background:var(--cream)}
+.tb-btn-primary{background:var(--navy);color:var(--white)}
+.tb-btn-primary:hover{background:var(--navy-mid)}
+.tb-btn-gold{background:var(--gold);color:var(--navy)}
+.tb-btn-gold:hover{background:var(--gold-light)}
+.content{padding:22px 28px;flex:1}
+
+/* SCREENS */
+.screen{display:none}
+.screen.active{display:block}
+
+/* CARDS & COMPONENTS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.card-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
+.card-body{padding:16px}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500}
+.pill-green{background:var(--green-light);color:var(--green)}
+.pill-amber{background:var(--amber-light);color:var(--amber)}
+.pill-red{background:var(--red-light);color:var(--red)}
+.pill-blue{background:var(--blue-light);color:var(--blue)}
+.pill-gray{background:var(--cream-dark);color:var(--text-muted)}
+.pill-gold{background:var(--gold-pale);color:#7A5E1A}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+input,select,textarea{border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;outline:none}
+input:focus,select:focus{border-color:var(--navy)}
+.label{font-size:11px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse}
+th{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--cream);white-space:nowrap}
+td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAF8}
+.btn{padding:6px 14px;border-radius:5px;border:1px solid var(--border);background:var(--white);color:var(--text);cursor:pointer;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .1s}
+.btn:hover{background:var(--cream)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy-mid)}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-xs{padding:3px 8px;font-size:10px}
+
+/* METRICS GRID */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.metric{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
+.metric-label{font-size:11px;color:var(--text-muted);margin-bottom:5px}
+.metric-value{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;line-height:1}
+.metric-sub{font-size:11px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:4px}
+.metric-trend-up{color:var(--green)}
+.metric-trend-down{color:var(--red)}
+
+/* ALERT BANNER */
+.alert{display:flex;align-items:flex-start;gap:9px;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.6;border:1px solid;margin-bottom:16px}
+.alert-amber{background:var(--amber-light);border-color:#FAC775;color:var(--amber)}
+.alert-blue{background:var(--blue-light);border-color:#B5D4F4;color:var(--blue)}
+.alert-green{background:var(--green-light);border-color:var(--green-mid);color:var(--green)}
+.alert-red{background:var(--red-light);border-color:#F7C1C1;color:var(--red)}
+
+/* GRID LAYOUTS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-60-40{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+
+/* AVATAR */
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+
+/* ACTIVITY FEED */
+.activity-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border-bottom:none}
+.act-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px}
+.act-body{flex:1}
+.act-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.act-meta{font-size:11px;color:var(--text-muted)}
+
+/* PROGRESS BAR */
+.progress-track{height:6px;background:var(--cream-dark);border-radius:99px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy),var(--navy-light))}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:flex-start;justify-content:center;padding-top:60px}
+.modal-bg.open{display:flex}
+.modal{background:var(--white);border-radius:10px;border:1px solid var(--border);width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:14px;font-weight:500}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted);line-height:1}
+.modal-body{padding:16px 18px}
+.modal-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{margin-bottom:10px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:var(--white);padding:10px 16px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:300px}
+
+/* SEND COMPOSE */
+.compose-layout{display:grid;grid-template-columns:300px 1fr;gap:16px;height:calc(100vh - 160px)}
+.doc-select-panel{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.compose-panel{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.compose-tabs{display:flex;border-bottom:1px solid var(--border)}
+.ctab{flex:1;padding:10px 6px;font-size:11px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;text-align:center;transition:all .15s}
+.ctab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.ctab-body{display:none;padding:14px;flex:1;overflow-y:auto}
+.ctab-body.active{display:block}
+.doc-check-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer}
+.doc-check-item:last-child{border-bottom:none}
+.doc-check-item:hover{background:var(--cream)}
+.doc-check-item input[type=checkbox]{accent-color:var(--navy);width:14px;height:14px;flex-shrink:0}
+.doc-check-info{flex:1;min-width:0}
+.doc-check-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-check-meta{font-size:10px;color:var(--text-muted);margin-top:2px}
+
+/* CLIENT PORTAL PREVIEW */
+.portal-preview{background:var(--navy);border-radius:10px;padding:0;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.portal-preview-bar{background:var(--navy-mid);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+.pp-dot{width:7px;height:7px;border-radius:50%}
+.pp-url{font-size:10px;color:rgba(255,255,255,.3);margin-left:8px;font-family:monospace}
+.portal-preview-body{padding:16px}
+.pp-logo{font-family:'Playfair Display',serif;font-size:13px;color:var(--white);margin-bottom:10px}
+.pp-logo span{color:var(--gold)}
+.pp-greeting{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.pp-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);margin-bottom:12px}
+.pp-doc{background:rgba(255,255,255,.07);border-radius:6px;padding:9px 11px;display:flex;align-items:center;gap:8px;margin-bottom:6px;border:1px solid rgba(255,255,255,.08)}
+.pp-doc-icon{width:28px;height:34px;background:var(--navy-light);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;flex-shrink:0;font-size:7px;color:var(--gold);font-weight:500;letter-spacing:.04em}
+.pp-doc-name{font-size:11px;color:rgba(255,255,255,.8);font-weight:500;flex:1}
+.pp-doc-badge{font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(45,106,79,.4);color:#9FD1B8}
+.pp-sign-area{background:rgba(255,255,255,.05);border-radius:6px;padding:10px 12px;margin-top:10px;border:1px solid rgba(255,255,255,.08)}
+.pp-sign-label{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.pp-sign-line{border-bottom:1px solid rgba(255,255,255,.15);height:24px;display:flex;align-items:flex-end;padding-bottom:3px}
+.pp-sign-text{font-family:'Playfair Display',serif;font-size:16px;color:rgba(255,255,255,.6);font-style:italic}
+
+/* IAPD SCREEN */
+.iapd-search{display:flex;gap:8px;margin-bottom:16px}
+.iapd-search input{flex:1}
+.iapd-result-card{background:var(--white);border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:12px}
+.iapd-result-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--cream)}
+.iapd-match-row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;font-size:12px}
+.iapd-match-row:last-child{border-bottom:none}
+.iapd-status{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* TRACKING */
+.tracking-steps{display:flex;align-items:center;gap:0}
+.ts-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.ts-dot.done{background:var(--green)}
+.ts-dot.active{background:var(--blue)}
+.ts-line{flex:1;height:2px;background:var(--border)}
+.ts-line.done{background:var(--green)}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{animation:fadeIn .2s ease}
+
+/* SCHEDULE ROWS */
+.sched-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.sched-row:last-child{border-bottom:none}
+.freq-pill{padding:2px 8px;border-radius:99px;font-size:9px;font-weight:500}
+
+/* NOTIFICATION DOT */
+.notif{width:7px;height:7px;border-radius:50%;background:var(--red);position:absolute;top:6px;right:6px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 6.5V14h4v-4h4v4h4V6.5L8 2z" fill="#0B1E38"/></svg></div>
+    <div class="logo-name">Disclosure<span>IQ</span></div>
+  </div>
+  <div class="sidebar-firm">
+    <div class="firm-label">Current firm</div>
+    <div class="firm-name">Horizon Wealth Advisors</div>
+    <div class="firm-crd">CRD #317245 · SEC Registered</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="nav('library',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3M5 7h6M5 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Document Library
+    </div>
+    <div class="nav-item" onclick="nav('send',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Send Disclosures
+    </div>
+    <div class="nav-item" onclick="nav('tracking',this)" style="position:relative">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Delivery Tracking
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-section-label">Compliance</div>
+    <div class="nav-item" onclick="nav('iapd',this)" style="position:relative">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3M8 11v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      SEC IAPD Sync
+      <span class="nav-badge nav-badge-amber">2</span>
+    </div>
+    <div class="nav-item" onclick="nav('schedule',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M5 2v2M11 2v2M2 7h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Schedules
+    </div>
+    <div class="nav-item" onclick="nav('clients',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M1 13c0-3 2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7c1.5 0 3 1 3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Clients
+    </div>
+    <div class="nav-section-label">Settings</div>
+    <div class="nav-item" onclick="nav('integrations',this)">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="4" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8h2M10 4.5L7 7M10 11.5L7 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Integrations
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">LW</div>
+      <div><div class="user-name">Luke Wright</div><div class="user-role">Compliance Officer</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div id="screen-dashboard" class="screen active">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Dashboard</div><div class="page-sub">Good morning, Luke · March 13, 2026</div></div>
+      <div class="topbar-right">
+        <button class="tb-btn tb-btn-ghost" onclick="openModal('send-modal')">Quick send</button>
+        <button class="tb-btn tb-btn-gold" onclick="nav('send',document.querySelector('[onclick*=send]'))">Send disclosures</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="alert alert-amber">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <div><strong>2 SEC IAPD mismatches detected</strong> — Your ADV Part 2A and Wrap Fee Brochure have been updated on IAPD since your last distribution. <span style="color:var(--amber);cursor:pointer;text-decoration:underline;font-weight:500" onclick="nav('iapd',document.querySelectorAll('.nav-item')[5])">Review & redistribute →</span></div>
+      </div>
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Clients covered</div>
+          <div class="metric-value" style="color:var(--navy)">247</div>
+          <div class="metric-sub"><span class="metric-trend-up">↑ 12</span> this quarter</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Delivered (30 days)</div>
+          <div class="metric-value" style="color:var(--green)">231</div>
+          <div class="metric-sub">93.5% acknowledgement rate</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Pending action</div>
+          <div class="metric-value" style="color:var(--amber)">16</div>
+          <div class="metric-sub">8 bounced · 5 unsigned · 3 mailed</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">SEC match rate</div>
+          <div class="metric-value" style="color:var(--red)">83%</div>
+          <div class="metric-sub"><span class="metric-trend-down">2 docs outdated</span></div>
+        </div>
+      </div>
+      <div class="grid-60-40" style="align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Recent activity</div><button class="btn btn-sm" onclick="nav('tracking',document.querySelectorAll('.nav-item')[3])">View all</button></div>
+            <div class="card-body" style="padding:0">
+              <div class="activity-item" style="padding:10px 16px">
+                <div class="act-icon" style="background:var(--green-light);color:var(--green)">✓</div>
+                <div class="act-body"><div class="act-title">ADV Part 2A acknowledged — James & Patricia Whitmore</div><div class="act-meta">Mar 13, 2026 · 2:47 PM · Typed signature · Account WH-4421</div></div>
+                <span class="pill pill-green">Signed</span>
+              </div>
+              <div class="activity-item" style="padding:10px 16px">
+                <div class="act-icon" style="background:var(--blue-light);color:var(--blue)">→</div>
+                <div class="act-body"><div class="act-title">Privacy Policy + ADV Part 2A sent — 247 clients</div><div class="act-meta">Mar 13, 2026 · 9:00 AM · Batch send · Email + secure link</div></div>
+                <span class="pill pill-blue">Sent</span>
+              </div>
+              <div class="activity-item" style="padding:10px 16px">
+                <div class="act-icon" style="background:var(--red-light);color:var(--red)">!</div>
+                <div class="act-body"><div class="act-title">Email bounced — Margaret O'Sullivan (OS-8834)</div><div class="act-meta">Mar 13, 2026 · 9:02 AM · Auto-queued for physical mail</div></div>
+                <span class="pill pill-red">Bounced</span>
+              </div>
+              <div class="activity-item" style="padding:10px 16px">
+                <div class="act-icon" style="background:var(--amber-light);color:var(--amber)">⚡</div>
+                <div class="act-body"><div class="act-title">SEC IAPD mismatch — ADV Part 2A updated Mar 28</div><div class="act-meta">Mar 13, 2026 · 8:15 AM · Auto-detected · Action required</div></div>
+                <span class="pill pill-amber">Alert</span>
+              </div>
+              <div class="activity-item" style="padding:10px 16px">
+                <div class="act-icon" style="background:var(--green-light);color:var(--green)">✓</div>
+                <div class="act-body"><div class="act-title">Fee Disclosure delivered — Yuki Tanaka via Lob</div><div class="act-meta">Mar 12, 2026 · USPS Certified · Delivered confirmed</div></div>
+                <span class="pill pill-green">Delivered</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Upcoming scheduled sends</div></div>
+            <div class="card-body" style="padding:0">
+              <div class="sched-row">
+                <div style="flex:1"><div style="font-size:12px;font-weight:500">Annual ADV Part 2A + Form CRS</div><div style="font-size:11px;color:var(--text-muted)">All 247 clients · Email + portal</div></div>
+                <span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Apr 1</span>
+              </div>
+              <div class="sched-row">
+                <div style="flex:1"><div style="font-size:12px;font-weight:500">Q2 Fee Disclosure</div><div style="font-size:11px;color:var(--text-muted)">All clients · Email</div></div>
+                <span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Apr 15</span>
+              </div>
+              <div class="sched-row">
+                <div style="flex:1"><div style="font-size:12px;font-weight:500">Privacy Policy — new clients</div><div style="font-size:11px;color:var(--text-muted)">Onboarding trigger · 3 new accounts</div></div>
+                <span class="freq-pill" style="background:var(--green-light);color:var(--green)">Pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Document status</div><button class="btn btn-sm" onclick="nav('library',document.querySelectorAll('.nav-item')[1])">Library</button></div>
+            <div class="card-body" style="padding:0 16px">
+              <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:500">ADV Part 2A</span><span class="pill pill-red">IAPD mismatch</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div>
+                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">Your ver: Mar 1 · IAPD: Mar 28</div>
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:500">Privacy Policy</span><span class="pill pill-green">Current</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">Matches IAPD · Last sent Mar 13</div>
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:500">Form CRS</span><span class="pill pill-green">Current</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">Matches IAPD · Last sent Mar 13</div>
+              </div>
+              <div style="padding:10px 0">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="font-weight:500">Wrap Fee Brochure</span><span class="pill pill-amber">IAPD mismatch</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:60%;background:var(--amber)"></div></div>
+                <div style="font-size:10px;color:var(--text-muted);margin-top:3px">Your ver: Jan 15 · IAPD: Feb 28</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Mail queue</div><button class="btn btn-sm btn-primary" onclick="toast('5 letters sent via Lob')">Send via Lob</button></div>
+            <div class="card-body" style="padding:8px 16px">
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">5 clients need physical mail</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><div class="avatar" style="background:#F5C4B3;color:#993C1D;width:22px;height:22px;font-size:9px">MO</div><span style="flex:1">Margaret O'Sullivan</span><span class="pill pill-red" style="font-size:9px">No address</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><div class="avatar" style="background:#E6F1FB;color:#185FA5;width:22px;height:22px;font-size:9px">DP</div><span style="flex:1">David & Sandra Park</span><span class="pill pill-amber" style="font-size:9px">Queued</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><div class="avatar" style="background:#EAF3DE;color:#3B6D11;width:22px;height:22px;font-size:9px">TE</div><span style="flex:1">Thomas Ellsworth III</span><span class="pill pill-amber" style="font-size:9px">Queued</span></div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px">+ 2 more · Est. cost $3.75</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DOCUMENT LIBRARY ═══ -->
+  <div id="screen-library" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Document Library</div></div>
+      <div class="topbar-right">
+        <button class="tb-btn tb-btn-ghost" onclick="openModal('iapd-modal')">Sync from SEC IAPD</button>
+        <button class="tb-btn tb-btn-primary" onclick="toast('Upload dialog opened')">Upload document</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">All documents</div>
+          <div style="display:flex;gap:7px">
+            <input type="text" placeholder="Search..." style="width:180px"/>
+            <select style="width:130px"><option>All statuses</option><option>IAPD mismatch</option><option>Current</option></select>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Document</th><th>Your version</th><th>IAPD filed</th><th>IAPD status</th><th>Last sent</th><th>Ack rate</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div style="font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:11px;color:var(--text-muted)">28 pages · 847 KB</div></td>
+              <td style="font-size:12px">Mar 1, 2025</td>
+              <td style="font-size:12px;color:var(--red);font-weight:500">Mar 28, 2025</td>
+              <td><span class="pill pill-red"><span class="dot"></span>Outdated</span></td>
+              <td style="font-size:12px">Mar 13, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">93%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:93%"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-primary" onclick="toast('Importing from IAPD...')">Import IAPD</button><button class="btn btn-xs" onclick="toast('Sending to all clients...')">Send</button></div></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">ADV Part 2B – Supplement</div><div style="font-size:11px;color:var(--text-muted)">18 pages · 312 KB</div></td>
+              <td style="font-size:12px">Apr 2, 2024</td>
+              <td style="font-size:12px">Apr 2, 2024</td>
+              <td><span class="pill pill-green"><span class="dot"></span>Current</span></td>
+              <td style="font-size:12px">Mar 13, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">91%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:91%"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Form CRS</div><div style="font-size:11px;color:var(--text-muted)">2 pages · 98 KB</div></td>
+              <td style="font-size:12px">Jan 15, 2026</td>
+              <td style="font-size:12px">Jan 15, 2026</td>
+              <td><span class="pill pill-green"><span class="dot"></span>Current</span></td>
+              <td style="font-size:12px">Mar 13, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">96%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:96%"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Privacy Policy (Reg S-P)</div><div style="font-size:11px;color:var(--text-muted)">12 pages · 204 KB</div></td>
+              <td style="font-size:12px">Mar 5, 2026</td>
+              <td style="font-size:12px">Mar 5, 2026</td>
+              <td><span class="pill pill-green"><span class="dot"></span>Current</span></td>
+              <td style="font-size:12px">Mar 13, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">89%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:89%"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Fee Disclosure – Quarterly</div><div style="font-size:11px;color:var(--text-muted)">6 pages · 156 KB</div></td>
+              <td style="font-size:12px">Jan 1, 2026</td>
+              <td style="font-size:12px">—</td>
+              <td><span class="pill pill-gray">Internal only</span></td>
+              <td style="font-size:12px">Jan 15, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">88%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:88%"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs" onclick="toast('Opening preview...')">Preview</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:11px;color:var(--text-muted)">24 pages · 421 KB</div></td>
+              <td style="font-size:12px">Jan 15, 2026</td>
+              <td style="font-size:12px;color:var(--red);font-weight:500">Feb 28, 2026</td>
+              <td><span class="pill pill-amber"><span class="dot"></span>Outdated</span></td>
+              <td style="font-size:12px">Jan 20, 2026</td>
+              <td><div style="font-size:12px;font-weight:500">82%</div><div class="progress-track" style="width:80px;margin-top:3px"><div class="progress-fill" style="width:82%;background:var(--amber)"></div></div></td>
+              <td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-primary" onclick="toast('Importing from IAPD...')">Import IAPD</button><button class="btn btn-xs" onclick="toast('Sending...')">Send</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEND ═══ -->
+  <div id="screen-send" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Send Disclosures</div><div class="page-sub">Select documents, compose, and deliver</div></div>
+      <div class="topbar-right">
+        <button class="tb-btn tb-btn-ghost">Save draft</button>
+        <button class="tb-btn tb-btn-gold" onclick="openModal('confirm-send-modal')">Send to 247 clients →</button>
+      </div>
+    </div>
+    <div class="content" style="padding-bottom:0">
+      <div class="compose-layout">
+        <div class="doc-select-panel">
+          <div class="card-head" style="background:var(--cream)"><div class="card-title">Select documents</div><span class="pill pill-blue">4 selected</span></div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px"><input type="checkbox" checked style="accent-color:var(--navy);width:13px;height:13px"/><span style="font-size:11px;font-weight:500">Select all</span></div>
+          <div style="flex:1;overflow-y:auto">
+            <div class="doc-check-item"><input type="checkbox" checked/><div class="doc-check-info"><div class="doc-check-name">ADV Part 2A – Firm Brochure</div><div class="doc-check-meta">28 pg · <span style="color:var(--red)">IAPD outdated</span></div></div></div>
+            <div class="doc-check-item"><input type="checkbox" checked/><div class="doc-check-info"><div class="doc-check-name">ADV Part 2B – Supplement</div><div class="doc-check-meta">18 pg · Current</div></div></div>
+            <div class="doc-check-item"><input type="checkbox" checked/><div class="doc-check-info"><div class="doc-check-name">Form CRS</div><div class="doc-check-meta">2 pg · Current</div></div></div>
+            <div class="doc-check-item"><input type="checkbox" checked/><div class="doc-check-info"><div class="doc-check-name">Privacy Policy (Reg S-P)</div><div class="doc-check-meta">12 pg · Current</div></div></div>
+            <div class="doc-check-item"><input type="checkbox"/><div class="doc-check-info"><div class="doc-check-name">Fee Disclosure – Quarterly</div><div class="doc-check-meta">6 pg · Internal</div></div></div>
+            <div class="doc-check-item"><input type="checkbox"/><div class="doc-check-info"><div class="doc-check-name">Wrap Fee Brochure</div><div class="doc-check-meta">24 pg · <span style="color:var(--amber)">IAPD outdated</span></div></div></div>
+          </div>
+          <div style="padding:10px 12px;border-top:1px solid var(--border);background:var(--cream);font-size:11px;color:var(--text-muted)">4 documents · 1.46 MB · 247 recipients</div>
+        </div>
+        <div class="compose-panel">
+          <div class="compose-tabs">
+            <div class="ctab active" onclick="composeTab('compose',this)">Compose</div>
+            <div class="ctab" onclick="composeTab('preview',this)">Preview</div>
+            <div class="ctab" onclick="composeTab('recipients',this)">Recipients (247)</div>
+            <div class="ctab" onclick="composeTab('checklist',this)">Pre-send ✓</div>
+          </div>
+          <div class="ctab-body active" id="ctab-compose">
+            <div class="form-group"><label class="label">From address</label><input type="text" value="compliance@horizonwealth.com" style="width:100%"/></div>
+            <div class="form-group"><label class="label">Subject line</label><input type="text" value="Important: Your annual regulatory disclosure documents — Horizon Wealth Advisors" style="width:100%"/></div>
+            <div class="form-group"><label class="label">Message body</label><textarea style="width:100%;height:120px;resize:vertical">Dear [Client Name],
+
+Horizon Wealth Advisors, LLC is providing you with your annual regulatory disclosure documents as required by the SEC. Please review these documents at your convenience using the secure link below.
+
+Your documents include: ADV Part 2A, ADV Part 2B, Form CRS, and our Privacy Policy.
+
+[SECURE PORTAL LINK]
+
+If you have any questions, please contact us at (714) 555-0100.
+
+Sincerely,
+Luke Wright · Compliance Officer
+Horizon Wealth Advisors, LLC</textarea></div>
+            <div class="form-row">
+              <div><label class="label">Delivery method</label><select style="width:100%"><option>Email + Secure portal link</option><option>Physical mail only</option><option>Email with PDF attachment</option></select></div>
+              <div><label class="label">Acknowledgement required</label><select style="width:100%"><option>Yes — gate before viewing</option><option>Yes — prompt only</option><option>No</option></select></div>
+            </div>
+            <div style="background:var(--amber-light);border:1px solid #FAC775;border-radius:7px;padding:10px 12px;font-size:11px;color:var(--amber)">
+              ⚠️ <strong>ADV Part 2A is outdated vs IAPD</strong> — Consider importing the updated version before sending.
+              <span style="text-decoration:underline;cursor:pointer;margin-left:4px" onclick="toast('Opening IAPD import...')">Import now</span>
+            </div>
+          </div>
+          <div class="ctab-body" id="ctab-preview">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Client email preview</div>
+            <div style="border:1px solid var(--border);border-radius:8px;padding:16px;background:var(--white);font-size:12px;line-height:1.7">
+              <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px"><strong>From:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c3cfcdd0ccc9c1cec3c5e0c8cfd2c9dacfced7c5c1ccd4c88ec3cfcd">[email&#160;protected]</a> &nbsp;·&nbsp; <strong>To:</strong> [Client Email]</div>
+              <div style="font-size:10px;color:var(--text-muted);margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px"><strong>Subject:</strong> Important: Your annual regulatory disclosure documents</div>
+              <div style="height:4px;background:var(--navy);border-radius:2px 2px 0 0;margin-bottom:12px"></div>
+              <p style="margin-bottom:10px">Dear James & Patricia Whitmore,</p>
+              <p style="margin-bottom:10px;color:var(--text-mid)">Horizon Wealth Advisors, LLC is providing you with your annual regulatory disclosure documents as required by the SEC.</p>
+              <div style="background:var(--navy);border-radius:6px;padding:12px;text-align:center;margin:14px 0">
+                <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:6px">Your secure document portal</div>
+                <div style="font-size:13px;font-weight:500;color:var(--white)">View & acknowledge your documents →</div>
+                <div style="font-size:10px;color:var(--gold);margin-top:4px">disclosures.horizonwealth.com/c/WH-4421</div>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:10px;line-height:1.6">Horizon Wealth Advisors, LLC · CRD #317245 · SEC Registered Investment Adviser<br>2100 Main Street Suite 500 · Huntington Beach, CA 92648 · (714) 555-0100</div>
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-size:11px;font-weight:500;margin-bottom:8px">Client portal preview</div>
+              <div class="portal-preview">
+                <div class="portal-preview-bar"><div class="pp-dot" style="background:#FF5F57"></div><div class="pp-dot" style="background:#FFBD2E"></div><div class="pp-dot" style="background:#28C840"></div><span class="pp-url">disclosures.horizonwealth.com/c/WH-4421</span></div>
+                <div class="portal-preview-body">
+                  <div class="pp-logo">Horizon Wealth <span>Advisors</span></div>
+                  <div class="pp-greeting">Secure disclosure portal</div>
+                  <div class="pp-name">James & Patricia Whitmore</div>
+                  <div class="pp-doc"><div class="pp-doc-icon">PDF</div><div class="pp-doc-name">ADV Part 2A – Firm Brochure</div><span class="pp-doc-badge">Required</span></div>
+                  <div class="pp-doc"><div class="pp-doc-icon">PDF</div><div class="pp-doc-name">Form CRS</div><span class="pp-doc-badge">Required</span></div>
+                  <div class="pp-sign-area"><div class="pp-sign-label">Sign to acknowledge receipt</div><div class="pp-sign-line"><div class="pp-sign-text">James Whitmore</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ctab-body" id="ctab-recipients">
+            <div style="display:flex;gap:8px;margin-bottom:12px"><input type="text" placeholder="Search clients..." style="flex:1"/><select style="width:130px"><option>All clients</option><option>Email valid</option><option>Needs mail</option></select></div>
+            <table><thead><tr><th>Client</th><th>Account</th><th>Email</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div style="font-weight:500">James & Patricia Whitmore</div></td><td>WH-4421</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bbd195ccd3d2cfd6d4c9defbded6dad2d795d8d4d6">[email&#160;protected]</a></td><td><span class="pill pill-green">Valid</span></td></tr>
+              <tr><td><div style="font-weight:500">Margaret O'Sullivan</div></td><td>OS-8834</td><td style="font-size:12px;color:var(--red)">Email bounced</td><td><span class="pill pill-amber">Mail queue</span></td></tr>
+              <tr><td><div style="font-weight:500">David & Sandra Park</div></td><td>PK-1109</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f296dc82938099b2979f939b9edc919d9f">[email&#160;protected]</a></td><td><span class="pill pill-green">Valid</span></td></tr>
+              <tr><td><div style="font-weight:500">Yuki Tanaka</div></td><td>TN-5523</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d5acfba1b4bbb4beb495b0b8b4bcb9fbb6bab8">[email&#160;protected]</a></td><td><span class="pill pill-green">Valid</span></td></tr>
+              <tr><td><div style="font-weight:500">Thomas Ellsworth III</div></td><td>EL-0042</td><td style="font-size:12px;color:var(--red)">Email bounced</td><td><span class="pill pill-amber">Mail queue</span></td></tr>
+              <tr><td style="color:var(--text-muted);font-size:12px" colspan="4">+ 242 more clients</td></tr>
+            </tbody></table>
+          </div>
+          <div class="ctab-body" id="ctab-checklist">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">All items must be green before sending.</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green);font-size:14px">✓</span><span>247 recipients loaded from Redtail sync</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green);font-size:14px">✓</span><span>4 documents selected · 1.46 MB total</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green);font-size:14px">✓</span><span>SMTP configured · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="15767a7865797c747b7670557d7a677c6f7a7b62707479617d3b767a78">[email&#160;protected]</a></span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--green-light);border-radius:7px;border:1px solid var(--green-mid);font-size:12px"><span style="color:var(--green);font-size:14px">✓</span><span>Compliance footer enabled · SEC registration included</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber);font-size:14px">⚠</span><span><strong>ADV Part 2A outdated vs IAPD</strong> — recommend importing before send</span><button class="btn btn-xs btn-primary" style="margin-left:auto" onclick="toast('Importing...')">Fix</button></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--amber-light);border-radius:7px;border:1px solid #FAC775;font-size:12px"><span style="color:var(--amber);font-size:14px">⚠</span><span>2 clients have bounced emails — will auto-queue for Lob mail</span></div>
+            </div>
+            <button class="btn btn-gold" style="width:100%;margin-top:14px;padding:12px" onclick="openModal('confirm-send-modal')">Proceed to send →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TRACKING ═══ -->
+  <div id="screen-tracking" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Delivery Tracking</div></div>
+      <div class="topbar-right"><button class="tb-btn tb-btn-ghost" onclick="toast('Exporting audit log...')">Export audit log</button></div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Delivery audit trail</div>
+          <div style="display:flex;gap:7px">
+            <select style="width:120px"><option>All statuses</option><option>Opened</option><option>Delivered</option><option>Bounced</option><option>Mailed</option></select>
+            <select style="width:140px"><option>All documents</option><option>ADV Part 2A</option><option>Privacy Policy</option></select>
+            <input type="text" placeholder="Search client..." style="width:160px"/>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Client</th><th>Document(s)</th><th>Method</th><th>Sent</th><th>Status</th><th>Tracking</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div style="font-weight:500">James & Patricia Whitmore</div><div style="font-size:11px;color:var(--text-muted)">WH-4421</div></td>
+              <td style="font-size:12px">ADV 2A, Form CRS, Privacy Policy</td>
+              <td><span class="pill pill-blue">Email + Portal</span></td>
+              <td style="font-size:12px">Mar 13</td>
+              <td><span class="pill pill-green"><span class="dot"></span>Acknowledged</span></td>
+              <td><div class="tracking-steps"><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:3px">Sent · Opened · Viewed · Signed</div></td>
+              <td><button class="btn btn-xs" onclick="toast('Opening detail...')">View log</button></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Margaret O'Sullivan</div><div style="font-size:11px;color:var(--text-muted)">OS-8834</div></td>
+              <td style="font-size:12px">ADV 2A, Privacy Policy</td>
+              <td><span class="pill pill-amber">Email bounced</span></td>
+              <td style="font-size:12px">Mar 13</td>
+              <td><span class="pill pill-red"><span class="dot"></span>Bounced</span></td>
+              <td><div class="tracking-steps"><div class="ts-dot done"></div><div class="ts-line"></div><div class="ts-dot" style="background:var(--red)"></div><div class="ts-line"></div><div class="ts-dot"></div><div class="ts-line"></div><div class="ts-dot"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:3px">Sent · Bounced</div></td>
+              <td><button class="btn btn-xs btn-primary" onclick="toast('Queued for Lob mail')">Queue mail</button></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">Yuki Tanaka</div><div style="font-size:11px;color:var(--text-muted)">TN-5523</div></td>
+              <td style="font-size:12px">Fee Disclosure</td>
+              <td><span class="pill pill-gray">USPS Certified</span></td>
+              <td style="font-size:12px">Mar 10</td>
+              <td><span class="pill pill-green"><span class="dot"></span>Delivered</span></td>
+              <td><div class="tracking-steps"><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:3px">Printed · Mailed · Delivered</div></td>
+              <td><button class="btn btn-xs" onclick="toast('Opening detail...')">View log</button></td>
+            </tr>
+            <tr>
+              <td><div style="font-weight:500">David & Sandra Park</div><div style="font-size:11px;color:var(--text-muted)">PK-1109</div></td>
+              <td style="font-size:12px">ADV 2A, Form CRS</td>
+              <td><span class="pill pill-blue">Email + Portal</span></td>
+              <td style="font-size:12px">Mar 13</td>
+              <td><span class="pill pill-amber"><span class="dot"></span>Opened — not signed</span></td>
+              <td><div class="tracking-steps"><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot done"></div><div class="ts-line done"></div><div class="ts-dot" style="background:var(--blue)"></div><div class="ts-line"></div><div class="ts-dot"></div></div><div style="font-size:9px;color:var(--text-muted);margin-top:3px">Sent · Opened · Viewing</div></td>
+              <td><button class="btn btn-xs" onclick="toast('Reminder sent')">Send reminder</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ IAPD SYNC ═══ -->
+  <div id="screen-iapd" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">SEC IAPD Sync</div><div class="page-sub">2 mismatches detected</div></div>
+      <div class="topbar-right"><button class="tb-btn tb-btn-primary" onclick="toast('Syncing with IAPD...')">Sync now</button></div>
+    </div>
+    <div class="content">
+      <div class="iapd-search">
+        <input type="text" placeholder="Search by firm name or CRD number..." value="Horizon Wealth Advisors" style="flex:1"/>
+        <button class="btn btn-primary" onclick="toast('Searching IAPD...')">Search IAPD</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn btn-sm" onclick="toast('Loading CRD 317245...')">Ameritas (317245)</button>
+        <button class="btn btn-sm" onclick="toast('Loading your firm...')">Your firm</button>
+        <button class="btn btn-sm" onclick="toast('Loading Vanguard...')">Vanguard (108523)</button>
+      </div>
+      <div class="alert alert-amber">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>
+        <div><strong>2 documents need attention</strong> — IAPD has newer versions than what your clients last received. Import and redistribute to close the compliance gap.</div>
+      </div>
+      <div class="iapd-result-card">
+        <div class="iapd-result-head">
+          <div><div style="font-size:13px;font-weight:500">Horizon Wealth Advisors, LLC</div><div style="font-size:11px;color:var(--text-muted)">CRD #317245 · SEC-registered RIA · Last synced Mar 13, 2026 8:15 AM</div></div>
+          <span class="pill pill-red">2 mismatches</span>
+        </div>
+        <div class="iapd-match-row">
+          <div class="iapd-status" style="background:var(--red)"></div>
+          <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your version: Mar 1, 2025 · IAPD filed: Mar 28, 2025</div></div>
+          <span class="pill pill-red">27 days behind</span>
+          <button class="btn btn-sm btn-primary" onclick="toast('Importing ADV Part 2A from IAPD...')">Import & send</button>
+        </div>
+        <div class="iapd-match-row">
+          <div class="iapd-status" style="background:var(--green)"></div>
+          <div style="flex:1"><div style="font-size:12px;font-weight:500">ADV Part 2B – Supplement</div><div style="font-size:11px;color:var(--text-muted)">Your version: Apr 2, 2024 · IAPD filed: Apr 2, 2024</div></div>
+          <span class="pill pill-green">Match</span>
+          <button class="btn btn-sm" onclick="toast('Opening preview...')">View</button>
+        </div>
+        <div class="iapd-match-row">
+          <div class="iapd-status" style="background:var(--green)"></div>
+          <div style="flex:1"><div style="font-size:12px;font-weight:500">Form CRS</div><div style="font-size:11px;color:var(--text-muted)">Your version: Jan 15, 2026 · IAPD filed: Jan 15, 2026</div></div>
+          <span class="pill pill-green">Match</span>
+          <button class="btn btn-sm" onclick="toast('Opening preview...')">View</button>
+        </div>
+        <div class="iapd-match-row">
+          <div class="iapd-status" style="background:var(--amber)"></div>
+          <div style="flex:1"><div style="font-size:12px;font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:11px;color:var(--text-muted)">Your version: Jan 15, 2026 · IAPD filed: Feb 28, 2026</div></div>
+          <span class="pill pill-amber">44 days behind</span>
+          <button class="btn btn-sm btn-primary" onclick="toast('Importing Wrap Fee Brochure...')">Import & send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SCHEDULE ═══ -->
+  <div id="screen-schedule" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Delivery Schedules</div></div>
+      <div class="topbar-right"><button class="tb-btn tb-btn-primary" onclick="toast('Opening schedule editor...')">Add schedule</button></div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Active schedules</div><button class="btn btn-sm" onclick="toast('Saving all...')">Save all</button></div>
+        <table>
+          <thead><tr><th>Document</th><th>Frequency</th><th>Next send</th><th>Recipients</th><th>IAPD trigger</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:500">ADV Part 2A</td><td><span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td style="font-size:12px">Apr 1, 2026</td><td style="font-size:12px">All clients (247)</td><td><span class="pill pill-green" style="font-size:9px">On</span></td><td><span class="pill pill-green">Active</span></td></tr>
+            <tr><td style="font-weight:500">Privacy Policy</td><td><span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td style="font-size:12px">Apr 1, 2026</td><td style="font-size:12px">All clients (247)</td><td><span class="pill pill-green" style="font-size:9px">On</span></td><td><span class="pill pill-green">Active</span></td></tr>
+            <tr><td style="font-weight:500">Form CRS</td><td><span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Onboarding</span></td><td style="font-size:12px">Next new client</td><td style="font-size:12px">New accounts only</td><td><span class="pill pill-gray" style="font-size:9px">N/A</span></td><td><span class="pill pill-green">Active</span></td></tr>
+            <tr><td style="font-weight:500">Fee Disclosure</td><td><span class="freq-pill" style="background:#EEEDFE;color:#534AB7">Quarterly</span></td><td style="font-size:12px">Apr 15, 2026</td><td style="font-size:12px">All clients (247)</td><td><span class="pill pill-gray" style="font-size:9px">Off</span></td><td><span class="pill pill-green">Active</span></td></tr>
+            <tr><td style="font-weight:500">ADV Part 2B</td><td><span class="freq-pill" style="background:var(--blue-light);color:var(--blue)">Annual</span></td><td style="font-size:12px">Apr 1, 2026</td><td style="font-size:12px">All clients (247)</td><td><span class="pill pill-green" style="font-size:9px">On</span></td><td><span class="pill pill-green">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CLIENTS ═══ -->
+  <div id="screen-clients" class="screen">
+    <div class="topbar">
+      <div class="topbar-left"><div class="page-title">Clients</div><div class="page-sub">247 total · synced from Redtail</div></div>
+      <div class="topbar-right">
+        <button class="tb-btn tb-btn-ghost" onclick="toast('Syncing Redtail...')">Sync Redtail</button>
+        <button class="tb-btn tb-btn-ghost" onclick="toast('Importing CSV...')">Import CSV</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">All clients</div>
+          <div style="display:flex;gap:7px"><input type="text" placeholder="Search..." style="width:180px"/><select style="width:130px"><option>All clients</option><option>Missing email</option><option>Not acknowledged</option></select></div>
+        </div>
+        <table>
+          <thead><tr><th>Client name</th><th>Account #</th><th>Email</th><th>Last delivery</th><th>Ack status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><div style="font-weight:500">James & Patricia Whitmore</div></td><td>WH-4421</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8b2f6afb0b1acb5b7aabd98bdb5b9b1b4f6bbb7b5">[email&#160;protected]</a></td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-green">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+            <tr><td><div style="font-weight:500">Margaret O'Sullivan</div></td><td>OS-8834</td><td style="font-size:12px;color:var(--red)">Bounced</td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-red">Not signed</span></td><td><button class="btn btn-xs btn-primary" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
+            <tr><td><div style="font-weight:500">David & Sandra Park</div></td><td>PK-1109</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0763297766756c47626a666e6b2964686a">[email&#160;protected]</a></td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-amber">Opened — pending</span></td><td><button class="btn btn-xs" onclick="toast('Reminder sent')">Remind</button></td></tr>
+            <tr><td><div style="font-weight:500">Yuki Tanaka</div></td><td>TN-5523</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="21580f55404f404a4061444c40484d0f424e4c">[email&#160;protected]</a></td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-green">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+            <tr><td><div style="font-weight:500">Thomas Ellsworth III</div></td><td>EL-0042</td><td style="font-size:12px;color:var(--red)">Bounced</td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-red">Not signed</span></td><td><button class="btn btn-xs btn-primary" onclick="toast('Queued for Lob mail')">Queue mail</button></td></tr>
+            <tr><td><div style="font-weight:500">Dorothy & Frank Nguyen</div></td><td>NG-3318</td><td style="font-size:12px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c68cccc5d7dbc7cce2c7cfc3cbce8cc1cdcf">[email&#160;protected]</a></td><td style="font-size:12px">Mar 13, 2026</td><td><span class="pill pill-green">Signed Mar 13</span></td><td><button class="btn btn-xs" onclick="toast('Opening client record...')">View</button></td></tr>
+            <tr><td style="color:var(--text-muted);font-size:12px" colspan="6">+ 241 more clients — use search to filter</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INTEGRATIONS ═══ -->
+  <div id="screen-integrations" class="screen">
+    <div class="topbar"><div class="topbar-left"><div class="page-title">Integrations</div></div></div>
+    <div class="content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Redtail CRM</div><span class="pill pill-green"><span class="dot"></span>Connected</span></div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Pulls client names, emails, mailing addresses, and account numbers. Triggers automatic disclosure sends on new account creation.</div>
+            <div class="form-group"><label class="label">API key</label><input type="password" value="rtk_•••••••••••••••••••" style="width:100%"/></div>
+            <div class="form-group"><label class="label">Username</label><input type="text" value="lwright@horizonwealth.com" style="width:100%"/></div>
+            <div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Syncing Redtail...')">Sync now</button><button class="btn btn-sm" onclick="toast('Last sync: Mar 13, 9:00 AM · 247 clients')">View sync log</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Orion Portfolio</div><span class="pill pill-green"><span class="dot"></span>Connected</span></div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Syncs account types and AUM tiers for segmented disclosure delivery. Confirms account status before each send.</div>
+            <div class="form-group"><label class="label">Client ID</label><input type="text" value="orion_hwm_317245" style="width:100%"/></div>
+            <div class="form-group"><label class="label">OAuth secret</label><input type="password" value="osk_•••••••••••••••••••" style="width:100%"/></div>
+            <div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-sm" onclick="toast('Testing connection...')">Test connection</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Lob — Physical Mail</div><span class="pill pill-green"><span class="dot"></span>Connected</span></div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Handles print, stuff, and USPS delivery for clients who need physical mail. Automatic tracking and delivery confirmation.</div>
+            <div class="form-group"><label class="label">API key</label><input type="password" value="live_•••••••••••••••••••" style="width:100%"/></div>
+            <div class="form-row"><div><label class="label">Default mail type</label><select style="width:100%"><option>USPS First Class</option><option>USPS Certified</option></select></div><div><label class="label">Color</label><select style="width:100%"><option>Black & white</option><option>Color</option></select></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">SEC IAPD</div><span class="pill pill-green"><span class="dot"></span>Active</span></div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Automatically checks your IAPD filings against your document library. Alerts on version mismatches and can trigger redistribution.</div>
+            <div class="form-group"><label class="label">Your firm CRD</label><input type="text" value="317245" style="width:100%"/></div>
+            <div class="form-row"><div><label class="label">Sync frequency</label><select style="width:100%"><option>Daily</option><option>Weekly</option></select></div><div><label class="label">Auto-alert on mismatch</label><select style="width:100%"><option>Yes</option><option>No</option></select></div></div>
+            <button class="btn btn-sm btn-primary" style="margin-top:4px" onclick="toast('Syncing IAPD now...')">Sync now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODALS -->
+<div class="modal-bg" id="confirm-send-modal">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Confirm & send</div><button class="modal-close" onclick="closeModal('confirm-send-modal')">×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Recipients</span><strong>247 clients</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Documents</span><strong>4 selected</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Delivery method</span><strong>Email + secure portal</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-muted)">Physical mail fallback</span><strong>Lob API (2 clients)</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0"><span style="color:var(--text-muted)">Acknowledgement</span><strong>Required — gate before view</strong></div>
+      </div>
+      <div class="alert alert-amber"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/></svg>ADV Part 2A is outdated vs IAPD. Sending the older version.</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('confirm-send-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="closeModal('confirm-send-modal');toast('✓ Sent to 247 clients — audit trail logging')">Confirm & send to 247 clients</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="iapd-modal">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Import from SEC IAPD</div><button class="modal-close" onclick="closeModal('iapd-modal')">×</button></div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Select which mismatched documents to import from IAPD, then choose whether to auto-redistribute to clients.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <label style="display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/><div><div style="font-size:12px;font-weight:500">ADV Part 2A – Firm Brochure</div><div style="font-size:11px;color:var(--text-muted)">IAPD filed Mar 28, 2025 · 27 days newer than your current version</div></div></label>
+        <label style="display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/><div><div style="font-size:12px;font-weight:500">Wrap Fee Program Brochure</div><div style="font-size:11px;color:var(--text-muted)">IAPD filed Feb 28, 2026 · 44 days newer than your current version</div></div></label>
+      </div>
+      <div class="form-group"><label class="label">After importing</label><select style="width:100%"><option>Send updated docs to all clients immediately</option><option>Import only — I'll send manually</option><option>Queue for next scheduled send</option></select></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('iapd-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('iapd-modal');toast('Importing 2 docs from IAPD...')">Import & redistribute</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="send-modal">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Quick send</div><button class="modal-close" onclick="closeModal('send-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="label">Document</label><select style="width:100%"><option>ADV Part 2A</option><option>Privacy Policy</option><option>Form CRS</option><option>Fee Disclosure</option></select></div>
+      <div class="form-group"><label class="label">Recipients</label><select style="width:100%"><option>All clients (247)</option><option>Select specific clients</option><option>New clients only</option></select></div>
+      <div class="form-group"><label class="label">Acknowledgement</label><select style="width:100%"><option>Required</option><option>Optional</option><option>None</option></select></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('send-modal')">Cancel</button>
+      <button class="btn btn-gold" onclick="closeModal('send-modal');toast('Sending...')">Send now</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function nav(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classLi
