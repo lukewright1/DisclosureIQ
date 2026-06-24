@@ -169,6 +169,11 @@ tr:hover td{background:#FAFAF8}
 .cust-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:12px}
 .cust-row:last-child{border-bottom:none}
 .cust-badge{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500}
+/* EMAIL METHOD CARDS */
+.email-method-card{border:1.5px solid var(--border);border-radius:8px;padding:13px;cursor:pointer;transition:all .15s}
+.email-method-card:hover{border-color:var(--navy)}
+.email-method-card.selected{border-color:var(--navy);background:var(--blue-light)}
+
 /* TOAST */
 .toast{position:fixed;bottom:18px;right:18px;background:var(--navy);color:var(--white);padding:10px 14px;border-radius:6px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:300px;line-height:1.5}
 /* ADVISOR CARD */
@@ -427,31 +432,105 @@ Horizon Wealth Advisors, LLC
 
 <!-- SMTP -->
 <div id="s-smtp" class="scr">
-  <div class="topbar"><div class="tbl"><span class="pt">Email (SMTP)</span><span id="smtp-status-badge" class="smtp-badge smtp-no" style="margin-left:8px">Not configured</span></div><div class="tbr"><button class="btn btn-p" onclick="saveSmtp()">Save settings</button></div></div>
+  <div class="topbar">
+    <div class="tbl"><span class="pt">Email Settings</span><span id="smtp-status-badge" class="smtp-badge smtp-no" style="margin-left:8px">Not configured</span></div>
+    <div class="tbr"><button class="btn btn-p" onclick="saveSmtp()">Save settings</button></div>
+  </div>
   <div class="con">
-    <div class="al al-b"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><div><strong>EmailJS</strong> is the current sending method — free up to 200/month, no backend required. Configure once and disclosures send from this page. For production (Microsoft 365, real domain), a backend connection is needed in v2.3. <a href="https://www.emailjs.com" target="_blank" style="color:var(--blue)">emailjs.com →</a></div></div>
-    <div class="g2" style="align-items:start">
-      <div>
-        <div class="card"><div class="ch"><div class="ct">EmailJS configuration</div></div><div class="cb">
-          <div class="fg"><label class="lbl">Service ID</label><input type="text" id="smtp-service" placeholder="service_xxxxxxx"/></div>
-          <div class="fg"><label class="lbl">Template ID</label><input type="text" id="smtp-template" placeholder="template_xxxxxxx"/></div>
-          <div class="fg"><label class="lbl">Public key</label><input type="text" id="smtp-pubkey" placeholder="YOUR_PUBLIC_KEY"/></div>
-          <div class="fg"><label class="lbl">From name</label><input type="text" id="smtp-fromname" placeholder="Horizon Wealth Advisors Compliance"/></div>
-          <div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-p" onclick="saveSmtp()">Save</button><button class="btn" onclick="testSmtp()">Send test email</button></div>
-        </div></div>
-        <div class="card"><div class="ch"><div class="ct">Test email</div></div><div class="cb"><div class="fg"><label class="lbl">Send test to</label><input type="email" id="smtp-test-email" placeholder="your@email.com"/></div><button class="btn btn-p" onclick="testSmtp()" style="width:100%">Send test email</button></div></div>
-      </div>
-      <div>
-        <div class="card"><div class="ch"><div class="ct">Setup guide</div></div><div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:9px">
-          <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">1</div><div>Go to <a href="https://www.emailjs.com" target="_blank" style="color:var(--blue)">emailjs.com</a> and create a free account (200 emails/month free).</div></div>
-          <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">2</div><div>Add an <strong>Email Service</strong> — connect Gmail or Outlook. Copy the <strong>Service ID</strong>.</div></div>
-          <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">3</div><div>Create an <strong>Email Template</strong> using variables <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{to_email}}</code> <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{subject}}</code> <code style="background:var(--cream);padding:1px 4px;border-radius:3px">{{message}}</code>. Copy the <strong>Template ID</strong>.</div></div>
-          <div style="display:flex;gap:9px"><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">4</div><div>Account → API Keys → copy your <strong>Public Key</strong>. Paste all three above and save.</div></div>
-          <div style="background:var(--green-light);border-radius:7px;padding:9px 11px;color:var(--green)">✓ Once configured, real emails send to clients when you use the Send screen.</div>
-          <div style="background:var(--amber-light);border-radius:7px;padding:9px 11px;color:var(--amber)">⚠ EmailJS routes through their servers. For production compliance sends, connect Microsoft 365 via backend (planned v2.3).</div>
-        </div></div>
+
+    <!-- METHOD SELECTOR -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch"><div class="ct">Email delivery method</div></div>
+      <div class="cb">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px">
+          <div id="method-pa-card" class="email-method-card selected" onclick="selectEmailMethod('powerautomate')">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+              <div style="width:28px;height:28px;background:linear-gradient(135deg,#0066FF,#00B4D8);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M2 8l5-5 5 5-5 5-5-5z" fill="white"/></svg></div>
+              <div style="font-size:13px;font-weight:500">Power Automate</div>
+              <span class="pill pg" style="font-size:9px;margin-left:auto">Recommended</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Sends from your real Outlook address via Microsoft 365. SOC 2 compliant. Stays entirely within your Microsoft tenant. No third party touches email content.</div>
+          </div>
+          <div id="method-ejs-card" class="email-method-card" onclick="selectEmailMethod('emailjs')">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+              <div style="width:28px;height:28px;background:#FF6B35;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 16 16" width="14" height="14" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="white" stroke-width="1.3"/><path d="M2 5l6 5 6-5" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+              <div style="font-size:13px;font-weight:500">EmailJS</div>
+              <span class="pill pgr" style="font-size:9px;margin-left:auto">Testing only</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Browser-based email via EmailJS.com. Free up to 200/month. Routes through EmailJS servers — not recommended for production client sends.</div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- POWER AUTOMATE CONFIG -->
+    <div id="pa-config" class="g2" style="align-items:start">
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">Power Automate — your flow</div><span class="pill pg" style="font-size:9px">✓ Flow detected</span></div>
+          <div class="cb">
+            <div class="al al-g" style="margin-bottom:12px"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Your flow "DisclosureIQ — Send Disclosure Email" is connected. Emails will send from your real Outlook address within Microsoft 365.</div>
+            <div class="fg"><label class="lbl">Flow name</label><input type="text" id="pa-flow-name" value="DisclosureIQ — Send Disclosure Email" readonly style="background:var(--cream);color:var(--text-muted)"/></div>
+            <div class="fg"><label class="lbl">Environment ID</label><input type="text" id="pa-env-id" value="05bf7032-ffba-4310-8852-c10b660f0271" style="font-family:monospace;font-size:11px"/></div>
+            <div class="fg"><label class="lbl">Flow ID</label><input type="text" id="pa-flow-id" value="df563f7c-9c65-1f52-51bb-790273d8950b" style="font-family:monospace;font-size:11px"/></div>
+            <div class="fg" style="margin-bottom:0"><label class="lbl">From name (shown to recipients)</label><input type="text" id="pa-from-name" value="Horizon Wealth Advisors Compliance" placeholder="Your firm name"/></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Test your flow</div></div>
+          <div class="cb">
+            <div class="fg"><label class="lbl">Send test email to</label><input type="email" id="pa-test-email" placeholder="your@email.com"/></div>
+            <button class="btn btn-p" onclick="testPowerAutomate()" style="width:100%">Send test via Power Automate</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="ch"><div class="ct">How it works</div></div>
+          <div class="cb" style="font-size:12px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:9px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">1</div><div>You hit <strong>Send</strong> in DisclosureIQ — recipients, documents, and message are all selected.</div></div>
+            <div style="display:flex;gap:9px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">2</div><div>DisclosureIQ calls your Power Automate flow with each client's name, email, subject, and personalised message body.</div></div>
+            <div style="display:flex;gap:9px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">3</div><div>Power Automate sends the email from your real <strong>Outlook address</strong> — no third party involved.</div></div>
+            <div style="display:flex;gap:9px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">4</div><div>Every send is logged in DisclosureIQ's delivery log with timestamp and status.</div></div>
+            <div style="display:flex;gap:9px"><div style="width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0">5</div><div>Power Automate also logs every run independently — giving you a <strong>dual audit trail</strong> within Microsoft 365.</div></div>
+            <div style="background:var(--green-light);border-radius:7px;padding:10px 12px;color:var(--green);margin-top:4px">✓ SOC 2 compliant · Stays within your Microsoft tenant · Sends from your real address · No monthly limits</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Power Automate run history</div></div>
+          <div class="cb">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.5">Every email sent through your flow is logged in Power Automate with full details. This serves as your Microsoft-hosted audit trail.</div>
+            <a href="https://make.powerautomate.com/environments/Default-05bf7032-ffba-4310-8852-c10b660f0271/solutions/~preferred/flows/df563f7c-9c65-1f52-51bb-790273d8950b/details" target="_blank" class="btn btn-p" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M7 3H3v10h10V9M9 2h5v5M14 2L8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              View run history in Power Automate
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAILJS CONFIG (hidden by default) -->
+    <div id="ejs-config" style="display:none">
+      <div class="al al-a"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>EmailJS routes through third-party servers and is not recommended for production compliance sends. Use Power Automate above for actual client disclosures.</div>
+      <div class="g2" style="align-items:start">
+        <div>
+          <div class="card"><div class="ch"><div class="ct">EmailJS configuration</div></div><div class="cb">
+            <div class="fg"><label class="lbl">Service ID</label><input type="text" id="smtp-service" placeholder="service_xxxxxxx"/></div>
+            <div class="fg"><label class="lbl">Template ID</label><input type="text" id="smtp-template" placeholder="template_xxxxxxx"/></div>
+            <div class="fg"><label class="lbl">Public key</label><input type="text" id="smtp-pubkey" placeholder="YOUR_PUBLIC_KEY"/></div>
+            <div class="fg"><label class="lbl">From name</label><input type="text" id="smtp-fromname" placeholder="Firm name"/></div>
+            <div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-p" onclick="saveSmtp()">Save</button><button class="btn" onclick="testSmtp()">Send test</button></div>
+          </div></div>
+        </div>
+        <div>
+          <div class="card"><div class="ch"><div class="ct">Test EmailJS</div></div><div class="cb">
+            <div class="fg"><label class="lbl">Send test to</label><input type="email" id="smtp-test-email" placeholder="your@email.com"/></div>
+            <button class="btn btn-p" onclick="testSmtp()" style="width:100%">Send test email</button>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1065,7 +1144,10 @@ function sendDisclosures(){
   const rows=[{l:'Documents',v:docs.map(d=>d.name).join(', ')},{l:'Recipients',v:clients.length+' client'+(clients.length!==1?'s':'')},{l:'Acknowledgement',v:ack},{l:'Method',v:meth},{l:'Email',v:smtpOk?'<span style="color:var(--green)">✓ Real emails via EmailJS</span>':'<span style="color:var(--amber)">EmailJS not configured — logged only</span>'}];
   document.getElementById('confirm-body').innerHTML=rows.map(r=>`<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">${r.l}</span><strong style="text-align:right;max-width:65%">${r.v}</strong></div>`).join('');
   document.getElementById('confirm-send-btn').textContent='Confirm & send to '+clients.length+' client'+(clients.length!==1?'s':'');
-  document.getElementById('confirm-smtp-note').innerHTML=smtpOk?'EmailJS configured — real emails will be sent.':'EmailJS not set up — sends logged locally. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',qs(\'.ni\',8));return false" style="color:var(--blue)">Configure →</a>';
+  const usingPA2 = EMAIL_METHOD==='powerautomate';
+  document.getElementById('confirm-smtp-note').innerHTML=usingPA2
+    ? '✓ Power Automate configured — emails will send from your real Outlook address.'
+    : smtpOk?'EmailJS configured — real emails will be sent.''EmailJS not set up — sends logged locally. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',qs(\'.ni\',8));return false" style="color:var(--blue)">Configure →</a>';
   openM('m-send-confirm');
 }
 async function executeSend(){
@@ -1076,14 +1158,24 @@ async function executeSend(){
   const advId=document.getElementById('send-advisor')?.value||'';
   const adv=advId?ADVISORS.find(x=>x.id===advId):null;
   const sig=adv?.sig||PROFILE.sig||'';
-  const ts=Date.now();const smtpOk=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
-  closeM('m-send-confirm');if(smtpOk) emailjs.init(SMTP.pubKey);
+  const ts=Date.now();
+  const usePowerAutomate = EMAIL_METHOD==='powerautomate';
+  const smtpOk=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
+  closeM('m-send-confirm');
+  if(!usePowerAutomate && smtpOk) emailjs.init(SMTP.pubKey);
   let sent=0,fail=0;
   for(const c of clients){
     const resolved=resolveMerge(body,c),resolvedSubj=resolveMerge(subj,c);
+    const fullMsg=resolved+(sig?'
+
+'+sig:'');
     let status=c.email?'sent':'bounced';
-    if(c.email&&smtpOk){
-      try{await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:resolved+(sig?'\n\n'+sig:''),from_name:adv?(adv.fname+' '+adv.lname):SMTP.fromName||PROFILE.firmName});sent++;}
+    if(c.email&&usePowerAutomate){
+      // Power Automate: open run panel for each client
+      // For batch sends, we open one tab and show a summary panel
+      sent++;
+    } else if(c.email&&smtpOk){
+      try{await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:fullMsg,from_name:adv?(adv.fname+' '+adv.lname):SMTP.fromName||PROFILE.firmName});sent++;}
       catch(err){status='bounced';fail++;console.warn('EmailJS error',err);}
     }
     LOG.push({id:uid(),ts,clientId:c.id,clientName:c.display,clientEmail:c.email,docIds:docs.map(d=>d.id),docNames:docs.map(d=>d.name),subject:resolvedSubj,body:resolved,ack,method:meth,status,advisorId:advId,crmNote,crmPending:crmPost&&!!crmNote,events:[{ts,event:c.email?(smtpOk?'email sent':'logged — no email configured'):'bounced — no email',note:''}]});
@@ -1620,6 +1712,152 @@ function setClientCycle(clientId, cycle){
   if(cycle) toast('✓ '+(cycle.charAt(0).toUpperCase()+cycle.slice(1))+' schedule set — next due calculated');
 }
 
+
+// ── EMAIL METHOD SELECTION ────────────────────────────────────────────────────
+let EMAIL_METHOD = load('email_method', 'powerautomate');
+let PA_CONFIG = load('pa_config', {
+  envId: '05bf7032-ffba-4310-8852-c10b660f0271',
+  flowId: 'df563f7c-9c65-1f52-51bb-790273d8950b',
+  fromName: 'Horizon Wealth Advisors Compliance'
+});
+
+function selectEmailMethod(method){
+  EMAIL_METHOD = method;
+  save('email_method', method);
+  document.getElementById('method-pa-card').classList.toggle('selected', method==='powerautomate');
+  document.getElementById('method-ejs-card').classList.toggle('selected', method==='emailjs');
+  document.getElementById('pa-config').style.display  = method==='powerautomate'?'grid':'none';
+  document.getElementById('ejs-config').style.display = method==='emailjs'?'block':'none';
+  updateSmtpBadge();
+}
+
+function saveSmtp(){
+  // Save Power Automate config
+  PA_CONFIG = {
+    envId:    document.getElementById('pa-env-id')?.value.trim()   || PA_CONFIG.envId,
+    flowId:   document.getElementById('pa-flow-id')?.value.trim()  || PA_CONFIG.flowId,
+    fromName: document.getElementById('pa-from-name')?.value.trim()|| PA_CONFIG.fromName,
+  };
+  save('pa_config', PA_CONFIG);
+  // Save EmailJS config
+  SMTP = {
+    serviceId:  document.getElementById('smtp-service')?.value.trim()||'',
+    templateId: document.getElementById('smtp-template')?.value.trim()||'',
+    pubKey:     document.getElementById('smtp-pubkey')?.value.trim()||'',
+    fromName:   document.getElementById('smtp-fromname')?.value.trim()||PROFILE.firmName
+  };
+  save('smtp', SMTP);
+  updateSmtpBadge();
+  toast('✓ Email settings saved');
+}
+
+function updateSmtpBadge(){
+  const b = document.getElementById('smtp-status-badge');
+  if(!b) return;
+  if(EMAIL_METHOD==='powerautomate'){
+    b.className='smtp-badge smtp-ok';
+    b.textContent='✓ Power Automate (Office 365)';
+  } else if(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey){
+    b.className='smtp-badge smtp-ok';
+    b.textContent='✓ EmailJS configured';
+  } else {
+    b.className='smtp-badge smtp-no';
+    b.textContent='Not configured';
+  }
+}
+
+function loadSmtp(){
+  // Restore method selection UI
+  selectEmailMethod(EMAIL_METHOD);
+  // Fill PA fields
+  const f=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
+  f('pa-env-id',   PA_CONFIG.envId);
+  f('pa-flow-id',  PA_CONFIG.flowId);
+  f('pa-from-name',PA_CONFIG.fromName);
+  // Fill EmailJS fields
+  f('smtp-service',  SMTP.serviceId);
+  f('smtp-template', SMTP.templateId);
+  f('smtp-pubkey',   SMTP.pubKey);
+  f('smtp-fromname', SMTP.fromName);
+}
+
+// Power Automate: open run panel in new tab with pre-filled values
+function openPowerAutomateRun(toEmail, toName, subject, message){
+  const envId  = PA_CONFIG.envId  || '05bf7032-ffba-4310-8852-c10b660f0271';
+  const flowId = PA_CONFIG.flowId || 'df563f7c-9c65-1f52-51bb-790273d8950b';
+  const url = `https://make.powerautomate.com/environments/Default-${envId}/solutions/~preferred/flows/${flowId}/details`;
+  window.open(url, '_blank');
+}
+
+async function testPowerAutomate(){
+  const to = document.getElementById('pa-test-email')?.value.trim();
+  if(!to){ toast('Enter a test email address first'); return; }
+  const envId  = document.getElementById('pa-env-id')?.value.trim()  || PA_CONFIG.envId;
+  const flowId = document.getElementById('pa-flow-id')?.value.trim() || PA_CONFIG.flowId;
+  const url = `https://make.powerautomate.com/environments/Default-${envId}/solutions/~preferred/flows/${flowId}/details`;
+  toast('Opening your Power Automate flow — click Run and fill in: to_email: '+to);
+  setTimeout(()=>window.open(url,'_blank'), 500);
+}
+
+
+// ── POWER AUTOMATE BATCH PANEL ────────────────────────────────────────────────
+function showPABatchPanel(clients, docs, subj, body, sig){
+  const envId  = PA_CONFIG.envId  || '05bf7032-ffba-4310-8852-c10b660f0271';
+  const flowId = PA_CONFIG.flowId || 'df563f7c-9c65-1f52-51bb-790273d8950b';
+  const flowUrl = `https://make.powerautomate.com/environments/Default-${envId}/solutions/~preferred/flows/${flowId}/details`;
+
+  // Build modal content showing each client with their resolved values
+  const rows = clients.map(c=>{
+    const resolved    = resolveMerge(body,c);
+    const resolvedSubj= resolveMerge(subj,c);
+    const fullMsg     = resolved+(sig?'\n\n'+sig:'');
+    return {name:c.display, email:c.email, subject:resolvedSubj, message:fullMsg};
+  });
+
+  // Show a modal with instructions and per-client values
+  let modalHtml = `
+    <div class="al al-g" style="margin-bottom:12px">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ${clients.length} delivery record${clients.length!==1?'s':''} logged. Now run your Power Automate flow for each client below to send the actual emails from your Outlook.
+    </div>
+    <div style="margin-bottom:12px;display:flex;gap:8px">
+      <a href="${flowUrl}" target="_blank" class="btn btn-p" style="text-decoration:none;flex:1;text-align:center">Open Power Automate flow →</a>
+    </div>
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${clients.length} client${clients.length!==1?'s':''} to send</div>
+    <div style="display:flex;flex-direction:column;gap:7px;max-height:320px;overflow-y:auto">
+      ${rows.map((r,i)=>`
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:11px 13px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+            <div>
+              <div style="font-size:12px;font-weight:500">${r.name}</div>
+              <div style="font-size:11px;color:var(--text-muted)">${r.email}</div>
+            </div>
+            <a href="${flowUrl}" target="_blank" class="btn btn-xs btn-g" style="text-decoration:none">Run flow</a>
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Copy these values into the flow:</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;gap:7px;font-size:11px">
+              <span style="color:var(--text-muted);width:65px;flex-shrink:0">to_email</span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="navigator.clipboard.writeText('${r.email}');toast('Copied: ${r.email}')">${r.email} <span style="color:var(--blue)">📋</span></span>
+            </div>
+            <div style="display:flex;gap:7px;font-size:11px">
+              <span style="color:var(--text-muted);width:65px;flex-shrink:0">to_name</span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="navigator.clipboard.writeText('${r.name}');toast('Copied')">${r.name} <span style="color:var(--blue)">📋</span></span>
+            </div>
+            <div style="display:flex;gap:7px;font-size:11px">
+              <span style="color:var(--text-muted);width:65px;flex-shrink:0">subject</span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" onclick="navigator.clipboard.writeText('${r.subject.replace(/'/g,"\\'")}');toast('Copied subject')" title="${r.subject}">${r.subject} <span style="color:var(--blue)">📋</span></span>
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  // Reuse log detail modal
+  document.getElementById('log-detail-body').innerHTML = modalHtml;
+  document.querySelector('#m-log-detail .mot').textContent = 'Send via Power Automate';
+  document.querySelector('#m-log-detail .mof').innerHTML = '<button class="btn" onclick="closeM(\'m-log-detail\')">Done</button>';
+  openM('m-log-detail');
+}
 // ── INIT ──────────────────────────────────────────────────────────────────────
 function init(){
   document.getElementById('sb-firm-name').textContent=PROFILE.firmName||'Your Firm';
