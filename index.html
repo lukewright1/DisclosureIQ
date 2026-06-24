@@ -808,6 +808,7 @@ Horizon Wealth Advisors, LLC
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
+
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 function qs(sel,idx){const els=document.querySelectorAll(sel);return idx!=null?els[idx]:els[0];}
 function load(k,d){try{const v=localStorage.getItem('diq_'+k);return v?JSON.parse(v):d;}catch{return d;}}
@@ -819,6 +820,13 @@ function fmtDateStr(str){return str?new Date(str+'T12:00').toLocaleDateString('e
 function toast(msg,dur){dur=dur||3000;const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',dur);}
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
+// Email method - defined first so it's available everywhere
+let EMAIL_METHOD = load('email_method', 'powerautomate');
+let PA_CONFIG = load('pa_config', {
+  envId: '05bf7032-ffba-4310-8852-c10b660f0271',
+  flowId: 'df563f7c-9c65-1f52-51bb-790273d8950b',
+  fromName: 'Horizon Wealth Advisors Compliance'
+});
 let DOCS     = load('docs',[]);
 let CLIENTS  = load('clients',[]);
 let LOG      = load('log',[]);
@@ -1713,13 +1721,7 @@ function setClientCycle(clientId, cycle){
 }
 
 
-// ── EMAIL METHOD SELECTION ────────────────────────────────────────────────────
-let EMAIL_METHOD = load('email_method', 'powerautomate');
-let PA_CONFIG = load('pa_config', {
-  envId: '05bf7032-ffba-4310-8852-c10b660f0271',
-  flowId: 'df563f7c-9c65-1f52-51bb-790273d8950b',
-  fromName: 'Horizon Wealth Advisors Compliance'
-});
+// EMAIL_METHOD moved to top
 
 function selectEmailMethod(method){
   EMAIL_METHOD = method;
@@ -1838,15 +1840,15 @@ function showPABatchPanel(clients, docs, subj, body, sig){
           <div style="display:flex;flex-direction:column;gap:4px">
             <div style="display:flex;gap:7px;font-size:11px">
               <span style="color:var(--text-muted);width:65px;flex-shrink:0">to_email</span>
-              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="navigator.clipboard.writeText('${r.email}');toast('Copied: ${r.email}')">${r.email} <span style="color:var(--blue)">📋</span></span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="void(0)">${r.email} <span style="color:var(--blue)">📋</span></span>
             </div>
             <div style="display:flex;gap:7px;font-size:11px">
               <span style="color:var(--text-muted);width:65px;flex-shrink:0">to_name</span>
-              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="navigator.clipboard.writeText('${r.name}');toast('Copied')">${r.name} <span style="color:var(--blue)">📋</span></span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer" onclick="void(0)">${r.name} <span style="color:var(--blue)">📋</span></span>
             </div>
             <div style="display:flex;gap:7px;font-size:11px">
               <span style="color:var(--text-muted);width:65px;flex-shrink:0">subject</span>
-              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" onclick="navigator.clipboard.writeText('${r.subject.replace(/'/g,"\\'")}');toast('Copied subject')" title="${r.subject}">${r.subject} <span style="color:var(--blue)">📋</span></span>
+              <span style="font-family:monospace;background:var(--white);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex:1;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" onclick="void(0)" title="${r.subject}">${r.subject} <span style="color:var(--blue)">📋</span></span>
             </div>
           </div>
         </div>`).join('')}
@@ -1857,6 +1859,17 @@ function showPABatchPanel(clients, docs, subj, body, sig){
   document.querySelector('#m-log-detail .mot').textContent = 'Send via Power Automate';
   document.querySelector('#m-log-detail .mof').innerHTML = '<button class="btn" onclick="closeM(\'m-log-detail\')">Done</button>';
   openM('m-log-detail');
+}
+
+function copyPA(idx, field){
+  const r = window._paRows && window._paRows[idx];
+  if(!r) return;
+  const val = field==='email'?r.email:field==='name'?r.name:field==='subject'?r.subject:r.message;
+  navigator.clipboard.writeText(val).then(function(){
+    toast('Copied '+field+' for '+r.name);
+  }).catch(function(){
+    toast('Copy failed — select manually');
+  });
 }
 // ── INIT ──────────────────────────────────────────────────────────────────────
 function init(){
@@ -1878,6 +1891,7 @@ function init(){
   renderDashboard();renderSend();
 }
 init();
+
 </script>
 </body>
 </html>
