@@ -809,6 +809,9 @@ Horizon Wealth Advisors, LLC
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
 
+
+
+
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 function qs(sel,idx){const els=document.querySelectorAll(sel);return idx!=null?els[idx]:els[0];}
 function load(k,d){try{const v=localStorage.getItem('diq_'+k);return v?JSON.parse(v):d;}catch{return d;}}
@@ -1155,7 +1158,7 @@ function sendDisclosures(){
   const usingPA2 = EMAIL_METHOD==='powerautomate';
   document.getElementById('confirm-smtp-note').innerHTML=usingPA2
     ? '✓ Power Automate configured — emails will send from your real Outlook address.'
-    : smtpOk?'EmailJS configured — real emails will be sent.''EmailJS not set up — sends logged locally. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',qs(\'.ni\',8));return false" style="color:var(--blue)">Configure →</a>';
+    : smtpOk?'EmailJS configured — real emails will be sent.':'EmailJS not set up — sends logged locally. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',qs(\'.ni\',8));return false" style="color:var(--blue)">Configure →</a>';
   openM('m-send-confirm');
 }
 async function executeSend(){
@@ -1174,9 +1177,7 @@ async function executeSend(){
   let sent=0,fail=0;
   for(const c of clients){
     const resolved=resolveMerge(body,c),resolvedSubj=resolveMerge(subj,c);
-    const fullMsg=resolved+(sig?'
-
-'+sig:'');
+    const fullMsg=resolved+(sig?'\n\n'+sig:'');
     let status=c.email?'sent':'bounced';
     if(c.email&&usePowerAutomate){
       // Power Automate: open run panel for each client
@@ -1545,46 +1546,8 @@ function saveProfile(){
 }
 
 // ── SMTP / EMAILJS ─────────────────────────────────────────────────────────────
-function loadSmtp(){
-  const f=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
-  f('smtp-service',SMTP.serviceId);f('smtp-template',SMTP.templateId);f('smtp-pubkey',SMTP.pubKey);f('smtp-fromname',SMTP.fromName);updateSmtpBadge();
-}
-function saveSmtp(){
-  SMTP={serviceId:document.getElementById('smtp-service')?.value.trim()||'',templateId:document.getElementById('smtp-template')?.value.trim()||'',pubKey:document.getElementById('smtp-pubkey')?.value.trim()||'',fromName:document.getElementById('smtp-fromname')?.value.trim()||PROFILE.firmName};
-  save('smtp',SMTP);updateSmtpBadge();toast('✓ SMTP settings saved');
-}
-function updateSmtpBadge(){
-  const ok=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
-  const b=document.getElementById('smtp-status-badge');if(b){b.className='smtp-badge '+(ok?'smtp-ok':'smtp-no');b.textContent=ok?'✓ EmailJS configured':'Not configured';}
-}
-async function testSmtp(){
-  saveSmtp();if(!SMTP.serviceId||!SMTP.templateId||!SMTP.pubKey){toast('Complete EmailJS configuration first');return;}
-  const to=document.getElementById('smtp-test-email')?.value.trim();if(!to){toast('Enter a test email address');return;}
-  toast('Sending test email...');
-  try{emailjs.init(SMTP.pubKey);await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:to,to_name:'Test Recipient',subject:'DisclosureIQ — Test Email',message:'This is a test email from DisclosureIQ v2.2. Your email configuration is working correctly.',from_name:SMTP.fromName||PROFILE.firmName});toast('✓ Test email sent to '+to+' — check your inbox');}
-  catch(err){toast('EmailJS error: '+(err.text||err.message||JSON.stringify(err)));console.error(err);}
-}
 
 
-// ── CUSTODIANS ────────────────────────────────────────────────────────────────
-const DEFAULT_CUSTODIANS = [
-  {id:'schwab',    name:'Schwab Advisor Services',   label:'Schwab',   type:'brokerage', notes:'',  builtIn:true},
-  {id:'fidelity',  name:'Fidelity Institutional',    label:'Fidelity', type:'brokerage', notes:'',  builtIn:true},
-  {id:'pershing',  name:'Pershing / BNY Mellon',     label:'Pershing', type:'brokerage', notes:'',  builtIn:true},
-  {id:'vanguard',  name:'Vanguard Advisers',         label:'Vanguard', type:'brokerage', notes:'',  builtIn:true},
-  {id:'raymond',   name:'Raymond James',             label:'Raymond James', type:'brokerage', notes:'', builtIn:true},
-  {id:'lpl',       name:'LPL Financial',             label:'LPL',      type:'brokerage', notes:'',  builtIn:true},
-  {id:'folio',     name:'Folio Investments',         label:'Folio',    type:'brokerage', notes:'',  builtIn:true},
-  {id:'apex',      name:'Apex Clearing',             label:'Apex',     type:'brokerage', notes:'',  builtIn:true},
-];
-
-let CUSTODIANS = load('custodians', null);
-if(!CUSTODIANS){
-  CUSTODIANS = DEFAULT_CUSTODIANS.map(c=>({...c}));
-  save('custodians', CUSTODIANS);
-}
-
-let editingCustodianId = null;
 
 function getCustodianNames(){
   return CUSTODIANS.map(c=>c.label||c.name);
@@ -1891,6 +1854,9 @@ function init(){
   renderDashboard();renderSend();
 }
 init();
+
+
+
 
 </script>
 </body>
