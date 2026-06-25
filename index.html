@@ -457,7 +457,7 @@ Boom Planning, LLC
               <div style="font-size:13px;font-weight:500">EmailJS</div>
               <span class="pill pgr" style="font-size:9px;margin-left:auto">Testing only</span>
             </div>
-            <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Browser-based email via EmailJS.com. Free up to 200/month. Routes through EmailJS servers — not recommended for production client sends.</div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.5">Legacy email option — removed. Using Power Automate only.</div>
           </div>
         </div>
       </div>
@@ -509,30 +509,7 @@ Boom Planning, LLC
       </div>
     </div>
 
-    <!-- EMAILJS CONFIG (hidden by default) -->
-    <div id="ejs-config" style="display:none">
-      <div class="al al-a"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 13H2L8 2z" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v3M8 11.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>EmailJS routes through third-party servers and is not recommended for production compliance sends. Use Power Automate above for actual client disclosures.</div>
-      <div class="g2" style="align-items:start">
-        <div>
-          <div class="card"><div class="ch"><div class="ct">EmailJS configuration</div></div><div class="cb">
-            <div class="fg"><label class="lbl">Service ID</label><input type="text" id="smtp-service" placeholder="service_xxxxxxx"/></div>
-            <div class="fg"><label class="lbl">Template ID</label><input type="text" id="smtp-template" placeholder="template_xxxxxxx"/></div>
-            <div class="fg"><label class="lbl">Public key</label><input type="text" id="smtp-pubkey" placeholder="YOUR_PUBLIC_KEY"/></div>
-            <div class="fg"><label class="lbl">From name</label><input type="text" id="smtp-fromname" placeholder="Firm name"/></div>
-            <div style="display:flex;gap:7px;margin-top:4px"><button class="btn btn-p" onclick="saveSmtp()">Save</button><button class="btn" onclick="testSmtp()">Send test</button></div>
-          </div></div>
-        </div>
-        <div>
-          <div class="card"><div class="ch"><div class="ct">Test EmailJS</div></div><div class="cb">
-            <div class="fg"><label class="lbl">Send test to</label><input type="email" id="smtp-test-email" placeholder="your@email.com"/></div>
-            <button class="btn btn-p" onclick="testSmtp()" style="width:100%">Send test email</button>
-          </div></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
+    
 
 </main>
 
@@ -820,13 +797,7 @@ Boom Planning, LLC
 </div>
 
 <div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-
-
-
-
-
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 function qs(sel,idx){const els=document.querySelectorAll(sel);return idx!=null?els[idx]:els[0];}
@@ -840,7 +811,6 @@ function toast(msg,dur){dur=dur||3000;const t=document.getElementById('toast');t
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 // Email method - defined first so it's available everywhere
-let EMAIL_METHOD = load('email_method', 'powerautomate');
 let PA_CONFIG = load('pa_config', {
   envId: '05bf7032-ffba-4310-8852-c10b660f0271',
   flowId: 'df563f7c-9c65-1f52-51bb-790273d8950b',
@@ -1209,14 +1179,10 @@ function sendDisclosures(){
   if(!sendSelClients.size){toast('Select at least one recipient');return;}
   const docs=DOCS.filter(d=>sendSelDocs.has(d.id)),clients=CLIENTS.filter(c=>sendSelClients.has(c.id));
   const ack=document.getElementById('send-ack')?.value||'',meth=document.getElementById('send-method')?.value||'';
-  const smtpOk=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
-  const rows=[{l:'Documents',v:docs.map(d=>d.name).join(', ')},{l:'Recipients',v:clients.length+' client'+(clients.length!==1?'s':'')},{l:'Acknowledgement',v:ack},{l:'Method',v:meth},{l:'Email',v:smtpOk?'<span style="color:var(--green)">✓ Real emails via EmailJS</span>':'<span style="color:var(--amber)">EmailJS not configured — logged only</span>'}];
+
   document.getElementById('confirm-body').innerHTML=rows.map(r=>`<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text-muted)">${r.l}</span><strong style="text-align:right;max-width:65%">${r.v}</strong></div>`).join('');
   document.getElementById('confirm-send-btn').textContent='Confirm & send to '+clients.length+' client'+(clients.length!==1?'s':'');
-  const usingPA2 = EMAIL_METHOD==='powerautomate';
-  document.getElementById('confirm-smtp-note').innerHTML=usingPA2
-    ? '✓ Power Automate configured — emails will send from your real Outlook address.'
-    : smtpOk?'EmailJS configured — real emails will be sent.':'EmailJS not set up — sends logged locally. <a href="#" onclick="closeM(\'m-send-confirm\');go(\'smtp\',qs(\'.ni\',8));return false" style="color:var(--blue)">Configure →</a>';
+  document.getElementById('confirm-smtp-note').innerHTML='✓ Power Automate connected — after confirming, copy each client\'s values into your Power Automate flow.';
   openM('m-send-confirm');
 }
 async function executeSend(){
@@ -1228,10 +1194,7 @@ async function executeSend(){
   const adv=advId?ADVISORS.find(x=>x.id===advId):null;
   const sig=adv?.sig||PROFILE.sig||'';
   const ts=Date.now();
-  const usePowerAutomate = EMAIL_METHOD==='powerautomate';
-  const smtpOk=!!(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey);
   closeM('m-send-confirm');
-  if(!usePowerAutomate && smtpOk) emailjs.init(SMTP.pubKey);
   let sent=0,fail=0;
   for(const c of clients){
     const resolved=resolveMerge(body,c),resolvedSubj=resolveMerge(subj,c);
@@ -1241,9 +1204,6 @@ async function executeSend(){
       // Power Automate: open run panel for each client
       // For batch sends, we open one tab and show a summary panel
       sent++;
-    } else if(c.email&&smtpOk){
-      try{await emailjs.send(SMTP.serviceId,SMTP.templateId,{to_email:c.email,to_name:c.display,subject:resolvedSubj,message:fullMsg,from_name:adv?(adv.fname+' '+adv.lname):SMTP.fromName||PROFILE.firmName});sent++;}
-      catch(err){status='bounced';fail++;console.warn('EmailJS error',err);}
     }
     LOG.push({id:uid(),ts,clientId:c.id,clientName:c.display,clientEmail:c.email,docIds:docs.map(d=>d.id),docNames:docs.map(d=>d.name),subject:resolvedSubj,body:resolved,ack,method:meth,status,advisorId:advId,crmNote,crmPending:crmPost&&!!crmNote,events:[{ts,event:c.email?(smtpOk?'email sent':'logged — no email configured'):'bounced — no email',note:''}]});
     // Auto-advance next due
@@ -1263,8 +1223,8 @@ async function executeSend(){
   const crmEl=document.getElementById('crm-note');if(crmEl) crmEl.value='';
   const crmPEl=document.getElementById('crm-post');if(crmPEl) crmPEl.checked=false;
   sendSelDocs.clear();sendSelClients.clear();
-  if(smtpOk) toast(`✓ Sent to ${sent} client${sent!==1?'s':''}${fail?' ('+fail+' failed)':''}  via EmailJS`);
-  else toast(`✓ ${clients.length} delivery record${clients.length!==1?'s':''} logged — configure EmailJS to send real emails`);
+
+ 
   renderDashboard();renderClients();
 }
 
@@ -1605,10 +1565,6 @@ function saveProfile(){
 
 // ── SMTP / EMAILJS ─────────────────────────────────────────────────────────────
 
-
-
-
-
 function renderCustodians(){
   const lbl=document.getElementById('cust-count-label');
   if(lbl) lbl.textContent=CUSTODIANS.length+' custodian'+(CUSTODIANS.length!==1?'s':'');
@@ -1713,19 +1669,6 @@ function setClientCycle(clientId, cycle){
   if(cycle) toast('✓ '+(cycle.charAt(0).toUpperCase()+cycle.slice(1))+' schedule set — next due calculated');
 }
 
-
-// EMAIL_METHOD moved to top
-
-function selectEmailMethod(method){
-  EMAIL_METHOD = method;
-  save('email_method', method);
-  document.getElementById('method-pa-card').classList.toggle('selected', method==='powerautomate');
-  document.getElementById('method-ejs-card').classList.toggle('selected', method==='emailjs');
-  document.getElementById('pa-config').style.display  = method==='powerautomate'?'grid':'none';
-  document.getElementById('ejs-config').style.display = method==='emailjs'?'block':'none';
-  updateSmtpBadge();
-}
-
 function saveSmtp(){
   // Save Power Automate config
   PA_CONFIG = {
@@ -1734,46 +1677,21 @@ function saveSmtp(){
     fromName: document.getElementById('pa-from-name')?.value.trim()|| PA_CONFIG.fromName,
   };
   save('pa_config', PA_CONFIG);
-  // Save EmailJS config
-  SMTP = {
-    serviceId:  document.getElementById('smtp-service')?.value.trim()||'',
-    templateId: document.getElementById('smtp-template')?.value.trim()||'',
-    pubKey:     document.getElementById('smtp-pubkey')?.value.trim()||'',
-    fromName:   document.getElementById('smtp-fromname')?.value.trim()||PROFILE.firmName
-  };
-  save('smtp', SMTP);
-  updateSmtpBadge();
+    updateSmtpBadge();
   toast('✓ Email settings saved');
 }
 
 function updateSmtpBadge(){
-  const b = document.getElementById('smtp-status-badge');
-  if(!b) return;
-  if(EMAIL_METHOD==='powerautomate'){
-    b.className='smtp-badge smtp-ok';
-    b.textContent='✓ Power Automate (Office 365)';
-  } else if(SMTP.serviceId&&SMTP.templateId&&SMTP.pubKey){
-    b.className='smtp-badge smtp-ok';
-    b.textContent='✓ EmailJS configured';
-  } else {
-    b.className='smtp-badge smtp-no';
-    b.textContent='Not configured';
-  }
+  const b=document.getElementById('smtp-status-badge');
+  if(b){b.className='smtp-badge smtp-ok';b.textContent='✓ Power Automate (Office 365)';}
 }
 
 function loadSmtp(){
-  // Restore method selection UI
-  selectEmailMethod(EMAIL_METHOD);
-  // Fill PA fields
   const f=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
   f('pa-env-id',   PA_CONFIG.envId);
   f('pa-flow-id',  PA_CONFIG.flowId);
   f('pa-from-name',PA_CONFIG.fromName);
-  // Fill EmailJS fields
-  f('smtp-service',  SMTP.serviceId);
-  f('smtp-template', SMTP.templateId);
-  f('smtp-pubkey',   SMTP.pubKey);
-  f('smtp-fromname', SMTP.fromName);
+  updateSmtpBadge();
 }
 
 // Power Automate: open run panel in new tab with pre-filled values
@@ -2084,11 +2002,6 @@ function init(){
   renderDashboard();renderSend();
 }
 init();
-
-
-
-
-
 
 </script>
 </body>
